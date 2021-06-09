@@ -8,3 +8,4 @@ router.get('/', (req,res)=>{
 
     res.send('welcome to the USERS home page');
 });
+
