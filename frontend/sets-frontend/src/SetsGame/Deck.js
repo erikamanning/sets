@@ -1,3 +1,6 @@
+const { v4: uuidv4 } = require('uuid');
+
+
 class Deck{
     constructor(colors=[], shapes=[]){
         this.colors = colors;
@@ -5,56 +8,50 @@ class Deck{
         this.maxShapes = 3;
         this.fillLevels = ["empty", "striped", "solid"];
         this.numCards = 81;
-        this.cards = [];
+        this.cardProperties = ['color', 'shape', 'numShapes', 'fillLevel'];
+        this.cards = {};
         this.createDeck();
     }
-    shuffle(){
-        console.log('Shuffling deck...')
-    }
+
     createDeck(){
-        console.log('creating deck from provided data...');
         for(let color of this.colors){
             for(let shape of this.shapes){
                 for(let numShapes=1; numShapes<this.maxShapes+1; numShapes++){
-                    this.cards.push(new Card(color, shape, numShapes, "empty"));
-                    this.cards.push(new Card(color, shape, numShapes, "striped"));
-                    this.cards.push(new Card(color, shape, numShapes, "solid"));
+                    for(let fillLevel of this.fillLevels){
+                        const cardId = uuidv4();
+                        this.cards[cardId] = new Card(color, shape, numShapes, fillLevel, cardId);
+                    }
                 }
             }
         }
     }
-    printDeck(){
-        console.log('Deck: ');
-        let count =0;
-        for(let card of this.cards){
-            count++;
-            console.log(`Card ${count}` , card.color, card.shape, card.numShapes, card.fillLevel );
-        }
-    }
     drawRandomCard(){
-
-        const cardIndex = Math.floor(Math.random() * ((this.cards.length-1) - 0 + 1) + 0);
-        const card = this.cards.splice(cardIndex,1);
-        console.log("Card: ", card);
-        return card[0];
+        const cardIndex = Math.floor(Math.random() * ((Object.keys(this.cards).length-1) - 0 + 1) + 0);
+        const cardId = Object.keys(this.cards)[cardIndex];
+        const card = this.cards[cardId];
+        delete this.cards[cardId];
+        return card;
     }
 
-    getCards(numCards){
-        const cards = [];
+    drawCards(numCards){
+        const cards = {};
         for(let i=0; i<numCards; i++){
-            cards.push(this.drawRandomCard());
+            let randomCard = this.drawRandomCard();
+            cards[randomCard.id] = randomCard;
         }
         return cards;
     }
 }
 
 class Card{
-    constructor(color, shape, numShapes, fillLevel){
+    constructor(color, shape, numShapes, fillLevel,id){
         this.color = color;
         this.shape = shape;
         this.numShapes = numShapes;
         this.fillLevel = fillLevel;
+        this.id = id;
     }
+
 }
 
-export {Deck, Card};
+module.exports =  {Deck, Card};
