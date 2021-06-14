@@ -1,14 +1,19 @@
 import './App.css';
 import React from 'react'
-import Navbar from './Components/Navbar'
-import Game from './Components/Game/Game'
+import Navigation from './Components/Navigation'
+import {BrowserRouter} from "react-router-dom"
+import Router from './Components/Router'
 
 function App() {
   return (
-    <div className="App">
-      <Navbar/>
-      <Game />
-    </div>
+    <BrowserRouter>
+        <div className="App">
+          <Navigation/>
+          <Router/>
+
+      </div>
+    </BrowserRouter>
+
   );
 }
 

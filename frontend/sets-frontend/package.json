@@ -16,10 +16,11 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "concurrently --kill-others \"npm run start-fe\" \"npm run start-be\"",    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start-fe": "react-scripts start",
+    "start-be": "nodemon ../../backend/server.js"
   },
   "eslintConfig": {
     "extends": [
