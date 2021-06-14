@@ -1,14 +1,5 @@
-import React from "react"
+import React, { useState } from "react"
 import './GameCard.css';
-import {
-    Card
-  } from 'reactstrap';
-
-//   import {
-//     Card, CardImg, CardText, CardBody,
-//     CardTitle, CardSubtitle, Button
-//   } from 'reactstrap';
-// red purple
 
 // circle
 import circleGreenEmpty from '../../Assets/circle_green_empty.png'
@@ -45,6 +36,7 @@ import trianglePurpleStriped from '../../Assets/triangle_purple_striped.png'
 
 const GameCard = ({card, selectCard}) => {
 
+    const [selected, setSelected] = useState(false);
     const printedShapes = new Array(card.numShapes).fill(0);
 
     const imgSrcs = {
@@ -82,21 +74,21 @@ const GameCard = ({card, selectCard}) => {
 
     const handleClick = () => {
 
-        // console.log('Card Clicked!');
-        // console.log('Card Info: ', card.id);
+        setSelected(true);
         selectCard(card.id);
     }
 
     const capitalizedColor = card.color.charAt(0).toUpperCase() + card.color.slice(1);
     const capitalizedFillLevel = card.fillLevel.charAt(0).toUpperCase() + card.fillLevel.slice(1);
     const imgSrc = imgSrcs[card.shape+capitalizedColor+capitalizedFillLevel];
+    const isSelected = selected ? 'border-info' : '';
 
 return  <div className='m-3'>
-            <Card onClick={handleClick} className='shadow'>
+            <div onClick={handleClick} className={'card rounded shadow GameCard '+isSelected}>
                 <div className="row p-5 justify-content-center">
-                    {printedShapes.map((shape,idx)=> (<div key={idx} className="col-4"><img src={imgSrc} className='shape'/></div>))}                
+                    {printedShapes.map((shape,idx)=> (<div key={idx} className="col-4"><img src={imgSrc} className='GameCard-shape'/></div>))}                
                 </div>
-            </Card>
+            </div>
     </div>
 }
 

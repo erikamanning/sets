@@ -1,11 +1,9 @@
-.card{
-  border-radius: 2%;
-}
-.card:hover{
+.GameCard:hover{
   cursor:pointer;
+  border: 5px solid lightblue;
 }
 
-.shape {
+.GameCard-shape {
   width: 100%;
   height: 100%;
 }

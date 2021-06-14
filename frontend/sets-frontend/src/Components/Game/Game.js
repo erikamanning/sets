@@ -35,6 +35,7 @@ const Game = () => {
 
             // clear selected cards
             setSelectedCards({});
+
         }
 
     },[selectedCards]);
