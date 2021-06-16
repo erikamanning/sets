@@ -1,5 +1,5 @@
 import React from "react"
-import {Route} from "react-router-dom"
+import { Route, Switch, Redirect } from "react-router-dom"
 import Home from "./Home"
 import Game from './Game/Game'
 import LoginForm from './Forms/LoginForm'
@@ -9,21 +9,28 @@ const Router = () => {
 
 
     return <div>
-        <Route exact path='/home'>
-            <Home />
-        </Route>
-        <Route exact path='/play'>
-            <Game />
-        </Route>
-        <Route exact path='/login'>
-            <LoginForm />
-        </Route>
-        <Route exact path='/signup'>
-            <SignupForm />
-        </Route>
-        <Route exact path='/profile'>
-            <UserProfile />
-        </Route>
+            <Switch>
+
+                <Route exact path='/home'>
+                    <Home />
+                </Route>
+                <Route exact path='/play'>
+                    <Game />
+                </Route>
+                <Route exact path='/login'>
+                    <LoginForm />
+                </Route>
+                <Route exact path='/signup'>
+                    <SignupForm />
+                </Route>
+                <Route exact path='/profile'>
+                    <UserProfile />
+                </Route>
+
+                <Redirect to="/" />
+
+            </Switch>
+
     </div>
 
 }

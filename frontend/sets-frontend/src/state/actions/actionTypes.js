@@ -1,4 +1,5 @@
-const LOGIN = 'LOGIN';
+const SET_USER = 'SET_USER';
+const CLEAR_USER = 'CLEAR_USER';
 
 
-export {LOGIN};
+export {SET_USER, CLEAR_USER};

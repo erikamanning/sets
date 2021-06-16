@@ -1,19 +1,34 @@
 
 
-import { LOGIN } from './actionTypes'
-import axios from "axios"
+import { SET_USER, CLEAR_USER } from './actionTypes'
 import SetsAPI from '../../SetsAPI'
 
-export function be_login(user) {
+export function authenticateUser(user) {
   return async function(dispatch) {
     const {username, password} = user;
 
-    let token = SetsAPI.authenticate(username, password);
-
-    dispatch(savePostDetails(token));
+    let resp = await SetsAPI.authenticate(username, password);
+    if(resp.token){
+      dispatch(setUser(username, resp.token));
+    }
   };
 }
 
-function fe_login(user, token ) {
-    return { type: LOGIN, payload:{user} };
+export function checkToken(token) {
+  return async function(dispatch) {
+    // const {username, password} = user;
+
+    // let resp = await SetsAPI.authenticate(username, password);
+    // if(resp.token){
+    //   dispatch(setUser(username, resp.token));
+    // }
+  };
+}
+
+export function setUser(username, token ) {
+    return { type: SET_USER, payload:{username, token} };
+}
+
+export function clearUser() {
+  return { type: CLEAR_USER , payload: null };
 }

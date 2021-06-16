@@ -1,4 +1,4 @@
-import axios from "./state/actions/node_modules/axios";
+import axios from "axios";
 const BASE_URL = "http://localhost:5000";
 // const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5001";
 
@@ -9,27 +9,33 @@ class SetsAPI{
         SetsAPI.token=token;
     }
 
-    static async request(endpoint, method='get',data={}){
-
-        const url = `${BASE_URL}/${endpoint}`;
-        const headers = { Authorization: `Bearer ${SetsAPI.token}`}
-        const params = (method === "get") ? data : {};
-
-        try{
-            return (await axios({url,method,data, params, headers })).data;
-        }
-        catch(err){
-            console.error("API Error:", err.response);
-            let message = err.response.data.error.message;
-            throw Array.isArray(message) ? message : [message];
-        }
+    static async request(endpoint, data = {}, method = "get"){
+      console.debug("API Call:", endpoint, data, method);
+      // console.log('Data: ', data);
+      //there are multiple ways to pass an authorization token, this is how you pass it in the header.
+      //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
+      const url = `${BASE_URL}/${endpoint}`;
+      const headers = { Authorization: `Bearer ${SetsAPI.token}` };
+      const params = (method === "get")
+          ? data
+          : {};
+  
+      try {
+        return (await axios({ url, method, data, params, headers })).data;
+      } catch (err) {
+        console.error("API Error:", err.response);
+        let message = err.response.data.error.message;
+        throw Array.isArray(message) ? message : [message];
+      }
     }
-
     // individual api routes
     static async authenticate(username,password){
         try{
-          await this.request(`auth/token`, {username,password}, 'post');
-          return true;
+          return await this.request(`auth/token`, {username,password}, 'post');
+          // return true;
+          // const headers = { Authorization: `Bearer ${SetsAPI.token}`};
+
+          // return await axios.post(`${BASE_URL}/auth/token`, {username,password},{headers})
         }
         catch(error){
           return false;
