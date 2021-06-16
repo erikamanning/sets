@@ -3,6 +3,18 @@ CREATE TABLE users (
     password TEXT NOT NULL
 );
 
+CREATE TABLE games (
+    id SERIAL PRIMARY KEY,
+    score INTEGER CHECK (score > 0),
+    winner VARCHAR(25)
+        REFERENCES users ON DELETE CASCADE
+);
+
+-- CREATE TABLE user_games (
+--     username VARCHAR(25) PRIMARY KEY,
+--     password TEXT NOT NULL
+-- );
+
 -- CREATE TABLE users (
 --   username VARCHAR(25) PRIMARY KEY,
 --   password TEXT NOT NULL,
