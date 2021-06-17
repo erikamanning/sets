@@ -1,3 +1,10 @@
+// Colyseus + Express
+const colyseus = require("colyseus");
+const monitor = require("@colyseus/monitor").monitor;
+const http = require("http");
+// const port = process.env.port || 5000;
+const {GameRoom} = require('./rooms/GameRoom');
+
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -19,6 +26,11 @@ app.use('/auth', authRoutes);
 app.use('/users', usersRoutes);
 app.use('/game', gameRoutes);
 
+app.get('/', ( req, res, next)=>{
+
+  res.send('backend with colyseus connected!');
+
+});
 
 // NOT FOUND ERROR HANDLING
 app.use(function(err,req,res,next){
@@ -36,4 +48,12 @@ app.use(function (err, req, res, next) {
     });
   });
 
-module.exports = app;
+// (optional) attach web monitoring panel
+app.use('/colyseus', monitor());
+
+const gameServer = new colyseus.Server({
+  server: http.createServer(app)
+});
+
+// module.exports = app;
+module.exports = gameServer;

@@ -1,8 +1,8 @@
 "use strict"
 
-const app = require("./app");
+const gameServer = require("./app");
 const { PORT } = require("./config");
 
-app.listen(PORT, () => {
+gameServer.listen(PORT, () => {
     console.log(`Server started on http://localhost:${PORT}`);
 });
