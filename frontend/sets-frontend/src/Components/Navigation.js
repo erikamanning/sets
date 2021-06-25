@@ -7,7 +7,7 @@ const Navigation = ({logout}) => {
 
   const user = useSelector(state=>state.user);
 
-  console.log('NAVIGATION: USER: ', user);
+  // console.log('NAVIGATION: USER: ', user);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);

@@ -10,7 +10,7 @@ import SetsAPI from "./SetsAPI"
 
 function App() {
 
-  console.log('LOADING APP COMPONENT');
+  // console.log('LOADING APP COMPONENT');
 
   const dispatch = useDispatch();
 
@@ -18,13 +18,13 @@ function App() {
   useEffect(()=>{
     if(checkLoggedIn()){
       const {username, token} = getLocalStorage();
-      console.log('TOKEN PRESENT IN LOCAL STORAGE, user should be logged in, grab data with token & set state');
+      // console.log('TOKEN PRESENT IN LOCAL STORAGE, user should be logged in, grab data with token & set state');
       SetsAPI.setAPIToken(token);
       dispatch(setUser(username, token));
     }
     
     else{
-      console.log('TOKEN NOT PRESENT IN LOCAL STORAGE');
+      // console.log('TOKEN NOT PRESENT IN LOCAL STORAGE');
     }
   },[]);
 
