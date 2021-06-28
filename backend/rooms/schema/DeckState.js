@@ -50,6 +50,23 @@ class DeckState extends Schema {
             }
         }
     }
+    
+    drawRandomCard(){
+        const cardIndex = Math.floor(Math.random() * ((Object.keys(this.cards).length-1) - 0 + 1) + 0);
+        const cardId = Object.keys(this.cards)[cardIndex];
+        const card = this.cards[cardId];
+        delete this.cards[cardId];
+        return card;
+    }
+
+    drawCards(numCards){
+        const cards = {};
+        for(let i=0; i<numCards; i++){
+            let randomCard = this.drawRandomCard();
+            cards[randomCard.id] = randomCard;
+        }
+        return cards;
+    }
 }
 schema.defineTypes(DeckState, {
   greeting: "string",

@@ -9,7 +9,7 @@ class GameState extends Schema {
 
     players={};
     deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
-    board = new BoardState();
+    board = new BoardState(this.deck.drawCards(12));
 
     greeting = "welcome to the game b-word";
     constructor () {
@@ -59,22 +59,6 @@ class GameState extends Schema {
 
         return true;
     }
-
-    clearCardsFromBoard(cardIds){
-
-        for(let id of cardIds){
-
-            delete this.board[id];
-        }
-    }
-
-    addRowToBoard(){
-
-        this.board = {
-            ...this.board,
-            ...this.deck.drawCards(3)
-        };
-    }
     
     checkIndividualProperty(property,cards){
 
@@ -105,5 +89,11 @@ schema.defineTypes(GameState, {
   players: "object"
 
 });
+
+const newGame = new GameState();
+
+newGame.board.addRow(newGame.deck.drawCards(3));
+newGame.board.selectCard('1-B');
+newGame.board.clearBoard();
 
 exports.GameState = GameState;
