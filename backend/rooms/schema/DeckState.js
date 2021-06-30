@@ -6,7 +6,6 @@ const { Card } = require('./Card');
 
 class DeckState extends Schema {
 
-    greeting = "this is the DECK";
     colors;
     shapes;
     maxShapes = 3;
@@ -24,21 +23,17 @@ class DeckState extends Schema {
         this.printDeck();
 
     }
-    
-    selectPiece(){
-        console.log("Selecting a piece on the back end!");
-    }
 
     printDeck(){
         let i=1;
         for(let card of Object.keys(this.cards)){
-            console.log(`Card: ${i}: `, card);
+            // console.log(`Card: ${i}: `, card);
             i++;
         }
     }
 
     createDeck(){
-        console.log("CREATING DECK IN DECK STATE....");
+        // console.log("CREATING DECK IN DECK STATE....");
         for(let color of this.colors){
             for(let shape of this.shapes){
                 for(let numShapes=1; numShapes<this.maxShapes+1; numShapes++){
@@ -66,6 +61,19 @@ class DeckState extends Schema {
             cards[randomCard.id] = randomCard;
         }
         return cards;
+    }
+
+    toJSON(){
+
+        return {
+            colors: this.colors,
+            shapes: this.shapes,
+            maxShapes: this.maxShapes,
+            fillLevels: this.fillLevels,
+            numCards: this.numCards,
+            cardProperties: this.cardProperties,
+            cards: this.cards,
+        }
     }
 }
 schema.defineTypes(DeckState, {

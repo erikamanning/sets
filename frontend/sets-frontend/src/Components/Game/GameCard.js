@@ -39,6 +39,8 @@ const GameCard = ({card, selectCard}) => {
     const [selected, setSelected] = useState(false);
     const printedShapes = new Array(card.numShapes).fill(0);
 
+    console.log('CARD: ', card);
+
     const imgSrcs = {
 
         "circleGreenEmpty":circleGreenEmpty,

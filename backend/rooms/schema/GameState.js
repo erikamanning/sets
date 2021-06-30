@@ -17,6 +17,14 @@ class GameState extends Schema {
         // this.players = new MapSchema();
     }
 
+    printBoard(){
+
+        for(let cell of Object.keys(this.board.grid)){
+
+            console.log( "cell: ", cell , ' - ', this.board.grid[cell]);
+        }
+    }
+
     sayHello(){
       console.log("Hello from the Game State!");
     }
@@ -92,8 +100,8 @@ schema.defineTypes(GameState, {
 
 const newGame = new GameState();
 
-newGame.board.addRow(newGame.deck.drawCards(3));
-newGame.board.selectCard('1-B');
-newGame.board.clearBoard();
+// newGame.board.addRow(newGame.deck.drawCards(3));
+// newGame.board.selectCard('1-B');
+// newGame.board.clearBoard();
 
 exports.GameState = GameState;

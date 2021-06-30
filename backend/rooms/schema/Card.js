@@ -18,6 +18,16 @@ class Card extends Schema {
         this.fillLevel = fillLevel;
         this.id = id;
     }
+    toJSON(){
+
+        return {
+            color: this.color,
+            shape: this.shape,
+            numShapes: this.numShapes,
+            fillLevel: this.fillLevel,
+            id: this.id
+        }
+    }
 
 }
 schema.defineTypes(Card, {
