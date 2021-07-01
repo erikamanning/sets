@@ -34,12 +34,13 @@ import trianglePurpleEmpty from '../../Assets/triangle_purple_empty.png'
 import trianglePurpleSolid from '../../Assets/triangle_purple_solid.png'
 import trianglePurpleStriped from '../../Assets/triangle_purple_striped.png'
 
-const GameCard = ({card, selectCard}) => {
+const GameCard = ({card, cardIsSelected,selectCard}) => {
 
     const [selected, setSelected] = useState(false);
     const printedShapes = new Array(card.numShapes).fill(0);
 
-    console.log('CARD: ', card);
+    // console.log('CARD: ', card);
+    // console.log('SELECTED: ', cardIsSelected);
 
     const imgSrcs = {
 

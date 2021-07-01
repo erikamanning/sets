@@ -5,7 +5,6 @@ import * as Colyseus from 'colyseus.js';
 
 const Game = (props) => {
 
-    const gameRef = useRef();
     const [cardsRemaining, setCardsRemaining] = useState(81);
     const [board, setBoard] = useState({});
     const [score, setScore] = useState(null);
@@ -13,38 +12,44 @@ const Game = (props) => {
     const client = new Colyseus.Client('ws://localhost:5000');
     // console.log('Colyseus Client: ', client);
     let room;
-    let players={};
+    // let players={};
 
     useEffect(()=>{
 
         async function start(){
-
-            let board;
-
             await client.joinOrCreate("game_room").then(room_instance => {
                 room = room_instance
                 console.log('******** Client Joining Room ***********');
-                
-                // room.onMessage("hello", (message) => {
-                //     console.log(message);
-                // });
 
+                room.onStateChange.once((state) => {
+                    console.log("this is the first room state!", state);
+                  });
                 room.onMessage('get_board', (message)=>{
-
-                    console.log('ALERT!!!! THERE HAS BEEN A MESSAGE FROM THE SERVER!');
-                    console.log('Message: ', message);
+    
+                    // console.log('ALERT!!!! THERE HAS BEEN A MESSAGE FROM THE SERVER!');
+                    // console.log('Message: ', message);
                     // setBoard()
-                    setBoard(message);
+                    // setBoard(message);
                 });
-            });
 
-            // console.log('FRONT END BOARD RETRIEVED FROM BACK END: ', board);
+                // window.addEventListener("keydown", function (e) {
+                //     FEselectCard('1-A');
+                // });
+            });
         }
 
         start();
+        if(room){
+            console.log('ZE ROOM IS HERE! hERE IS SE ROOM: ', room);
+        }
 
-    },[]);
+    },[selectedCards]);
 
+    function FEselectCard(coord){
+
+        room.send('select_card', coord);
+
+    }
 
     const [selectedCards, setSelectedCards] = useState({});
     
@@ -64,13 +69,15 @@ const Game = (props) => {
     //     if(Object.keys(selectedCards).length===3){
 
     //         // check set
-    //         gameRef.current.checkSet(selectedCards);
+    //         // gameRef.current.checkSet(selectedCards);
 
     //         // update score frontend
-    //         setScore(gameRef.current.player.score);
+    //         // setScore(gameRef.current.player.score);
 
     //         // update board
-    //         setBoard(b=>gameRef.current.board);
+    //         // setBoard(b=>gameRef.current.board);
+    //         room.send("select_card", '1-A');
+
 
     //         // clear selected cards
     //         setSelectedCards({});
@@ -80,9 +87,9 @@ const Game = (props) => {
     // },[selectedCards]);
 
     function drawThreeCards(){
-        gameRef.current.addRowToBoard();
-        setBoard(gameRef.current.board);
-        setCardsRemaining(cr=>Object.keys(gameRef.current.deck.cards).length);
+        // gameRef.current.addRowToBoard();
+        // setBoard(gameRef.current.board);
+        // setCardsRemaining(cr=>Object.keys(gameRef.current.deck.cards).length);
     }
 
     function displayBoard(){
@@ -90,7 +97,7 @@ const Game = (props) => {
                     <div className="col-12 col-sm-6">
                         <div className="row">
                             {console.log('HELLO FROM DISPLAY BOARD')}                            
-                            {Object.keys(board).map((cell) => <div key={board[cell].id} className="col-4"><GameCard selectCard = {selectCard} card={board[cell].card}/></div>)}
+                            {Object.keys(board).map((cell) => <div key={board[cell].card.id} className="col-4"><GameCard cardIsSelected={board[cell].selected} selectCard = {selectCard} card={board[cell].card}/></div>)}
                         </div>
                     </div>
                 </div>
@@ -98,31 +105,32 @@ const Game = (props) => {
 
     function selectCard(cardId) {
 
+        console.log('card selected!: ', cardId);
+
         setSelectedCards(s=>({
             ...s,
             [cardId]:board[cardId]
         }));
     }
 
-    function updateScoreBoard(){
-        setScore(gameRef.current.player.score);
-    }
+    // function updateScoreBoard(){
+    //     setScore(gameRef.current.player.score);
+    // }
 
     console.log('RENDERING GAME...');
     
     return  <div>
-                {console.log('FE Board: ', board)}
                 <h2>Cards left in deck: {cardsRemaining} </h2>
                 <h1>Score: {score}</h1>
         
-                { gameRef.current && Object.keys(gameRef.current.deck.cards).length>0 && Object.keys(board).length<15 
+                {/* { gameRef.current && Object.keys(gameRef.current.deck.cards).length>0 && Object.keys(board).length<15 
                     ? 
                         <button onClick={drawThreeCards} className='btn btn-primary'>
                             Draw 3 cards
                         </button> 
                     : 
                         null
-                }
+                } */}
                 { board ? displayBoard() : null}
     </div>
     

@@ -8,31 +8,24 @@ exports.GameRoom = class extends colyseus.Room {
     console.log('ROOM CREATED');
 
 
-    this.onMessage("get_board", (client, message) => {
+    this.onMessage("select_card", (client, message) => {
     //   // handle "type" message.
     //   //
         // client.send('get_board', 'Babadoo! This is your message directly from the server!');
+
+      console.log("BACKEND! Message 'select_card' recieved!");
+
+      this.state.board.selectCard(message);
+
     });
 
   }
 
   onJoin (client, options) {
     console.log(`User ${client.sessionId} Joined!`);
-    let stateGrid = this.state.board.grid;
-    // let feGrid;
-    // for(let cell of Object.keys(stateGrid)){
-
-    //   if(stateGrid[cell].card){
-
-    //     console.log('stateGrid[cell].card: ', stateGrid[cell].card);
-    //     feGrid[cell] = stateGrid[cell];
-    //   }
-    // }
-
    
-    // console.log('Backend grid: ', JSON.stringify(feGrid));
-    // console.log('Backend grid: ', this.state.board.grid);
-    client.send('get_board', stateGrid);
+    console.log('Backend grid: ',this.state.board);
+    // client.send('get_board', stateGrid);
   }
 
   onLeave (client, consented) {

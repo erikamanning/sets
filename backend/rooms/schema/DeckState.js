@@ -1,24 +1,25 @@
 const schema = require('@colyseus/schema');
 const Schema = schema.Schema;
-const MapSchema = schema.MapSchema;
+const ArraySchema = schema.ArraySchema;
 const { v4: uuidv4 } = require('uuid');
 const { Card } = require('./Card');
 
 class DeckState extends Schema {
 
-    colors;
-    shapes;
-    maxShapes = 3;
-    fillLevels = ["empty", "striped", "solid"];
-    numCards = 81;
-    cardProperties = ['color', 'shape', 'numShapes', 'fillLevel'];
-    cards = {};
-
     constructor (colors,shapes) {
         super();
 
-        this.colors = colors;
-        this.shapes = shapes;
+        this.colors = new ArraySchema();
+        this.shapes = new ArraySchema();
+        this.colors.push(...colors);
+        this.shapes.push(...shapes);
+        this.maxShapes = 3;
+        this.fillLevels = new ArraySchema();
+        this.fillLevels.push("empty", "striped", "solid");
+        this.numCards = 81;
+        this.cardProperties = new ArraySchema();
+        this.cardProperties.push('color', 'shape', 'numShapes', 'fillLevel');
+        this.cards = {};
         this.createDeck();
         this.printDeck();
 
@@ -78,12 +79,12 @@ class DeckState extends Schema {
 }
 schema.defineTypes(DeckState, {
   greeting: "string",
-  colors: "object",
-  shapes: "object",
+  colors: ["string"],
+  shapes: ["string"],
   maxShapes: "number",
-  fillLevels: "object",
+  fillLevels: ["string"],
   numCards: "number",
-  cardProperties: "object",
+  cardProperties: ["string"],
   cards: "object"
 });
 

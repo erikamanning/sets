@@ -4,12 +4,6 @@ const MapSchema = schema.MapSchema;
 
 class Card extends Schema {
 
-    color;
-    shape;
-    numShapes;
-    fillLevel;
-    id;
-
     constructor(color, shape, numShapes, fillLevel,id){
         super();
         this.color = color;

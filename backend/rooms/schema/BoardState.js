@@ -1,18 +1,24 @@
 const schema = require('@colyseus/schema');
 const Schema = schema.Schema;
-const MapSchema = schema.MapSchema;
+const ArraySchema = schema.ArraySchema;
 
 class BoardState extends Schema {
 
-    grid={};
-    maxRows=4;
-    cols = ["A", "B", "C"];
-    selectedCards={};
+    // grid;
+    // maxRows=4;
+    // cols = ["A", "B", "C"];
+    // selectedCards={};
 
     constructor (cards) {
         super();
-
+        this.grid={};
+        this.maxRows=4;
+        // this.cols = ["A", "B", "C"];
+        this.cols = new ArraySchema();
+        this.cols.push("A", "B", "C");
+        this.selectedCards={};
         this.makeGrid(cards);
+        this.printGrid();
     }
 
     makeGrid(cards){
@@ -34,7 +40,7 @@ class BoardState extends Schema {
     }
 
     printGrid(){
-        // console.log('Printing Grid: ');
+        console.log('Printing Grid: ');
 
         for(let cell of Object.keys(this.grid)){
 
@@ -87,15 +93,15 @@ class BoardState extends Schema {
     
     selectCard(coord){
 
-        // console.log("Selecting a card on the back end!");
-        // console.log('Current Grid: ', this.grid);
+        console.log("Selecting a card on the back end!");
+        console.log('Current Grid: ', this.grid);
         const card = this.grid[coord].card;
 
-        // console.log(`Selecting card... ${coord}`);
+        console.log(`Selecting card... ${coord}`);
         this.grid[coord].selected=true;
         this.selectedCards[card.id] = card;
 
-        // console.log(this.grid[coord] , ' has been selected!');
+        console.log(this.grid[coord] , ' has been selected!');
     }
 
     clearSelectedCards(coords){
@@ -128,7 +134,10 @@ class BoardState extends Schema {
     }
 }
 schema.defineTypes(BoardState, {
-  greeting: "string"
+    grid:'object',
+    maxRows:'number',
+    cols: [ "string" ],
+    selectedCards:'object'
 });
 
 exports.BoardState = BoardState;

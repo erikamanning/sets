@@ -5,16 +5,13 @@ const {BoardState} = require("./BoardState");
 const { DeckState } = require('./DeckState');
 const { Player } = require('./PlayerState');
 
-class GameState extends Schema {
+class GameState extends Schema {    
 
-    players={};
-    deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
-    board = new BoardState(this.deck.drawCards(12));
-
-    greeting = "welcome to the game b-word";
     constructor () {
         super();
         // this.players = new MapSchema();
+        this. deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
+        this. board = new BoardState(this.deck.drawCards(12));
     }
 
     printBoard(){
@@ -91,11 +88,8 @@ class GameState extends Schema {
     }
 }
 schema.defineTypes(GameState, {
-  greeting: "string",
-  board: "BoardState",
-  deck: "DeckState",
-  players: "object"
-
+  board: BoardState,
+  deck: DeckState,
 });
 
 const newGame = new GameState();
