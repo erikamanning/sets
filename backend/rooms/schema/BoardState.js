@@ -34,7 +34,7 @@ class BoardState extends Schema {
                 cardIndex++;
             }
         }
-        console.log('this.grid: ', this.grid);
+        // console.log('this.grid: ', this.grid);
     }
 
     printGrid(){
@@ -94,14 +94,15 @@ class BoardState extends Schema {
     selectCard(coord){
 
         console.log("Selecting a card on the back end!");
-        console.log('Current Grid: ', this.grid);
-        const card = this.grid[coord].card;
+        // console.log('Current Grid: ', this.grid);
+        const card = this.grid.get(coord).card;
 
         console.log(`Selecting card... ${coord}`);
-        this.grid[coord].selected=true;
-        this.selectedCards[card.id] = card;
+        this.grid.get(coord).selected=true;
+        this.selectedCards.set(card.id,card);
 
-        console.log(this.grid[coord] , ' has been selected!');
+        console.log(this.grid.get(coord), ' has been selected!');
+        console.log(`CURRENTLY SELECTED CARDS: `, this.selectedCards);
     }
 
     clearSelectedCards(coords){
@@ -109,6 +110,7 @@ class BoardState extends Schema {
         for(let coord of coords){
             this.grid[coord].selected=false;
         }
+        this.selectedCards.clear();
     }
 
     clearBoard(){
@@ -137,7 +139,7 @@ schema.defineTypes(BoardState, {
     grid: { map: CellState },
     maxRows:'number',
     cols: [ "string" ],
-    selectedCards:{map: Card}
+    selectedCards: { map: Card }
 });
 
 exports.BoardState = BoardState;

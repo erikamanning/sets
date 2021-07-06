@@ -15,7 +15,7 @@ exports.GameRoom = class extends colyseus.Room {
 
       console.log("BACKEND! Message 'select_card' recieved!");
 
-      this.state.board.selectCard(message);
+      this.state.handleSelection(message);
 
     });
 
@@ -24,7 +24,7 @@ exports.GameRoom = class extends colyseus.Room {
   onJoin (client, options) {
     console.log(`User ${client.sessionId} Joined!`);
    
-    console.log('Backend grid: ',this.state.board);
+    // console.log('Backend grid: ',this.state.board);
 
     // client.send('get_board', stateGrid);
   }

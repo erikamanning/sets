@@ -6,7 +6,7 @@ import * as Colyseus from 'colyseus.js';
 const Game = (props) => {
 
     const [cardsRemaining, setCardsRemaining] = useState(81);
-    const [board, setBoard] = useState(new Map());
+    const [board, setBoard] = useState(false);
     const [score, setScore] = useState(null);
     const [feRoom, setFeRoom] = useState(null);
     const client = new Colyseus.Client('ws://localhost:5000');
@@ -23,15 +23,10 @@ const Game = (props) => {
                 console.log('******** Client Joining Room ***********');
 
                 room.onStateChange((state) => {
-                    console.log('has the error happened yet');
-                    console.log("this is the first room state!", state.board.grid.$items.entries());
+
+                    console.log("CURRENT BOARD STATE: ", state.board.grid.$items.entries());
                     setBoard(state.board.grid.$items);
                 });
-
-
-                // window.addEventListener("keydown", function (e) {
-                //     FEselectCard('1-A');
-                // });
             });
         }
 
@@ -87,8 +82,8 @@ const Game = (props) => {
 
     function displayBoard(){
         return  <div className='row justify-content-center'>
-                    <div className="col-12 col-sm-6">
-                        <div className="row">
+                    <div className="col-12 col-sm-10 col-lg-8">
+                        <div className="row g-0">
                             {console.log('HELLO FROM DISPLAY BOARD')}                            
                             {Array.from(board.keys()).map((cell) => <div key={board.get(cell).card.id} className="col-4"><GameCard coord={cell} cardIsSelected={board.get(cell).selected} selectCard = {selectCard} card={board.get(cell).card}/></div>)}
                         </div>

@@ -9,6 +9,7 @@ class GameState extends Schema {
 
     constructor () {
         super();
+        this.score = 0;
         // this.players = new MapSchema();
         this.deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
         this.board = new BoardState(this.deck.drawCards(12));
@@ -32,17 +33,17 @@ class GameState extends Schema {
 
     increaseScore(){
       console.log('increasing score...')
-      this.player.score+=1;
+      this.score+=1;
     }
 
     decreaseScore(){
         console.log('decreasing score...')
-        this.player.score-=1;
+        this.score-=1;
     }
 
     getScore(){
-        console.log('getting score: ', this.player.score);
-        return this.player.score;
+        console.log('getting score: ', this.score);
+        return this.score;
     }
 
     checkSet(cards){
@@ -57,17 +58,23 @@ class GameState extends Schema {
         }
         this.increaseScore();
         // clear cards
-        this.clearCardsFromBoard(Object.keys(cards));
+        // this.clearCardsFromBoard(cards);
+        // this.clearCardsFromBoard(Object.keys(cards));
 
-        if(Object.keys(this.board).length <12)
-            this.addRowToBoard();
+        if(this.board.size <12)
+            // this.addRowToBoard();
+            console.log('ADDING NEW ROW TO BOARD');
 
         return true;
     }
-    
+
     checkIndividualProperty(property,cards){
 
-        const keys = Object.keys(cards);
+        console.log(`typeof(cards): `, typeof(cards));
+        console.log(`cards: `, cards);
+        const keys = Array.from(cards.keys());
+        console.log('0000000000000000000000000000');
+        console.log(`keys: `, keys);
 
         if(cards[keys[0]][property] === cards[keys[1]][property]){
 
@@ -84,6 +91,20 @@ class GameState extends Schema {
             else{
                 return true;
             }
+        }
+    }
+    handleSelection(coord){
+        this.board.selectCard(coord);
+        console.log('*************************');
+        // console.log('in HANDLEsELECTION, currently selected cards: ',arrSelected.length);
+        if(this.board.selectedCards.size ===3){
+
+            // check match
+            console.log('Checking match...');
+            this.checkSet(this.board.selectedCards);
+
+            // clear selection
+            // this.board.clearSelectedCards();
         }
     }
 }

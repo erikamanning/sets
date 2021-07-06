@@ -86,9 +86,9 @@ const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
     const imgSrc = imgSrcs[card.shape+capitalizedColor+capitalizedFillLevel];
     const isSelected = selected ? 'border-info' : '';
 
-return  <div className='m-3'>
+return  <div className='m-1 m-sm-3'>
             <div onClick={handleClick} className={'card rounded shadow GameCard '+isSelected}>
-                <div className="row p-5 justify-content-center">
+                <div className="row p-3 p-sm-5 g-1 g-sm-3 justify-content-center">
                     {printedShapes.map((shape,idx)=> (<div key={idx} className="col-4"><img src={imgSrc} className='GameCard-shape'/></div>))}                
                 </div>
             </div>
