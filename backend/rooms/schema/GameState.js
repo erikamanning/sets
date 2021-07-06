@@ -10,8 +10,8 @@ class GameState extends Schema {
     constructor () {
         super();
         // this.players = new MapSchema();
-        this. deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
-        this. board = new BoardState(this.deck.drawCards(12));
+        this.deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
+        this.board = new BoardState(this.deck.drawCards(12));
     }
 
     printBoard(){

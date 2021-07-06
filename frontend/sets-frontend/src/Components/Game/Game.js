@@ -20,17 +20,22 @@ const Game = (props) => {
             await client.joinOrCreate("game_room").then(room_instance => {
                 room = room_instance
                 console.log('******** Client Joining Room ***********');
+                console.log("this is the first room state!", room.state);
+                console.log("this is the grid!", room.state.board);
 
-                room.onStateChange.once((state) => {
-                    console.log("this is the first room state!", state);
-                  });
-                room.onMessage('get_board', (message)=>{
+
+                // room.onStateChange.once((state) => {
+                //     console.log('has the error happened yet');
+                //     console.log("this is the first room state!", state);
+                // });
+
+                // room.onMessage('get_board', (message)=>{
     
                     // console.log('ALERT!!!! THERE HAS BEEN A MESSAGE FROM THE SERVER!');
                     // console.log('Message: ', message);
                     // setBoard()
                     // setBoard(message);
-                });
+                // });
 
                 // window.addEventListener("keydown", function (e) {
                 //     FEselectCard('1-A');

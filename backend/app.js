@@ -51,8 +51,7 @@ app.use(function (err, req, res, next) {
 // (optional) attach web monitoring panel
 app.use('/colyseus', monitor());
 
-const gameServer = new colyseus.Server({
-  server: http.createServer(app)
+const gameServer = new colyseus.Server({  server: http.createServer(app)
 });
 
 gameServer.define("game_room", GameRoom).enableRealtimeListing();

@@ -1,50 +1,50 @@
 const schema = require('@colyseus/schema');
 const Schema = schema.Schema;
 const ArraySchema = schema.ArraySchema;
+const { Card } = require('./Card');
+const MapSchema = schema.MapSchema;
+const { CellState } = require('./CellState');
 
 class BoardState extends Schema {
 
-    // grid;
-    // maxRows=4;
-    // cols = ["A", "B", "C"];
-    // selectedCards={};
-
     constructor (cards) {
         super();
-        this.grid={};
+        this.grid= new MapSchema();
         this.maxRows=4;
-        // this.cols = ["A", "B", "C"];
         this.cols = new ArraySchema();
         this.cols.push("A", "B", "C");
-        this.selectedCards={};
+        this.selectedCards= new MapSchema();
         this.makeGrid(cards);
-        this.printGrid();
+        // this.printGrid();
     }
 
     makeGrid(cards){
 
         // console.log('Making grid with cards: ', cards);
         let cardIndex=0;
-        let cardIds = Object.keys(cards);
+        let cardIds = Array.from(cards.keys());
 
         for(let i=0; i<this.maxRows; i++){
 
             for(let col of this.cols){
-                this.grid[`${i}-${col}`] = { 
-                    selected: false, 
-                    card: cards[cardIds[cardIndex]]
-                };
+                const newCard = cards.get(cardIds[cardIndex]);
+                // console.log('inside MAKEGRID -- newCard: ', newCard);
+                const newCell = new CellState(newCard);
+                this.grid.set(`${i}-${col}` , newCell);
                 cardIndex++;
             }
         }
+        console.log('this.grid: ', this.grid);
     }
 
     printGrid(){
         console.log('Printing Grid: ');
+        // console.log(this.grid.entries());
+        for(let key of this.grid.keys()){
 
-        for(let cell of Object.keys(this.grid)){
-
-            console.log( "cell: ", cell , ' - ', this.grid[cell]);
+            console.log( "cell: ", key , ' - ', this.grid.get(key));
+            console.log( this.grid.get(key).card.color);
+            console.log( this.grid.get(key).card.id);
         }
     }
 
@@ -134,10 +134,10 @@ class BoardState extends Schema {
     }
 }
 schema.defineTypes(BoardState, {
-    grid:'object',
+    grid: { map: CellState },
     maxRows:'number',
     cols: [ "string" ],
-    selectedCards:'object'
+    selectedCards:{map: Card}
 });
 
 exports.BoardState = BoardState;

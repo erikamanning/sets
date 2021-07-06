@@ -1,6 +1,5 @@
 const schema = require('@colyseus/schema');
 const Schema = schema.Schema;
-const MapSchema = schema.MapSchema;
 
 class Card extends Schema {
 

@@ -3,6 +3,7 @@ const Schema = schema.Schema;
 const ArraySchema = schema.ArraySchema;
 const { v4: uuidv4 } = require('uuid');
 const { Card } = require('./Card');
+const MapSchema = schema.MapSchema;
 
 class DeckState extends Schema {
 
@@ -19,16 +20,18 @@ class DeckState extends Schema {
         this.numCards = 81;
         this.cardProperties = new ArraySchema();
         this.cardProperties.push('color', 'shape', 'numShapes', 'fillLevel');
-        this.cards = {};
+        this.cards = new MapSchema();
         this.createDeck();
-        this.printDeck();
+        // this.printDeck();
 
     }
 
     printDeck(){
+        // console.log('Printing deck...');
         let i=1;
-        for(let card of Object.keys(this.cards)){
-            // console.log(`Card: ${i}: `, card);
+
+        for(let card of this.cards.keys()){
+            console.log(`Card: ${i}: `, this.cards.get(card));
             i++;
         }
     }
@@ -40,7 +43,8 @@ class DeckState extends Schema {
                 for(let numShapes=1; numShapes<this.maxShapes+1; numShapes++){
                     for(let fillLevel of this.fillLevels){
                         const cardId = uuidv4();
-                        this.cards[cardId] = new Card(color, shape, numShapes, fillLevel, cardId);
+                        const newCard = new Card(color, shape, numShapes, fillLevel, cardId);
+                        this.cards.set(cardId, newCard);
                     }
                 }
             }
@@ -48,19 +52,26 @@ class DeckState extends Schema {
     }
     
     drawRandomCard(){
-        const cardIndex = Math.floor(Math.random() * ((Object.keys(this.cards).length-1) - 0 + 1) + 0);
-        const cardId = Object.keys(this.cards)[cardIndex];
-        const card = this.cards[cardId];
-        delete this.cards[cardId];
+        // console.log('Drawing random card...');
+        const cardIds = Array.from(this.cards.keys());
+        const cardIndex = Math.floor(Math.random() * ((cardIds.length-1) - 0 + 1) + 0);
+        const cardId = cardIds[cardIndex];
+        // console.log('cardId: ', cardId);
+        const card = this.cards.get(cardId);
+        // console.log('Random card: ', card);
+        this.cards.delete(cardId);
         return card;
     }
 
     drawCards(numCards){
-        const cards = {};
+        // console.log(`Drawing ${numCards} cards...`);
+        const cards = new MapSchema();
         for(let i=0; i<numCards; i++){
             let randomCard = this.drawRandomCard();
-            cards[randomCard.id] = randomCard;
+            cards.set(randomCard.id, randomCard);
         }
+
+        // console.log('Cards: ', cards);
         return cards;
     }
 
@@ -78,14 +89,16 @@ class DeckState extends Schema {
     }
 }
 schema.defineTypes(DeckState, {
-  greeting: "string",
   colors: ["string"],
   shapes: ["string"],
   maxShapes: "number",
   fillLevels: ["string"],
   numCards: "number",
   cardProperties: ["string"],
-  cards: "object"
+  cards: {map: Card}
 });
+
+// const newDeck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
+// newDeck.drawCards(12);
 
 exports.DeckState = DeckState;

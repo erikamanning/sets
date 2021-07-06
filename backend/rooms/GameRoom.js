@@ -25,6 +25,7 @@ exports.GameRoom = class extends colyseus.Room {
     console.log(`User ${client.sessionId} Joined!`);
    
     console.log('Backend grid: ',this.state.board);
+
     // client.send('get_board', stateGrid);
   }
 
