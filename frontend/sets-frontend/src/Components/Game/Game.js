@@ -6,9 +6,9 @@ import * as Colyseus from 'colyseus.js';
 const Game = (props) => {
 
     const [cardsRemaining, setCardsRemaining] = useState(81);
-    const [board, setBoard] = useState({});
+    const [board, setBoard] = useState(new Map());
     const [score, setScore] = useState(null);
-
+    const [feRoom, setFeRoom] = useState(null);
     const client = new Colyseus.Client('ws://localhost:5000');
     // console.log('Colyseus Client: ', client);
     let room;
@@ -19,23 +19,15 @@ const Game = (props) => {
         async function start(){
             await client.joinOrCreate("game_room").then(room_instance => {
                 room = room_instance
+                setFeRoom(room);
                 console.log('******** Client Joining Room ***********');
-                console.log("this is the first room state!", room.state);
-                console.log("this is the grid!", room.state.board);
 
+                room.onStateChange((state) => {
+                    console.log('has the error happened yet');
+                    console.log("this is the first room state!", state.board.grid.$items.entries());
+                    setBoard(state.board.grid.$items);
+                });
 
-                // room.onStateChange.once((state) => {
-                //     console.log('has the error happened yet');
-                //     console.log("this is the first room state!", state);
-                // });
-
-                // room.onMessage('get_board', (message)=>{
-    
-                    // console.log('ALERT!!!! THERE HAS BEEN A MESSAGE FROM THE SERVER!');
-                    // console.log('Message: ', message);
-                    // setBoard()
-                    // setBoard(message);
-                // });
 
                 // window.addEventListener("keydown", function (e) {
                 //     FEselectCard('1-A');
@@ -44,16 +36,12 @@ const Game = (props) => {
         }
 
         start();
-        if(room){
-            console.log('ZE ROOM IS HERE! hERE IS SE ROOM: ', room);
-        }
 
     },[selectedCards]);
 
     function FEselectCard(coord){
 
-        room.send('select_card', coord);
-
+        feRoom.send('select_card', coord);
     }
 
     const [selectedCards, setSelectedCards] = useState({});
@@ -102,19 +90,19 @@ const Game = (props) => {
                     <div className="col-12 col-sm-6">
                         <div className="row">
                             {console.log('HELLO FROM DISPLAY BOARD')}                            
-                            {Object.keys(board).map((cell) => <div key={board[cell].card.id} className="col-4"><GameCard cardIsSelected={board[cell].selected} selectCard = {selectCard} card={board[cell].card}/></div>)}
+                            {Array.from(board.keys()).map((cell) => <div key={board.get(cell).card.id} className="col-4"><GameCard coord={cell} cardIsSelected={board.get(cell).selected} selectCard = {selectCard} card={board.get(cell).card}/></div>)}
                         </div>
                     </div>
                 </div>
     }
 
-    function selectCard(cardId) {
+    function selectCard(coord) {
 
-        console.log('card selected!: ', cardId);
-
+        console.log('card selected!: ', coord);
+        FEselectCard(coord);
         setSelectedCards(s=>({
             ...s,
-            [cardId]:board[cardId]
+            [board.get(coord).card.id]:board.get(coord).card
         }));
     }
 
