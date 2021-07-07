@@ -48,15 +48,20 @@ class GameState extends Schema {
 
     checkSet(cards){
         
+        const coords = Array.from(cards.keys());
+
         for(let property of this.deck.cardProperties){
             // console.log("Property: ", property);
             let set = this.checkIndividualProperty(property,cards);
             if(!set){
                 this.decreaseScore();
+                this.board.deselectNonSet();
                 return false;
             }
         }
         this.increaseScore();
+        this.board.clearSet(coords);
+
         // clear cards
         // this.clearCardsFromBoard(cards);
         // this.clearCardsFromBoard(Object.keys(cards));
@@ -104,7 +109,7 @@ class GameState extends Schema {
             this.checkSet(this.board.selectedCards);
 
             // clear selection
-            // this.board.clearSelectedCards();
+            this.board.clearSelectedCards();
         }
     }
 }

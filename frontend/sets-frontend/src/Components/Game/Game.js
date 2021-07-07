@@ -9,10 +9,9 @@ const Game = (props) => {
     const [board, setBoard] = useState(false);
     const [score, setScore] = useState(null);
     const [feRoom, setFeRoom] = useState(null);
+    const [checkMatch, setCheckMatch] = useState(false);
     const client = new Colyseus.Client('ws://localhost:5000');
-    // console.log('Colyseus Client: ', client);
     let room;
-    // let players={};
 
     useEffect(()=>{
 
@@ -21,22 +20,22 @@ const Game = (props) => {
                 room = room_instance
                 setFeRoom(room);
                 console.log('******** Client Joining Room ***********');
-
                 room.onStateChange((state) => {
 
-                    console.log("CURRENT BOARD STATE: ", state.board.grid.$items.entries());
+                    // console.log("CURRENT BOARD STATE: ", state.board.grid.$items.entries());
+                    console.log("CURRENT BOARD STATE: ", state.board.grid.$items);
                     setBoard(state.board.grid.$items);
                 });
             });
         }
-
         start();
 
-    },[selectedCards]);
+    },[selectedCards,checkMatch]);
 
     function FEselectCard(coord){
 
         feRoom.send('select_card', coord);
+        setCheckMatch(cm=>!cm);
     }
 
     const [selectedCards, setSelectedCards] = useState({});

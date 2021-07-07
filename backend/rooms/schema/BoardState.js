@@ -99,18 +99,20 @@ class BoardState extends Schema {
 
         console.log(`Selecting card... ${coord}`);
         this.grid.get(coord).selected=true;
-        this.selectedCards.set(card.id,card);
+        console.log("SELECTED WORKED? : ", this.grid.get(coord).selected);
+        this.selectedCards.set(coord,card);
 
         console.log(this.grid.get(coord), ' has been selected!');
-        console.log(`CURRENTLY SELECTED CARDS: `, this.selectedCards);
+        // console.log(`CURRENTLY SELECTED CARDS: `, this.selectedCards);
     }
 
-    clearSelectedCards(coords){
+    clearSelectedCards(){
 
-        for(let coord of coords){
-            this.grid[coord].selected=false;
+        for(let coord of Array.from(this.selectedCards.keys())){
+            this.grid.delete(coord);
         }
         this.selectedCards.clear();
+        console.log('selected cards after clear: ', this.selectedCards);
     }
 
     clearBoard(){
@@ -119,7 +121,7 @@ class BoardState extends Schema {
         // console.log('Say goodbye to board: ', this.grid);
 
         for(let cell of Object.keys(this.grid)){
-            this.grid[cell] = undefined;
+            this.grid.clear();
         }
 
         // console.log('Board Cleared! ');
