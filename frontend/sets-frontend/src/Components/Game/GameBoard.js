@@ -20,16 +20,18 @@ const GameBoard = ({room}) => {
 
     useEffect(()=>{
 
-        room.onStateChange((state) => {
-            console.log('*************************');
-            console.log('ROOM STATE HAS CHANGED');
-            console.log("CURRENT BOARD STATE: ", state.board.grid);
-            setBoard(state.board.grid);
-            seStateChanged(sc=>!sc);
-    
-        });
+        async function updateBoard(){
+            room.onStateChange((state) => {
+                console.log('*************************');
+                console.log('ROOM STATE HAS CHANGED');
+                console.log("CURRENT BOARD STATE: ", state.board.grid);
+                setBoard(state.board.grid);
+                seStateChanged(sc=>!sc);
+            });
+        }
+        updateBoard();
 
-    },[selectCard,addRow]);
+    },[]);
 
     function selectCard(coord) {
 
