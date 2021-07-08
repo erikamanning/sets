@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useRef} from "react"
-import { SetsGame } from "../../SetsGame/SetsGame"
 import GameCard from './GameCard.js'
 import * as Colyseus from 'colyseus.js';
 
@@ -10,23 +9,36 @@ const GameBoard = ({room}) => {
     const [score, setScore] = useState(null);
     const [stateChanged, seStateChanged] = useState(false);
 
-    room.onStateChange((state) => {
-        console.log('*************************');
-        console.log('ROOM STATE HAS CHANGED');
-        console.log("CURRENT BOARD STATE: ", state.board.grid);
-        setBoard(state.board.grid);
-    });
+    // room.onStateChange((state) => {
+    //     console.log('*************************');
+    //     console.log('ROOM STATE HAS CHANGED');
+    //     console.log("CURRENT BOARD STATE: ", state.board.grid);
+    //     setBoard(state.board.grid);
+    //     seStateChanged(sc=>!sc);
+
+    // });
+
+    useEffect(()=>{
+
+        room.onStateChange((state) => {
+            console.log('*************************');
+            console.log('ROOM STATE HAS CHANGED');
+            console.log("CURRENT BOARD STATE: ", state.board.grid);
+            setBoard(state.board.grid);
+            seStateChanged(sc=>!sc);
+    
+        });
+
+    },[selectCard,addRow]);
 
     function selectCard(coord) {
 
         room.send('select_card', coord);
-        seStateChanged(sc=>!sc);
     }
 
     function addRow(){
 
         room.send('add_row');
-        seStateChanged(sc=>!sc);
     }
 
     function displayBoard(){
