@@ -42,29 +42,29 @@ class BoardState extends Schema {
         // console.log(this.grid.entries());
         for(let key of this.grid.keys()){
 
-            console.log( "cell: ", key , ' - ', this.grid.get(key));
-            console.log( this.grid.get(key).card.color);
-            console.log( this.grid.get(key).card.id);
+            console.log( "cell: ", key);
+            this.grid.get(key).card.showDetails();
         }
     }
 
     addRow(cards){
-        // console.log('Adding another row...');
+        console.log('Adding another row...');
 
-        let cardIndex=0;
-        let cardIds = Object.keys(cards);
+        let cardIds = Array.from(cards.keys());
+        let cardIndex = 0;
         for(let col of this.cols){
 
-            this.grid[`4-${col}`]={
-                selected: false,
-                card: cards[cardIds[cardIndex]]
-            };
+            const newCard = cards.get(cardIds[cardIndex]);
+            const newCell = new CellState(newCard);
+            this.grid.set(`4-${col}` , newCell);
             cardIndex++;
         }
-        // console.log('Added row: ' );
-        // console.log(this.grid['4-A']);
-        // console.log(this.grid['4-B']);
-        // console.log(this.grid['4-C']);
+        console.log('Added row: ' );
+        this.grid.get('4-A').card.showDetails();
+        this.grid.get('4-B').card.showDetails();
+        this.grid.get('4-C').card.showDetails();
+        this.printGrid();
+        
     }
 
     removeCards(coords){
@@ -106,11 +106,20 @@ class BoardState extends Schema {
         // console.log(`CURRENTLY SELECTED CARDS: `, this.selectedCards);
     }
 
-    clearSelectedCards(){
-
+    clearSet(coords){
         for(let coord of Array.from(this.selectedCards.keys())){
             this.grid.delete(coord);
         }
+    }
+
+    deselectNonSet(coords){
+        for(let coord of Array.from(this.selectedCards.keys())){
+            this.grid.get(coord).selected=false;
+        }
+    }
+
+    clearSelectedCards(){
+
         this.selectedCards.clear();
         console.log('selected cards after clear: ', this.selectedCards);
     }

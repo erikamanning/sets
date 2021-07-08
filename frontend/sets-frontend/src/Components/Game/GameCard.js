@@ -36,7 +36,7 @@ import trianglePurpleStriped from '../../Assets/triangle_purple_striped.png'
 
 const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
 
-    const [selected, setSelected] = useState(false);
+    const [selected, setSelected] = useState(cardIsSelected);
     const printedShapes = new Array(card.numShapes).fill(0);
 
     // console.log('CARD: ', card);

@@ -19,6 +19,17 @@ exports.GameRoom = class extends colyseus.Room {
 
     });
 
+    this.onMessage("add_row", (client, message) => {
+      //   // handle "type" message.
+      //   //
+          // client.send('get_board', 'Babadoo! This is your message directly from the server!');
+  
+        console.log("BACKEND! Message 'add_row' recieved!");
+  
+        this.state.board.addRow(this.state.deck.drawCards(3));
+  
+      });
+
   }
 
   onJoin (client, options) {

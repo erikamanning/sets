@@ -120,7 +120,7 @@ schema.defineTypes(GameState, {
 
 const newGame = new GameState();
 
-// newGame.board.addRow(newGame.deck.drawCards(3));
+newGame.board.addRow(newGame.deck.drawCards(3));
 // newGame.board.selectCard('1-B');
 // newGame.board.clearBoard();
 
