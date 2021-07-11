@@ -9,14 +9,6 @@ const GameBoard = ({room}) => {
     const [score, setScore] = useState(null);
     const [stateChanged, seStateChanged] = useState(false);
 
-    // room.onStateChange((state) => {
-    //     console.log('*************************');
-    //     console.log('ROOM STATE HAS CHANGED');
-    //     console.log("CURRENT BOARD STATE: ", state.board.grid);
-    //     setBoard(state.board.grid);
-    //     seStateChanged(sc=>!sc);
-
-    // });
 
     useEffect(()=>{
 
