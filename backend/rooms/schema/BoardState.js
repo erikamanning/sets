@@ -76,19 +76,25 @@ class BoardState extends Schema {
 
     fillEmptySlots(coords, cards){
 
-        // console.log('Filling Empty Slots: ', coords);
+        console.log('Filling Empty Slots: ', coords);
+        console.log('Cards: ', cards);
 
         let coordIndex=0;
-        let cardIds = Object.keys(cards);
+        let cardIds = Array.from(cards.keys());
 
         for(let cardId of cardIds){
 
+            const newCard = cards.get(cardId);
+            const newCell = new CellState(newCard);
             // allowing for the case of less cards to draw than slots available
-            this.grid[coords[coordIndex]] = cards[cardId];
+            this.grid.set(coords[coordIndex],newCell);
             coordIndex++;
-            // console.log('Filled Slot: ', this.grid[coords[coordIndex]]);
+            // console.log('Filled Slot: ', this.grid.get(coords[coordIndex]));
             // console.log('Card: ', cards[cardId]);
         }
+        console.log('77777777777777777777777777777777');
+        console.log('GRID AFTER EMPTY SLOTS ARE FILLED')
+        console.log(this.printGrid())
     }
     
     selectCard(coord){

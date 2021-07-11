@@ -11,14 +11,16 @@ const GameBoard = ({room}) => {
 
 
     useEffect(()=>{
-
         async function updateBoard(){
             room.onStateChange((state) => {
                 console.log('*************************');
-                console.log('ROOM STATE HAS CHANGED');
-                console.log("CURRENT BOARD STATE: ", state.board.grid);
-                setBoard(state.board.grid);
-                seStateChanged(sc=>!sc);
+                console.log('PREVIOUS BOARD STATE: ', board);
+                console.log("CURRENT BOARD STATE: ",state.board.grid);
+                setBoard(state.board.grid); 
+                seStateChanged(sc=>!sc); 
+                // seems that react is not recognizing a change in the state
+                // so it's not rerendering because it thinks the state is the same
+                // may be because of the depth of the properties
             });
         }
         updateBoard();
@@ -39,7 +41,6 @@ const GameBoard = ({room}) => {
         return  <div className='row justify-content-center'>
                     <div className="col-12 col-sm-10 col-lg-8">
                         <div className="row g-0">
-                            {console.log('HELLO FROM DISPLAY BOARD')}                            
                             {Array.from(board.keys()).map((cell) => <div key={board.get(cell).card.id} className="col-4"><GameCard coord={cell} cardIsSelected={board.get(cell).selected} selectCard = {selectCard} card={board.get(cell).card}/></div>)}
                         </div>
                     </div>

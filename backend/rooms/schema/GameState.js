@@ -66,9 +66,14 @@ class GameState extends Schema {
         // this.clearCardsFromBoard(cards);
         // this.clearCardsFromBoard(Object.keys(cards));
 
-        if(this.board.size <12)
+        if(this.board.grid.size <12){
             // this.addRowToBoard();
-            console.log('ADDING NEW ROW TO BOARD');
+            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+            console.log('BOARD SIZE AFTER MATCH: ', this.board.grid.size);
+            this.board.fillEmptySlots(coords,this.deck.drawCards(3));
+        }
 
         return true;
     }
@@ -118,9 +123,9 @@ schema.defineTypes(GameState, {
   deck: DeckState,
 });
 
-const newGame = new GameState();
+// const newGame = new GameState();
 
-newGame.board.addRow(newGame.deck.drawCards(3));
+// newGame.board.addRow(newGame.deck.drawCards(3));
 // newGame.board.selectCard('1-B');
 // newGame.board.clearBoard();
 
