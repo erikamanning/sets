@@ -41,7 +41,12 @@ const GameBoard = ({room}) => {
         return  <div className='row justify-content-center'>
                     <div className="col-12 col-sm-10 col-lg-8">
                         <div className="row g-0">
-                            {Array.from(board.keys()).map((cell) => <div key={board.get(cell).card.id} className="col-4"><GameCard coord={cell} cardIsSelected={board.get(cell).selected} selectCard = {selectCard} card={board.get(cell).card}/></div>)}
+                            {Array.from(board.keys()).map((cell) => { 
+                                return board.get(cell).card
+                                    ?  <div key={board.get(cell).card.id} className="col-4"><GameCard coord={cell} cardIsSelected={board.get(cell).selected} selectCard = {selectCard} card={board.get(cell).card}/></div> 
+                                    : null
+                                })
+                            }
                         </div>
                     </div>
                 </div>
@@ -53,7 +58,7 @@ const GameBoard = ({room}) => {
                 <h2>Cards left in deck: {cardsRemaining} </h2>
                 <h1>Score: {score}</h1>
         
-                { room && board &&  Array.from(board.keys()).length<15 
+                { room && board 
                     ? 
                         <button onClick={addRow} className='btn btn-primary'>
                             Draw 3 cards

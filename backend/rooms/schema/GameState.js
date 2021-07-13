@@ -7,19 +7,29 @@ const { Player } = require('./PlayerState');
 
 class GameState extends Schema {    
 
-    constructor () {
+    constructor(testState=false) {
         super();
         this.score = 0;
         // this.players = new MapSchema();
         this.deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
-        this.board = new BoardState(this.deck.drawCards(12));
+        
+        if(!testState)
+            this.board = new BoardState(this.deck.drawCards(12));
+        else
+            this.board = new BoardState(this.deck.drawFromTopOfDeck(12));
+        
+
+        // this.printBoard();
     }
 
     printBoard(){
 
-        for(let cell of Object.keys(this.board.grid)){
+        for(let cell of Array.from(this.board.grid.keys())){
 
-            console.log( "cell: ", cell , ' - ', this.board.grid[cell]);
+            console.log( "* CELL ", cell , ': ');
+            this.board.grid.get(cell).card 
+                ? this.board.grid.get(cell).card.printDetails()
+                : null
         }
     }
 
@@ -47,74 +57,73 @@ class GameState extends Schema {
     }
 
     checkSet(cards){
-        
-        const coords = Array.from(cards.keys());
+        console.log('Checking if cards are a set...');
 
         for(let property of this.deck.cardProperties){
-            // console.log("Property: ", property);
             let set = this.checkIndividualProperty(property,cards);
-            if(!set){
-                this.decreaseScore();
-                this.board.deselectNonSet();
+            if(!set)
                 return false;
-            }
         }
-        this.increaseScore();
-        this.board.clearSet(coords);
-
-        // clear cards
-        // this.clearCardsFromBoard(cards);
-        // this.clearCardsFromBoard(Object.keys(cards));
-
-        if(this.board.grid.size <12){
-            // this.addRowToBoard();
-            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-            console.log('BOARD SIZE AFTER MATCH: ', this.board.grid.size);
-            this.board.fillEmptySlots(coords,this.deck.drawCards(3));
-        }
-
         return true;
     }
 
     checkIndividualProperty(property,cards){
 
-        console.log(`typeof(cards): `, typeof(cards));
-        console.log(`cards: `, cards);
         const keys = Array.from(cards.keys());
-        console.log('0000000000000000000000000000');
-        console.log(`keys: `, keys);
 
         if(cards[keys[0]][property] === cards[keys[1]][property]){
 
             if(cards[keys[0]][property]!== cards[keys[2]][property])
                 return false;
-            
             else
                 return true;
         }
         else{
-            if(cards[keys[1]][property] === cards[keys[2]][property] || cards[keys[0]][property] === cards[keys[2]][property]){
+            if(cards[keys[1]][property] === cards[keys[2]][property] || cards[keys[0]][property] === cards[keys[2]][property])
                 return false;
-            }
-            else{
+            else
                 return true;
-            }
         }
     }
+
+    handleBadSet(){
+        this.decreaseScore();
+        this.board.deselectNonSet();
+        this.board.clearSelectedCards();
+    }
+
+    handleGoodSet(coords){
+        this.increaseScore();
+        this.board.clearSet(coords);
+        this.board.clearSelectedCards();
+
+        // fill empty slots if necessary
+        if(this.board.getActiveCardCount() <12){
+            this.board.fillEmptySlots(coords,this.deck.drawCards(3));
+        }
+        else{
+            // shift cells back
+            console.log('12 cards, spread out too wide, need to shift board back');
+            this.board.shiftGridCards();
+        }
+    }
+
     handleSelection(coord){
+
+        // select card
         this.board.selectCard(coord);
-        console.log('*************************');
-        // console.log('in HANDLEsELECTION, currently selected cards: ',arrSelected.length);
+
         if(this.board.selectedCards.size ===3){
 
             // check match
-            console.log('Checking match...');
-            this.checkSet(this.board.selectedCards);
+            const isSet = this.checkSet(this.board.selectedCards);
+            const coords = Array.from(this.board.selectedCards.keys());
 
-            // clear selection
-            this.board.clearSelectedCards();
+            // handle results
+            if(isSet)
+                this.handleGoodSet(coords);
+            else
+                this.handleBadSet();
         }
     }
 }

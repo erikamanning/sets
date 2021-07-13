@@ -26,7 +26,7 @@ exports.GameRoom = class extends colyseus.Room {
   
         console.log("BACKEND! Message 'add_row' recieved!");
   
-        this.state.board.addRow(this.state.deck.drawCards(3));
+        this.state.board.addGridCards(this.state.deck.drawCards(3));
   
       });
 

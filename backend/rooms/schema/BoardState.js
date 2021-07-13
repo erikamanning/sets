@@ -18,23 +18,34 @@ class BoardState extends Schema {
         // this.printGrid();
     }
 
+    // incoorporate this later
+    addCell(cellId, card ){
+        console.log('Adding cell to grid...');
+        const newCell= card ? new CellState(cellId,newCard) : new CellState(cellId);
+        this.grid.set(cellId , newCell);
+    }
+
     makeGrid(cards){
 
         // console.log('Making grid with cards: ', cards);
         let cardIndex=0;
         let cardIds = Array.from(cards.keys());
 
-        for(let i=0; i<this.maxRows; i++){
+        for(let i=0; i<=this.maxRows; i++){
 
             for(let col of this.cols){
-                const newCard = cards.get(cardIds[cardIndex]);
-                // console.log('inside MAKEGRID -- newCard: ', newCard);
-                const newCell = new CellState(newCard);
-                this.grid.set(`${i}-${col}` , newCell);
+                if(cardIds[cardIndex]){
+                    const newCard = cards.get(cardIds[cardIndex]);
+                    // console.log('inside MAKEGRID -- newCard: ', newCard);
+                    const newCell = new CellState(`${i}-${col}`,newCard);
+                    this.grid.set(`${i}-${col}` , newCell);
+                }
+                else{
+                    this.grid.set(`${i}-${col}` , new CellState(`${i}-${col}`) );
+                }
                 cardIndex++;
             }
         }
-        // console.log('this.grid: ', this.grid);
     }
 
     printGrid(){
@@ -43,41 +54,78 @@ class BoardState extends Schema {
         for(let key of this.grid.keys()){
 
             console.log( "cell: ", key);
-            this.grid.get(key).card.showDetails();
+            if(this.grid.get(key).card){
+                this.grid.get(key).card.printDetails();
+                console.log('selected: ', this.grid.get(key).selected);
+            }
         }
     }
 
-    addRow(cards){
-        console.log('Adding another row...');
+    addGridCards(cards){
+        console.log('Adding cards to grid...')
 
-        let cardIds = Array.from(cards.keys());
+        let cardIndices = Array.from(cards.keys());
         let cardIndex = 0;
-        for(let col of this.cols){
+        let cells = Array.from(this.grid.values());
+        let gridIndices = Array.from(this.grid.keys());
 
-            const newCard = cards.get(cardIds[cardIndex]);
-            const newCell = new CellState(newCard);
-            this.grid.set(`4-${col}` , newCell);
-            cardIndex++;
-        }
-        console.log('Added row: ' );
-        this.grid.get('4-A').card.showDetails();
-        this.grid.get('4-B').card.showDetails();
-        this.grid.get('4-C').card.showDetails();
-        this.printGrid();
-        
+        for(let gridIndex of gridIndices){
+
+            if(cardIndex>2){
+                break;
+            }
+
+            if(!this.grid.get(gridIndex).card){
+                let newCell = new CellState(gridIndex,cards.get(cardIndices[cardIndex]));
+                this.grid.set(gridIndex,newCell);
+                cardIndex++;
+            }
+        }        
     }
 
-    removeCards(coords){
+    getActiveCardCount(){
 
-        for(coord of coords){
-            this.grid[coord] = undefined;
+        let count = 0;
+        let cells = Array.from(this.grid.keys())
+
+        for(let cell of cells){
+            if(this.grid.get(cell).card){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    shiftGridCards(){
+
+        console.log('Shifting spread out cards back to 4 rows...');
+        let allCells = Array.from(this.grid.values());
+        allCells.forEach(cell=>cell.printDetails());
+
+        console.log('**********************************');
+
+        let currentCells = Array.from(this.grid.values()).filter(cell=>cell.card);
+        currentCells.forEach(cell=>cell.printDetails());
+
+        let cellIndex = 0;
+        let gridIndices = Array.from(this.grid.keys());
+        // gridIndices.forEach(gi=>console.log('gi: ',gi));
+
+        for(let gridIndex of gridIndices){
+            if(cellIndex<currentCells.length){
+                let newCell = currentCells[cellIndex];
+                this.grid.set(gridIndices[gridIndex], newCell);
+                cellIndex++;
+            }
+            else{
+                this.grid.set(gridIndices[gridIndex], new CellState(gridIndices[gridIndex]));
+            }
         }
     }
 
     fillEmptySlots(coords, cards){
 
         console.log('Filling Empty Slots: ', coords);
-        console.log('Cards: ', cards);
 
         let coordIndex=0;
         let cardIds = Array.from(cards.keys());
@@ -85,36 +133,35 @@ class BoardState extends Schema {
         for(let cardId of cardIds){
 
             const newCard = cards.get(cardId);
-            const newCell = new CellState(newCard);
-            // allowing for the case of less cards to draw than slots available
+            const newCell = new CellState(coords[coordIndex],newCard);
             this.grid.set(coords[coordIndex],newCell);
             coordIndex++;
             // console.log('Filled Slot: ', this.grid.get(coords[coordIndex]));
             // console.log('Card: ', cards[cardId]);
         }
-        console.log('77777777777777777777777777777777');
-        console.log('GRID AFTER EMPTY SLOTS ARE FILLED')
-        console.log(this.printGrid())
+        // console.log('GRID AFTER EMPTY SLOTS ARE FILLED')
+        // console.log(this.printGrid())
     }
     
     selectCard(coord){
 
-        console.log("Selecting a card on the back end!");
+        console.log("Selecting card...");
         // console.log('Current Grid: ', this.grid);
         const card = this.grid.get(coord).card;
 
-        console.log(`Selecting card... ${coord}`);
+        // console.log(`Selecting card... ${coord}`);
         this.grid.get(coord).selected=true;
-        console.log("SELECTED WORKED? : ", this.grid.get(coord).selected);
+        // console.log("SELECTED WORKED? : ", this.grid.get(coord).selected);
         this.selectedCards.set(coord,card);
 
-        console.log(this.grid.get(coord), ' has been selected!');
+        // console.log(this.grid.get(coord), ' has been selected!');
         // console.log(`CURRENTLY SELECTED CARDS: `, this.selectedCards);
     }
 
     clearSet(coords){
+        console.log('Grid after cards cleared: ');
         for(let coord of Array.from(this.selectedCards.keys())){
-            this.grid.delete(coord);
+            this.grid.set(coord, new CellState());
         }
     }
 
@@ -123,25 +170,14 @@ class BoardState extends Schema {
             this.grid.get(coord).selected=false;
         }
     }
+    showGridSelectionsStatus(){
+        this.grid.forEach(cell=>console.log('Selected: ',cell.selected));
+    }
 
     clearSelectedCards(){
-
         this.selectedCards.clear();
-        console.log('selected cards after clear: ', this.selectedCards);
     }
 
-    clearBoard(){
-
-        // console.log('Clearing board...');
-        // console.log('Say goodbye to board: ', this.grid);
-
-        for(let cell of Object.keys(this.grid)){
-            this.grid.clear();
-        }
-
-        // console.log('Board Cleared! ');
-        // console.log('Checkout the empty board: ', this.grid);
-    }
     toJSON(){
 
         return {

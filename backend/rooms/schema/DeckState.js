@@ -31,8 +31,7 @@ class DeckState extends Schema {
         let i=1;
 
         for(let card of this.cards.keys()){
-            console.log(`Card: ${i}: `, this.cards.get(card));
-            i++;
+            this.cards.get(card).printDetails();
         }
     }
 
@@ -61,6 +60,25 @@ class DeckState extends Schema {
         // console.log('Random card: ', card);
         this.cards.delete(cardId);
         return card;
+    }
+
+    drawFromTopOfDeck(numCards){
+        const cardIds = Array.from(this.cards.keys());
+        // console.log('cardIds: ',cardIds);
+
+        let cardIdIndex = 0;
+        // console.log('cards: ',this.cards);
+        const cards = new MapSchema();
+        for(let i=0; i<numCards; i++){
+            let card = this.cards.get(cardIds[cardIdIndex]);
+            this.cards.delete(cardIds[cardIdIndex]);
+            cards.set(card.id, card);
+            cardIdIndex++;
+        }
+
+        // console.log('Cards: ');
+        // console.log(cards.forEach(card=>card.printDetails()));
+        return cards;
     }
 
     drawCards(numCards){

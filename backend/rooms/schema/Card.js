@@ -11,10 +11,10 @@ class Card extends Schema {
         this.fillLevel = fillLevel;
         this.id = id;
     }
-    showDetails(){
+    printDetails(){
         this.numShapes>1 
-            ? console.log(`CARD: ${this.numShapes} ${this.color} ${this.fillLevel} ${this.shape}s`)
-            : console.log(`CARD: ${this.numShapes} ${this.color} ${this.fillLevel} ${this.shape}`)
+            ? console.log(`- CARD: ${this.numShapes} ${this.color} ${this.fillLevel} ${this.shape}s`)
+            : console.log(`- CARD: ${this.numShapes} ${this.color} ${this.fillLevel} ${this.shape}`)
     }
     toJSON(){
 
