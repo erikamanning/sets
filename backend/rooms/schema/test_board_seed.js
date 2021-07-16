@@ -14,7 +14,6 @@ class GameTest{
         console.log('Testing GOOD match...')
         const beforeTestCount = this.game.board.getActiveCardCount();
         this.game.handleSelection('0-A');
-        this.game.handleSelection('0-B');
         this.game.handleSelection('0-C');
         const afterTestCount = this.game.board.getActiveCardCount();
         console.log('# of cards on grid BEFORE good match: ',beforeTestCount);
@@ -45,6 +44,17 @@ class GameTest{
         this.testAddCardsToGrid();
         this.testMatch();
         // this.printGridResults('testShiftAfterMatch');
+    }
+
+    testPlayerJoin(){
+        this.game.addPlayer('gandalf');
+        this.game.addPlayer('ned');
+        this.game.addPlayer('harry');
+        this.game.addPlayer('boromir');
+        this.game.addPlayer('legolas');
+        this.game.addPlayer('ron');
+        this.game.players.forEach(player=> player.printDetails());
+
     }
 
     printGridResults(action){
