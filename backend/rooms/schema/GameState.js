@@ -10,16 +10,25 @@ class GameState extends Schema {
     constructor(testState=false) {
         super();
         this.score = 0;
-        // this.players = new MapSchema();
+        this.players = new MapSchema();
         this.deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
         
         if(!testState)
             this.board = new BoardState(this.deck.drawCards(12));
         else
             this.board = new BoardState(this.deck.drawFromTopOfDeck(12));
-        
+    }
 
-        // this.printBoard();
+    addPlayer(username){
+        console.log("added player: ", username);
+        const newPlayerNumber = this.players.size+1;
+        // console.log('typeof newPlayerNumber: ', typeof(newPlayerNumber));
+        // const tfisthis = Player._context.types['4'];
+        // console.log('PLAYER IS: ', tfisthis);
+        const newPlayer = new Player(username,newPlayerNumber);
+        newPlayer.printDetails();
+        this.players.set(newPlayerNumber, newPlayer);
+        // console.log('in ADDPLAYER: ', this.players);
     }
 
     printBoard(){
@@ -35,10 +44,6 @@ class GameState extends Schema {
 
     sayHello(){
       console.log("Hello from the Game State!");
-    }
-
-    addPlayer(username){
-      this.players[username] = new Player(username);
     }
 
     increaseScore(){
@@ -128,14 +133,13 @@ class GameState extends Schema {
     }
 }
 schema.defineTypes(GameState, {
+  players: { map: Player },
   board: BoardState,
   deck: DeckState,
 });
 
-// const newGame = new GameState();
-
-// newGame.board.addRow(newGame.deck.drawCards(3));
-// newGame.board.selectCard('1-B');
-// newGame.board.clearBoard();
+const newGame = new GameState();
+newGame.addPlayer('erika');
+newGame.players.forEach(player=>player.printDetails());
 
 exports.GameState = GameState;
