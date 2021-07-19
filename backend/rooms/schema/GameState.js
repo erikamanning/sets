@@ -21,12 +21,10 @@ class GameState extends Schema {
     addPlayer(username){
         console.log("added player: ", username);
         const newPlayerNumber = this.players.size+1;
-        // console.log('typeof newPlayerNumber: ', typeof(newPlayerNumber));
-        // const tfisthis = Player._context.types['4'];
-        // console.log('PLAYER IS: ', tfisthis);
         const newPlayer = new Player(username,newPlayerNumber);
         newPlayer.printDetails();
         this.players.set(newPlayerNumber.toString(), newPlayer);
+        console.log('Players: ', this.players.forEach(player=>player.printDetails()))
     }
 
     printBoard(){

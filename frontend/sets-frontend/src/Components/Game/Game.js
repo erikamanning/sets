@@ -8,6 +8,7 @@ const Game = () => {
     const [board,setBoard] = useState(false);
     // const [deck, setDeck] = useState(false);
     const [stateChanged, seStateChanged] = useState(false);
+    const [players, setPlayers] = useState(false);
 
     let client = useRef(null); // why?
 
@@ -48,7 +49,23 @@ const Game = () => {
                 setBoard(state.board.grid);
                 seStateChanged(changed=>!changed);
 
+                // console.log('players: ', state.players.forEach(player=>console.log('player: ', player)));
+
+                // room.state.players.onAdd((player,key)=>{
+                //     console.log(`player ${key}: `, player.printDetails());
+                // });
+
             });
+
+            console.log('room.state.players: ', room.state.players);
+
+            room.state.players.onAdd = (player,key)=>{
+                console.log(`player ${key}: `, player);
+                setPlayers(p=>({
+                    [key]:player,
+                    ...p
+                }));
+            }
 
         });
 
@@ -61,6 +78,11 @@ const Game = () => {
         
         <div>
             {/* { room && board ? console.log('GAME: board: ', board) : null} */}
+
+            {players
+                ? Object.keys(players).map(key=> <p key={key}>Player {players[key].playerNumber}: {players[key].username}  <b>score: </b>{players[key].score}</p>)
+                : null 
+            }
 
             { room && board ? <GameBoard board={board} selectCard={selectCard} addRow={addRow}/> : null }
         </div>
