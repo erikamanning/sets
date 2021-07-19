@@ -28,7 +28,7 @@ exports.GameRoom = class extends colyseus.Room {
    
     console.log('Username: ', options.username);
     this.state.addPlayer(options.username);
-
+    // console.log('this.state.players: ', this.state.players);
     // console.log('Backend grid: ',this.state.board);
 
     // client.send('get_board', stateGrid);

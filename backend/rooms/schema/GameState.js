@@ -9,7 +9,6 @@ class GameState extends Schema {
 
     constructor(testState=false) {
         super();
-        this.score = 0;
         this.players = new MapSchema();
         this.deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
         
@@ -27,8 +26,7 @@ class GameState extends Schema {
         // console.log('PLAYER IS: ', tfisthis);
         const newPlayer = new Player(username,newPlayerNumber);
         newPlayer.printDetails();
-        this.players.set(newPlayerNumber, newPlayer);
-        // console.log('in ADDPLAYER: ', this.players);
+        this.players.set(newPlayerNumber.toString(), newPlayer);
     }
 
     printBoard(){
@@ -48,17 +46,17 @@ class GameState extends Schema {
 
     increaseScore(){
       console.log('increasing score...')
-      this.score+=1;
+    //   this.score+=1;
     }
 
     decreaseScore(){
         console.log('decreasing score...')
-        this.score-=1;
+        // this.score-=1;
     }
 
     getScore(){
-        console.log('getting score: ', this.score);
-        return this.score;
+        console.log('getting score: ');
+        // return this.score;
     }
 
     checkSet(cards){
@@ -138,8 +136,8 @@ schema.defineTypes(GameState, {
   deck: DeckState,
 });
 
-const newGame = new GameState();
-newGame.addPlayer('erika');
-newGame.players.forEach(player=>player.printDetails());
+// const newGame = new GameState();
+// newGame.addPlayer('erika');
+// newGame.players.forEach(player=>player.printDetails());
 
 exports.GameState = GameState;

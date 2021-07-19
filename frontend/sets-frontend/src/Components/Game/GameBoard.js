@@ -4,7 +4,7 @@ import * as Colyseus from 'colyseus.js';
 
 const GameBoard = ({board, selectCard, addRow}) => {
 
-    console.log('board: ', board);
+    // console.log('board: ', board);
 
     // const [cardsRemaining, setCardsRemaining] = useState(81);
     // const [board, setBoard] = useState(false);

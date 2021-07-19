@@ -26,8 +26,8 @@ const Game = () => {
         client = new Colyseus.Client('ws://localhost:5000');
         
         client.joinOrCreate("game_room", {username: "testuser"}).then((room)=>{
-            console.log('room: ', room);
-            console.log('room.state.board): ', room.state.board);
+            // console.log('room: ', room);
+            // console.log('room.state.board): ', room.state.board);
             const grid = room.state.board.grid;
             setBoard(grid);
 
@@ -38,11 +38,11 @@ const Game = () => {
             console.log('******** Client Joining Room ***********');
 
             // at this point there is no grid yet, only the main game state
-            console.log('BBB BOARD: ', room.state.board);
+            // console.log('BBB BOARD: ', room.state.board);
 
             room.onStateChange((state) => {
                 console.log('STATE CHANGED');
-                console.log(state);
+                console.log('changes: ',state);
                 ////extract the values you want and transform into something you need
                 // const grid  = room.state.board.grid;
                 setBoard(state.board.grid);
@@ -60,7 +60,7 @@ const Game = () => {
     return (
         
         <div>
-            { room && board ? console.log('GAME: board: ', board) : null}
+            {/* { room && board ? console.log('GAME: board: ', board) : null} */}
 
             { room && board ? <GameBoard board={board} selectCard={selectCard} addRow={addRow}/> : null }
         </div>
