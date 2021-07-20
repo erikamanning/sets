@@ -12,7 +12,7 @@ exports.GameRoom = class extends colyseus.Room {
     this.onMessage("select_card", (client, message) => {
 
       console.log("BACKEND! Message 'select_card' recieved!");
-      this.state.handleSelection(message);
+      this.state.handleSelection(client.sessionId,message);
     });
 
     this.onMessage("add_row", (client, message) => {  
@@ -26,16 +26,35 @@ exports.GameRoom = class extends colyseus.Room {
   onJoin (client, options) {
     console.log(`User ${client.sessionId} Joined!`);
    
-    console.log('Username: ', options.username);
-    this.state.addPlayer(options.username);
+    // console.log('Username: ', options.username);
+    this.state.addPlayer(client.sessionId,options.username);
     // console.log('this.state.players: ', this.state.players);
     // console.log('Backend grid: ',this.state.board);
 
     // client.send('get_board', stateGrid);
   }
 
-  onLeave (client, consented) {
+  async onLeave (client, consented) {
     console.log(client.sessionId, "left!");
+    // this.state.players[client.sessionId].active = false;
+
+    // try {
+    //   if (consented) {
+    //       throw new Error("consented leave");
+    //   }
+  
+    //   // allow disconnected client to reconnect into this room until 20 seconds
+    //   await this.allowReconnection(client, 20);
+  
+    //   // client returned! let's re-activate it.
+    //   this.state.players[client.sessionId].active = true;
+  
+    // } catch (e) {
+  
+    //   console.log('error cawt')
+    //   // 20 seconds expired. let's remove the client.
+    //   delete this.state.players[client.sessionId];
+    // }
   }
 
   onDispose() {

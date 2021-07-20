@@ -18,13 +18,13 @@ class GameState extends Schema {
             this.board = new BoardState(this.deck.drawFromTopOfDeck(12));
     }
 
-    addPlayer(username){
+    addPlayer(sessionId, username){
         console.log("added player: ", username);
         const newPlayerNumber = this.players.size+1;
         const newPlayer = new Player(username,newPlayerNumber);
-        newPlayer.printDetails();
-        this.players.set(newPlayerNumber.toString(), newPlayer);
-        console.log('Players: ', this.players.forEach(player=>player.printDetails()))
+        // newPlayer.printDetails();
+        this.players.set(sessionId, newPlayer);
+        // console.log('Players: ', this.players.forEach(player=>player.printDetails()))
     }
 
     printBoard(){
@@ -42,14 +42,14 @@ class GameState extends Schema {
       console.log("Hello from the Game State!");
     }
 
-    increaseScore(){
+    increaseScore(sessionId){
       console.log('increasing score...')
-    //   this.score+=1;
+      this.players.get(sessionId).score+=1;
     }
 
-    decreaseScore(){
+    decreaseScore(sessionId){
         console.log('decreasing score...')
-        // this.score-=1;
+        this.players.get(sessionId).score-=1;
     }
 
     getScore(){
@@ -87,14 +87,14 @@ class GameState extends Schema {
         }
     }
 
-    handleBadSet(){
-        this.decreaseScore();
+    handleBadSet(playerSessionId){
+        this.decreaseScore(playerSessionId);
         this.board.deselectNonSet();
         this.board.clearSelectedCards();
     }
 
-    handleGoodSet(coords){
-        this.increaseScore();
+    handleGoodSet(playerSessionId, coords){
+        this.increaseScore(playerSessionId);
         this.board.clearSet(coords);
         this.board.clearSelectedCards();
 
@@ -109,7 +109,9 @@ class GameState extends Schema {
         }
     }
 
-    handleSelection(coord){
+    handleSelection(sessionId, coord){
+
+        console.log('session: ', sessionId, ` ${this.players.get(sessionId).username} is selecting a card`);
 
         // select card
         this.board.selectCard(coord);
@@ -122,9 +124,9 @@ class GameState extends Schema {
 
             // handle results
             if(isSet)
-                this.handleGoodSet(coords);
+                this.handleGoodSet(sessionId,coords);
             else
-                this.handleBadSet();
+                this.handleBadSet(sessionId);
         }
     }
 }

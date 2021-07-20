@@ -44,7 +44,7 @@ const GameBoard = ({board, selectCard, addRow}) => {
                 </div>
     }
 
-    console.log('RENDERING GAMEBOARD...');
+    // console.log('RENDERING GAMEBOARD...');
     
     return  <div>
                 {/* <h2>Cards left in deck: {cardsRemaining} </h2> */}

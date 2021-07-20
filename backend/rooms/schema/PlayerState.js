@@ -6,6 +6,7 @@ class Player extends Schema {
   constructor(username,playerNumber){
     super();
     this.username=username;
+    this.active = true;
     this.playerNumber=playerNumber;
     this.score=0;
   }
@@ -29,6 +30,7 @@ class Player extends Schema {
 
 schema.defineTypes(Player, {
   username: "string",
+  active: "boolean",
   playerNumber: "number",
   score: "number"
 });
