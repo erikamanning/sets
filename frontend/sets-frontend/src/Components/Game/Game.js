@@ -71,7 +71,7 @@ const Game = () => {
         // console.log('client: ', client);
         const randName = getRandName();
 
-        client.joinOrCreate("game_room", {username: randName}).then((room)=>{
+        client.joinOrCreate("sets_singleplayer", {username: randName}).then((room)=>{
             // console.log('room: ', room);
             // console.log('room.state.board): ', room.state.board);
 

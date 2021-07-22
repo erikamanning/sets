@@ -4,7 +4,19 @@ const { GameState } = require('./schema/GameState');
 exports.GameRoom = class extends colyseus.Room {
 
   onCreate (options) {
+
+
     console.log('ROOM CREATED');
+    console.log('options: ', options);
+    console.log('options.maxClients: ', options.maxClients);
+    if(options.maxClients){
+      console.log('num maxClients provided!');
+      this.maxClients=options.maxClients;
+    }
+    console.log('this.maxClients: ',this.maxClients);
+    console.log('this.locked?: ',this.locked);
+
+
     // console.log('ROOM USERNAME: ', options.username);
     this.setState(new GameState());
 
@@ -30,6 +42,7 @@ exports.GameRoom = class extends colyseus.Room {
     this.state.addPlayer(client.sessionId,options.username);
     // console.log('this.state.players: ', this.state.players);
     // console.log('Backend grid: ',this.state.board);
+    console.log('this.locked?: ',this.locked);
 
     // client.send('get_board', stateGrid);
   }
