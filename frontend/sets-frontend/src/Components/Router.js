@@ -5,6 +5,9 @@ import Game from './Game/Game'
 import LoginForm from './Forms/LoginForm'
 import SignupForm from './Forms/SignupForm'
 import UserProfile from './User/UserProfile'
+import CreateOrJoin from "./Game/CreateOrJoin"
+import Lobby from "./Game/Lobby"
+import Join from "./Game/Join"
 const Router = () => {
 
 
@@ -14,9 +17,6 @@ const Router = () => {
                 <Route exact path='/home'>
                     <Home />
                 </Route>
-                <Route exact path='/play'>
-                    <Game />
-                </Route>
                 <Route exact path='/login'>
                     <LoginForm />
                 </Route>
@@ -25,6 +25,21 @@ const Router = () => {
                 </Route>
                 <Route exact path='/profile'>
                     <UserProfile />
+                </Route>
+                <Route exact path='/single'>
+                    <Game />
+                </Route>
+                <Route exact path='/multi'>
+                    <CreateOrJoin />
+                </Route>
+                <Route exact path='/create'>
+                    <Lobby />
+                </Route>
+                <Route exact path='/join'>
+                    <Join />
+                </Route>
+                <Route exact path='/lobby'>
+                    <Lobby />
                 </Route>
 
                 <Redirect to="/" />
