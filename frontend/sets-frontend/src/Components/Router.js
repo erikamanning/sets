@@ -38,8 +38,8 @@ const Router = () => {
                 <Route exact path='/join'>
                     <Join />
                 </Route>
-                <Route exact path='/lobby'>
-                    <Lobby create={false}/>
+                <Route exact path='/lobby/:roomId'>
+                    <Lobby />
                 </Route>
 
                 <Redirect to="/" />
