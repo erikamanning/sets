@@ -33,6 +33,13 @@ exports.GameRoom = class extends colyseus.Room {
         this.state.board.addGridCards(this.state.deck.drawCards(3));
     });
 
+    this.onMessage("all_in", (client, message) => {  
+
+      console.log("BACKEND! Message 'all_in' recieved! Game starting!");
+      // this.locked = true;
+      this.state.started=true;
+  });
+
   }
 
   onJoin (client, options) {

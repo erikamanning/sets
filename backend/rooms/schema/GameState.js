@@ -9,6 +9,8 @@ class GameState extends Schema {
 
     constructor(testState=false) {
         super();
+        this.started=false;
+        this.finished=false;
         this.players = new MapSchema();
         this.deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
         
@@ -131,6 +133,8 @@ class GameState extends Schema {
     }
 }
 schema.defineTypes(GameState, {
+  started: "boolean",
+  finished: "boolean",
   players: { map: Player },
   board: BoardState,
   deck: DeckState,
