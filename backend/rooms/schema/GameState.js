@@ -21,12 +21,16 @@ class GameState extends Schema {
     }
 
     addPlayer(sessionId, username){
-        console.log("added player: ", username);
+        // console.log("added player: ", username);
         const newPlayerNumber = this.players.size+1;
         const newPlayer = new Player(username,newPlayerNumber);
         // newPlayer.printDetails();
         this.players.set(sessionId, newPlayer);
         // console.log('Players: ', this.players.forEach(player=>player.printDetails()))
+    }
+
+    removePlayer(sessionId){
+        this.players.delete(sessionId);
     }
 
     printBoard(){

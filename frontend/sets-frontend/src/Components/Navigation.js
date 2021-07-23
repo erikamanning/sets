@@ -22,14 +22,18 @@ const Navigation = ({logout}) => {
               <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
-                    <NavLink className="nav-link" to="/single">
+                    <a className="nav-link" href="/single">Single Player</a>
+
+                    {/* <NavLink className="nav-link" to="/single">
                     Single Player
-                    </NavLink>                           
+                    </NavLink>                            */}
                   </li>
                   <li className="nav-item">
-                    <NavLink className="nav-link" to="/multi">
+                    <a className="nav-link" href="/multi">Multiplayer</a>
+
+                    {/* <NavLink className="nav-link" to="/multi">
                     Multiplayer
-                    </NavLink>                           
+                    </NavLink>                            */}
                   </li>
                 </ul>
                   {user.username
