@@ -65,7 +65,10 @@ const GameRoom = ({mode}) => {
                 console.log("room id", roomResp.id);
                 setRoom(roomResp);
                 setCurrentRoomId(roomResp.id);
-
+                setCurrentPlayer({
+                    username: randName,
+                    sessionId: roomResp.sessionId
+                });
                 roomResp.state.players.onAdd = (player,key)=>{
                     // console.log(`player ${key}: `, player);
                     setPlayers(p=>({
@@ -106,11 +109,6 @@ const GameRoom = ({mode}) => {
     }
 
     return <div>
-
-        {console.log('room: ', room)}
-        {console.log('board: ', board)}
-        {console.log('startGame: ', room)}
-        {console.log('roomId: ', currentRoomId)}
 
         { room && board && startGame && currentRoomId
             ? <Game gRoom={room} gPlayers={players} gBoard={board} gCurrentPlayer={currentPlayer}/> 

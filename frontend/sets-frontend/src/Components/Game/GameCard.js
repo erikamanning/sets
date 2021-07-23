@@ -38,7 +38,7 @@ const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
 
     const [selected, setSelected] = useState(cardIsSelected);
     const printedShapes = new Array(card.numShapes).fill(0);
-
+    const [highlightClass, setHighlightClass] = useState('');
     // console.log('CARD: ', card);
     // console.log('SELECTED: ', cardIsSelected);
 
@@ -80,14 +80,20 @@ const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
         setSelected(true);
         selectCard(coord);
     }
+    const addHighlight = () =>{
+        setHighlightClass(hc=>'border border-3 border-info');
+    }
+    const removeHighlight = () =>{
+        setHighlightClass(hc=>'');
+    }
 
     const capitalizedColor = card.color.charAt(0).toUpperCase() + card.color.slice(1);
     const capitalizedFillLevel = card.fillLevel.charAt(0).toUpperCase() + card.fillLevel.slice(1);
     const imgSrc = imgSrcs[card.shape+capitalizedColor+capitalizedFillLevel];
-    const isSelected = selected ? 'border-info' : '';
+    const isSelected = selected ? 'border border-3 border-info' : '';
 
-return  <div className='m-1 m-sm-3'>
-            <div onClick={handleClick} className={'card rounded shadow GameCard '+isSelected}>
+return  <div onMouseLeave={removeHighlight} onMouseEnter={addHighlight}  className='m-1 m-sm-3'>
+            <div onClick={handleClick} className={'card rounded GameCard shadow '+isSelected +" "+highlightClass}>
                 <div className="row p-3 p-sm-5 g-1 g-sm-3 justify-content-center">
                     {printedShapes.map((shape,idx)=> (<div key={idx} className="col-4"><img src={imgSrc} className='GameCard-shape'/></div>))}                
                 </div>
