@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { useParams } from "react-router-dom";
 import {getRandName} from "./RoomHelpers"
+import GameBoard from './GameBoard'
 
 import * as Colyseus from 'colyseus.js';
 
@@ -14,6 +15,8 @@ const Lobby = () => {
     const [players, setPlayers] = useState(false);
     const [startGame, setStartGame] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState(false);
+    const [stateChanged, seStateChanged] = useState(false);
+    const [board,setBoard] = useState(false);
 
     useEffect(()=>{
         client = new Colyseus.Client('ws://localhost:5000');
@@ -51,6 +54,8 @@ const Lobby = () => {
                         if(state.started == true){
                             setStartGame(true);
                         }
+                        setBoard(state.board.grid);
+                        seStateChanged(changed=>!changed);
 
                         // console.log('players: ', state.players.forEach(player=>console.log('player: ', player)));
         
@@ -94,7 +99,8 @@ const Lobby = () => {
                     if(state.started == true){
                         setStartGame(true);
                     }
-
+                    setBoard(state.board.grid);
+                    seStateChanged(changed=>!changed);
                     // console.log('players: ', state.players.forEach(player=>console.log('player: ', player)));
     
                     // room.state.players.onAdd((player,key)=>{
@@ -124,6 +130,17 @@ const Lobby = () => {
         room.send('all_in');
     }
 
+    function selectCard(coord) {
+
+        room.send('select_card', coord);
+    }
+
+    function addRow(){
+
+        room.send('add_row');
+    }
+
+
     return <div>
 
         <h1 className='mt-5'>This is the Lobby!</h1>
@@ -145,6 +162,9 @@ const Lobby = () => {
             ? <h3 className='text-success'>Here's the game!</h3>
             : <h3 className='text-success'>Game not started yet!</h3>
         }
+
+        { room && board && startGame ? <GameBoard board={board} selectCard={selectCard} addRow={addRow}/> : null }
+
         
     </div>
 
