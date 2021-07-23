@@ -38,7 +38,7 @@ const Join = () => {
                         <label htmlFor="roomCode" className="form-label">Enter the room code here:</label>
                         <input name='roomCode' type="text" value={formData.roomCode} onChange={handleChange} className="form-control text-center" id="roomCode" aria-describedby="roomCode"/>
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-info text-light">Submit!</button>
                 </form>
             </div>
         </div>

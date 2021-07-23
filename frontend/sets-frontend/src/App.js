@@ -11,7 +11,7 @@ import SetsAPI from "./SetsAPI"
 function App() {
 
   // console.log('LOADING APP COMPONENT');
-
+  document.body.classList.add('bg-dark');
   const dispatch = useDispatch();
 
 
@@ -35,14 +35,15 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-        <div className="App">
-          <Navigation logout={logout}/>
-          <Router/>
+    <div className='bg-dark text-light'>
+      <BrowserRouter>
+          <div className="App">
+            <Navigation logout={logout}/>
+            <Router/>
 
-      </div>
-    </BrowserRouter>
-
+        </div>
+      </BrowserRouter>
+    </div>
   );
 }
 

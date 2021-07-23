@@ -17,8 +17,8 @@ const Lobby = ({roomId,players,startMatch}) => {
             : null 
         }
 
-        <button onClick={startMatch}>Ready?</button>
-        
+        <button className='btn btn-info' onClick={startMatch}>Ready?</button>
+
     </div>
 
 }

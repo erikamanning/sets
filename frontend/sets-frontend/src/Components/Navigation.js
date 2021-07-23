@@ -6,14 +6,12 @@ import {NavLink, Link} from "react-router-dom"
 const Navigation = ({logout}) => {
 
   const user = useSelector(state=>state.user);
-
-  // console.log('NAVIGATION: USER: ', user);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <nav className="navbar navbar-expand-lg navbar-light bg-info">
             <div className="container-fluid">
               <a className="navbar-brand" href="/home">Sets</a>
               <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,14 +20,14 @@ const Navigation = ({logout}) => {
               <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
-                    <a className="nav-link" href="/single">Single Player</a>
+                    <a className="nav-link active" href="/single">Single Player</a>
 
                     {/* <NavLink className="nav-link" to="/single">
                     Single Player
                     </NavLink>                            */}
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/multi">Multiplayer</a>
+                    <a className="nav-link active" href="/multi">Multiplayer</a>
 
                     {/* <NavLink className="nav-link" to="/multi">
                     Multiplayer
@@ -38,15 +36,15 @@ const Navigation = ({logout}) => {
                 </ul>
                   {user.username
                         ? 
-                        <ul className='navbar-nav'>
+                        <ul className='navbar-nav mb-2 mb-lg-0'>
                           <li className="nav-item">
-                            <NavLink className="nav-link" to="/profile">
+                            <NavLink className="nav-link active" to="/profile">
                               Hello, {user.username}
                             </NavLink>                           
                           </li>
                           <li className="nav-item">
 
-                            <NavLink className="nav-link" to="/home" onClick={logout}>
+                            <NavLink className="nav-link active" to="/home" onClick={logout}>
                               Logout
                             </NavLink>  
                             {/* <a href="/home" className="nav-link" onClick={logout}>Logout</a> */}
@@ -54,14 +52,14 @@ const Navigation = ({logout}) => {
                         </ul>
 
                         :
-                        <ul>
+                        <ul className='navbar-nav mb-2 mb-lg-0'>
                           <li className="nav-item">
-                          <NavLink className="nav-link" to="/login">
+                          <NavLink className="nav-link active" to="/login">
                               Login
                             </NavLink>
                           </li>
                           <li className="nav-item me-2">
-                            <NavLink className="nav-link" to="/signup">
+                            <NavLink className="nav-link active" to="/signup">
                               Signup
                             </NavLink>     
                           </li>
