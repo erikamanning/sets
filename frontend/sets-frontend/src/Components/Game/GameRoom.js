@@ -21,44 +21,41 @@ const GameRoom = ({mode}) => {
     const [stateChanged, seStateChanged] = useState(false);
     const [board,setBoard] = useState(false);
 
+    function setUpGame(room, username){
+
+        setRoom(room);
+        setCurrentRoomId(room.id);
+        setCurrentPlayer({
+            username,
+            sessionId: room.sessionId
+        });
+        room.state.players.onAdd = (player,key)=>{
+            setPlayers(p=>({
+                [key]:player,
+                ...p
+            }));
+        }
+        room.onStateChange((state) => {
+
+            if(state.started == true)
+                setStartGame(true);
+            if(state.finished == true)
+                setGameFinished(true);
+            
+            setBoard(state.board.grid);
+            setDeck(d=>state.deck);
+            seStateChanged(changed=>!changed);
+        });
+    }
+
     useEffect(()=>{
         client = new Colyseus.Client('ws://localhost:5000');
         const randName = getRandName();
 
         const createRoom = async (client) => {
             try {
-                const roomResp = await client.joinOrCreate(mode, {username: randName}).then((roomResp)=>{
-                    
-                    console.log("joined successfully", roomResp);
-                    console.log("room id", roomResp.id);
-                    setRoom(roomResp);
-                    setCurrentRoomId(roomResp.id);
-                    setCurrentPlayer({
-                        username: randName,
-                        sessionId: roomResp.sessionId
-                    });
-                    roomResp.state.players.onAdd = (player,key)=>{
-                        setPlayers(p=>({
-                            [key]:player,
-                            ...p
-                        }));
-                    }
-                    roomResp.onStateChange((state) => {
-
-                        console.log('!!!!!!!!!!!!!!');
-                        console.log('state changed!');
-                        console.log('state started?: ', state.started);
-                        if(state.started == true){
-                            setStartGame(true);
-                        }
-                        if(state.finished == true){
-                            setGameFinished(true);
-                        }
-                        setBoard(state.board.grid);
-                        setDeck(d=>state.deck);
-                        seStateChanged(changed=>!changed);
-                    });
-                });
+                await client.joinOrCreate(mode, {username: randName})
+                .then((room)=>setUpGame(room,randName));
             } 
             catch (e) {
                 console.error("join error", e);
@@ -67,35 +64,7 @@ const GameRoom = ({mode}) => {
         const joinRoom = async (client) => {
             try {
                 const roomResp = await client.joinById(roomId, {username: randName});
-                console.log("joined successfully", roomResp);
-                console.log("room id", roomResp.id);
-                setRoom(roomResp);
-                setCurrentRoomId(roomResp.id);
-                setCurrentPlayer({
-                    username: randName,
-                    sessionId: roomResp.sessionId
-                });
-                roomResp.state.players.onAdd = (player,key)=>{
-                    // console.log(`player ${key}: `, player);
-                    setPlayers(p=>({
-                        [key]:player,
-                        ...p
-                    }));
-                }
-                roomResp.onStateChange((state) => {
-                    console.log('!!!!!!!!!!!!!!');
-                    console.log('state changed!');
-                    console.log('state started?: ', state.started);
-                    if(state.started == true){
-                        setStartGame(true);
-                    }
-                    if(state.finished == true){
-                        setGameFinished(true);
-                    }
-                    setBoard(state.board.grid);
-                    setDeck(d=>state.deck);
-                    seStateChanged(changed=>!changed);
-                });
+                setUpGame(roomResp,randName);
             } 
             catch (e) {
                 console.error("join error", e);
