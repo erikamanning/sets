@@ -7,13 +7,16 @@ const { Player } = require('./PlayerState');
 
 class GameState extends Schema {    
 
-    constructor(testState=false) {
+    constructor(testState=false, mode) {
         super();
+        console.log('``````````````````````')
+        console.log("MODE: ", mode);
+        this.mode = mode;
         this.started=false;
         this.finished=false;
         this.players = new MapSchema();
         this.deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
-        
+
         if(!testState)
             this.board = new BoardState(this.deck.drawCards(12));
         else
@@ -33,6 +36,73 @@ class GameState extends Schema {
         this.players.delete(sessionId);
     }
 
+    getTopScore(){
+
+        let topScore=0;
+        let topScoringPlayer;
+
+        for(let key of this.players.keys()){
+            if(topScore<=this.players[key].score){
+                topScore=this.players[key].score;
+                topScoringPlayer=this.players[key];
+            }
+        }
+        return {topScore,topScoringPlayer};
+    }
+
+
+    checkForTie(topScore,topScoringPlayer){
+        let topScoringPlayers=0;
+        let result;
+
+        console.log('topScoringPlayer: ', topScoringPlayer.username);
+
+        for(let key of this.players.keys()){
+            if(topScore==this.players[key].score){
+                topScoringPlayers++;
+            }
+        }
+        if(topScoringPlayers>1){
+            result={
+                result: 'tie',
+                winner:'none'
+            }
+        }
+        else{
+            result={
+                result:'win',
+                winner:topScoringPlayer.username,
+                score:topScoringPlayer.score,
+            }
+        }
+        return result;
+    }
+
+    getGameResult(){
+
+        const playerKeys = Array.from(this.players.keys());
+        const indexZero = 0;
+
+        if(this.mode==="singleplayer"){
+            const score = this.players[playerKeys[indexZero]].score;
+            if(score/27===1)
+                this.perfectGame=true;
+            else
+                this.perfectGame=false;
+            
+            this.topScore=`${score}/27`;
+            this.finished=true;
+        }
+        else{
+            const {topScore,topScoringPlayer} =  this.getTopScore();
+            const result = this.checkForTie(topScore,topScoringPlayer);;
+            this.gameResult =result.result;
+            this.winner = result.winner;
+            this.finished=true;
+        }
+    }
+    
+
     printBoard(){
 
         for(let cell of Array.from(this.board.grid.keys())){
@@ -42,10 +112,6 @@ class GameState extends Schema {
                 ? this.board.grid.get(cell).card.printDetails()
                 : null
         }
-    }
-
-    sayHello(){
-      console.log("Hello from the Game State!");
     }
 
     increaseScore(sessionId){
@@ -97,6 +163,7 @@ class GameState extends Schema {
         this.decreaseScore(playerSessionId);
         this.board.deselectNonSet();
         this.board.clearSelectedCards();
+        this.board.showGridSelectionsStatus();
     }
 
     handleGoodSet(playerSessionId, coords){
@@ -137,15 +204,37 @@ class GameState extends Schema {
     }
 }
 schema.defineTypes(GameState, {
+  mode: "string",
+  topScore: "string",
+  perfectGame: "boolean",
   started: "boolean",
   finished: "boolean",
+  gameResult: 'string',
+  winner: Player,
   players: { map: Player },
   board: BoardState,
   deck: DeckState,
 });
 
 // const newGame = new GameState();
-// newGame.addPlayer('erika');
+// newGame.addPlayer('1','erika');
+// newGame.addPlayer('2','alex');
+// newGame.addPlayer('3','austin');
+
+// newGame.increaseScore('1');
+// newGame.increaseScore('1');
+// newGame.increaseScore('1');
+
+// newGame.increaseScore('2');
+// newGame.increaseScore('2');
+// newGame.increaseScore('2');
+
+// newGame.increaseScore('3');
 // newGame.players.forEach(player=>player.printDetails());
+
+
+// const result = newGame.getGameResult();
+
+// console.log('Result: ', result);
 
 exports.GameState = GameState;

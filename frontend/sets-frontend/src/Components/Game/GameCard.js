@@ -36,7 +36,7 @@ import trianglePurpleStriped from '../../Assets/triangle_purple_striped.png'
 
 const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
 
-    const [selected, setSelected] = useState(cardIsSelected);
+    // const [selected, setSelected] = useState(cardIsSelected);
     const printedShapes = new Array(card.numShapes).fill(0);
     const [highlightClass, setHighlightClass] = useState('');
     // console.log('CARD: ', card);
@@ -77,7 +77,6 @@ const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
 
     const handleClick = () => {
 
-        setSelected(true);
         selectCard(coord);
     }
     const addHighlight = () =>{
@@ -90,7 +89,7 @@ const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
     const capitalizedColor = card.color.charAt(0).toUpperCase() + card.color.slice(1);
     const capitalizedFillLevel = card.fillLevel.charAt(0).toUpperCase() + card.fillLevel.slice(1);
     const imgSrc = imgSrcs[card.shape+capitalizedColor+capitalizedFillLevel];
-    const isSelected = selected ? 'border border-3 border-info' : '';
+    const isSelected = cardIsSelected ? 'border border-3 border-info' : '';
 
 return  <div onMouseLeave={removeHighlight} onMouseEnter={addHighlight}  className='m-1 m-sm-3'>
             <div onClick={handleClick} className={'card rounded GameCard shadow '+isSelected +" "+highlightClass}>

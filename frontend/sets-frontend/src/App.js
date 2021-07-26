@@ -35,12 +35,11 @@ function App() {
   }
 
   return (
-    <div className='bg-light text-dark'>
+    <div className='bg-light text-dark pb-5'>
       <BrowserRouter>
           <div className="App">
             <Navigation logout={logout}/>
             <Router/>
-
         </div>
       </BrowserRouter>
     </div>

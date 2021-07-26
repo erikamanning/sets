@@ -10,7 +10,7 @@ exports.GameRoom = class extends colyseus.Room {
     }
 
     console.log('ROOM CREATED');
-    this.setState(new GameState());
+    this.setState(new GameState(false,options.mode));
 
     this.onMessage("select_card", (client, message) => {
 
@@ -28,6 +28,12 @@ exports.GameRoom = class extends colyseus.Room {
 
       console.log("BACKEND! Message 'all_in' recieved! Game starting!");
       this.state.started=true;
+    });
+
+    this.onMessage("quit", (client, message) => {  
+
+      console.log("BACKEND! Message 'quit' recieved! Getting game result!");
+      this.state.getGameResult();
     });
   }
 

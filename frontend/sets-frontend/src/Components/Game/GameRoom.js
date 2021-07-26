@@ -13,8 +13,10 @@ const GameRoom = ({mode}) => {
 
     const [currentRoomId, setCurrentRoomId] = useState(roomId || false);
     const [room, setRoom] = useState(false);
+    const [deck, setDeck] = useState(false);
     const [players, setPlayers] = useState(false);
     const [startGame, setStartGame] = useState(false);
+    const [gameFinished, setGameFinished] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState(false);
     const [stateChanged, seStateChanged] = useState(false);
     const [board,setBoard] = useState(false);
@@ -49,7 +51,11 @@ const GameRoom = ({mode}) => {
                         if(state.started == true){
                             setStartGame(true);
                         }
+                        if(state.finished == true){
+                            setGameFinished(true);
+                        }
                         setBoard(state.board.grid);
+                        setDeck(d=>state.deck);
                         seStateChanged(changed=>!changed);
                     });
                 });
@@ -83,7 +89,11 @@ const GameRoom = ({mode}) => {
                     if(state.started == true){
                         setStartGame(true);
                     }
+                    if(state.finished == true){
+                        setGameFinished(true);
+                    }
                     setBoard(state.board.grid);
+                    setDeck(d=>state.deck);
                     seStateChanged(changed=>!changed);
                 });
             } 
@@ -108,10 +118,16 @@ const GameRoom = ({mode}) => {
         room.send('all_in');
     }
 
+    if(board){
+        console.log('Board: ');
+
+        board.forEach(cell=>console.log('Selected: ', cell.selected));
+    }
+
     return <div>
 
-        { room && board && startGame && currentRoomId
-            ? <Game gRoom={room} gPlayers={players} gBoard={board} gCurrentPlayer={currentPlayer}/> 
+        { room && board && startGame && currentRoomId && deck
+            ? <Game gFinished={gameFinished} gRoom={room} gPlayers={players} gBoard={board} gCurrentPlayer={currentPlayer} gDeck={deck}/> 
             : <Lobby players={players} roomId={currentRoomId} startMatch={startMatch}/>
         }
         
