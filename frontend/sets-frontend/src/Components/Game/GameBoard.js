@@ -1,9 +1,11 @@
-import React, {useState, useEffect, useRef} from "react"
+import React, {useContext} from "react"
 import GameCard from './GameCard.js'
-import * as Colyseus from 'colyseus.js';
+import GameContext from './GameContext'
 
-const GameBoard = ({board, selectCard}) => {
+const GameBoard = () => {
     
+    const {board, selectCard} = useContext(GameContext);
+
     return (
                 <div className='row justify-content-center'>
                     <div className="col-12 col-sm-10 col-lg-8">

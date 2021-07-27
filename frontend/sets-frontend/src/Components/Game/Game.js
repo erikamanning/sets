@@ -1,32 +1,39 @@
-import React, {useState, useEffect, useRef} from "react"
+import React, {useContext} from "react"
 import GameBoard from './GameBoard'
 import GameDashboard from './GameDashboard'
+import GameContext from './GameContext'
+import GameResult from './GameResult'
 
-const Game = ({gFinished, gRoom, gPlayers,gBoard, gCurrentPlayer, gDeck}) => {
+const Game = () => {
 
-    function selectCard(coord) {
+    const {game} = useContext(GameContext);
+    const showDisplay = () => {
 
-        gRoom.send('select_card', coord);
-    }
+        let display;
 
-    function addRow(){
+        if(!game.finished){
 
-        gRoom.send('add_row');
-    }
+            display = (
+                <div>
+                    <GameDashboard />
+                    <GameBoard />
+                </div>
+            )
+        }
+        else{
+            display = <div>
+                <GameResult/>
+            </div>
+        }
 
-    function endMatch(){
-        gRoom.send('quit');
+        return display;
+
     }
 
     return (
         
         <div>
-
-            <GameDashboard quitGame={endMatch} addRow={addRow} currentPlayer={gCurrentPlayer} players={gPlayers} cardsRemaining={gDeck.cards.size}/>
-
-            { !gFinished 
-                ? <GameBoard board={gBoard} selectCard={selectCard} addRow={addRow}/> 
-            : <h1 className='text-danger'>Game Over! Top Score: {gRoom.state.topScore}</h1> }
+            {showDisplay()}
         </div>
     )
 }

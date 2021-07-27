@@ -1,14 +1,17 @@
 
-import React from "react"
+import React, {useContext} from "react"
+import GameContext from './GameContext'
 
-const Lobby = ({roomId,players,startMatch}) => {
+const Lobby = () => {
+
+    const {room,players,startMatch} = useContext(GameContext);
 
     return <div>
 
         <h1 className='mt-5'>This is the Lobby!</h1>
         {
-            roomId 
-            ? <p><b>Room Id: </b> {roomId}</p>
+            room.id 
+            ? <p><b>Room Id: </b> {room.id}</p>
             : null
         }
         {

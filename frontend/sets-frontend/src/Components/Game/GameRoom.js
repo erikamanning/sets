@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useContext } from "react"
 import { useParams } from "react-router-dom";
 import {getRandName} from "./RoomHelpers"
 import Game from './Game'
 import Lobby from './Lobby'
+import GameContext from './GameContext'
 
 import * as Colyseus from 'colyseus.js';
 
@@ -13,6 +14,7 @@ const GameRoom = ({mode}) => {
 
     const [currentRoomId, setCurrentRoomId] = useState(roomId || false);
     const [room, setRoom] = useState(false);
+    const [game, setGame] = useState(false);
     const [deck, setDeck] = useState(false);
     const [players, setPlayers] = useState(false);
     const [startGame, setStartGame] = useState(false);
@@ -24,6 +26,7 @@ const GameRoom = ({mode}) => {
     function setUpGame(room, username){
 
         setRoom(room);
+        setGame(room.state);
         setCurrentRoomId(room.id);
         setCurrentPlayer({
             username,
@@ -42,6 +45,7 @@ const GameRoom = ({mode}) => {
             if(state.finished == true)
                 setGameFinished(true);
             
+            setGame(room.state);
             setBoard(state.board.grid);
             setDeck(d=>state.deck);
             seStateChanged(changed=>!changed);
@@ -86,6 +90,20 @@ const GameRoom = ({mode}) => {
     function startMatch(){
         room.send('all_in');
     }
+    function selectCard(coord) {
+
+        room.send('select_card', coord);
+    }
+
+    function addRow(){
+
+        room.send('add_row');
+    }
+
+    function endGame(){
+        room.send('quit');
+    }
+
 
     if(board){
         console.log('Board: ');
@@ -93,15 +111,59 @@ const GameRoom = ({mode}) => {
         board.forEach(cell=>console.log('Selected: ', cell.selected));
     }
 
-    return <div>
+    return (
 
-        { room && board && startGame && currentRoomId && deck
-            ? <Game gFinished={gameFinished} gRoom={room} gPlayers={players} gBoard={board} gCurrentPlayer={currentPlayer} gDeck={deck}/> 
-            : <Lobby players={players} roomId={currentRoomId} startMatch={startMatch}/>
-        }
-        
-    </div>
+        <GameContext.Provider value={
+            {
+                game,
+                mode,
+                board,
+                deck, 
+                players, 
+                currentPlayer, 
+                room,
+                startMatch, 
+                selectCard,
+                addRow, 
+                endGame
+            }
+        }>
+            { startGame ? <Game /> : <Lobby/>}
+        </GameContext.Provider>
+    )    
 }
 
 
 export default GameRoom;
+
+/*
+
+
+   --- Single Player
+
+        --- Create & Join -> Get Room
+        --- Pass Game to Game Class
+
+   --- Multiplayer
+        --- CreateJoin/Join -> Get Room
+        --- Pass Game to Game Class
+
+
+
+    Process -- 
+
+        -- Enter room
+            -- create or join
+            -- variables are saved- which ones?
+                -- room callbacks established, which means states must be updated
+                -- players & board
+
+            game-> passed to game variable
+
+        
+
+
+
+
+
+*/
