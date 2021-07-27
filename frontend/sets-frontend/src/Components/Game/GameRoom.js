@@ -105,10 +105,10 @@ const GameRoom = ({mode}) => {
     }
 
 
-    if(board){
-        console.log('Board: ');
+    if(players){
+        console.log('Players: ',players);
 
-        board.forEach(cell=>console.log('Selected: ', cell.selected));
+        // board.forEach(cell=>console.log('Selected: ', cell.selected));
     }
 
     return (
@@ -119,7 +119,7 @@ const GameRoom = ({mode}) => {
                 mode,
                 board,
                 deck, 
-                players, 
+                players:players, 
                 currentPlayer, 
                 room,
                 startMatch, 

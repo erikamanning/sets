@@ -87,7 +87,6 @@ class GameState extends Schema {
         if(topScoringPlayers>1){
             result={
                 result: 'tie',
-                winner:'none'
             }
         }
         else{

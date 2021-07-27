@@ -1,6 +1,7 @@
 
 import React, {useContext} from "react"
 import GameContext from './GameContext'
+import GameScoreTable from './GameScoreTable'
 
 const GameDashboard = () => {
 
@@ -10,6 +11,9 @@ const GameDashboard = () => {
         <div className='row justify-content-center'>
             <div className="col-12 col-sm-10 col-lg-8">
                 <div className='border border-light rounded'>
+
+                    <p><b>You: </b> {currentPlayer.username}</p>
+                    <GameScoreTable />
                     <p><b>Cards Remaining: </b> <i>{deck.cards.size}</i></p>
                     {deck.cards.size 
                     

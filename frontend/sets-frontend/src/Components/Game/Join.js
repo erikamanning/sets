@@ -23,7 +23,6 @@ const Join = () => {
     const handleSubmit = async (event) =>{
 
         event.preventDefault();
-        alert('Form submitted!');
         setFormData(INITIAL_FORM);
         history.push(`/lobby/${formData.roomCode}`);
     }
