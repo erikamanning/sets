@@ -106,7 +106,7 @@ const GameRoom = ({mode}) => {
 
 
     if(players){
-        console.log('Players: ',players);
+        // console.log('Players: ',players);
 
         // board.forEach(cell=>console.log('Selected: ', cell.selected));
     }
