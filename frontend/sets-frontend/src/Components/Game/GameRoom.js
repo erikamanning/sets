@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react"
+import {useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom";
 import {getRandName} from "./RoomHelpers"
 import Game from './Game'
@@ -13,6 +14,8 @@ const GameRoom = ({mode}) => {
     let {roomId} = useParams();
     let client = useRef(null); // why?
 
+    const user = useSelector(state=>state.user);
+
     const [userIdentified, setUserIdentified] = useState(false);
     const [guestId, setGuestId] = useState(false);
     const [currentRoomId, setCurrentRoomId] = useState(roomId || false);
@@ -25,6 +28,14 @@ const GameRoom = ({mode}) => {
     const [currentPlayer, setCurrentPlayer] = useState(false);
     const [stateChanged, seStateChanged] = useState(false);
     const [board,setBoard] = useState(false);
+
+    useEffect(()=>{
+
+        if(user.username){
+            addGuest(user.username);
+        }
+
+    },[user]);
 
 
     function addGuest(username){
