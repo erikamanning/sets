@@ -30,15 +30,22 @@ const GuestIdForm = ({addGuest}) => {
 
     return <div>
 
-        <h1 className='mt-5' >What should we call you?</h1>
-        <div className="row justify-content-center mt-5">
-            <div className="col-12 col-lg-3">
+        <div className="row justify-content-center mt-5 mx-3">
+            <div className="col-12 col-md-6 col-lg-3">
                 <form onSubmit={handleSubmit} action='/lobby'>
                     <div className="mb-3">
                         <label htmlFor="playerName" className="form-label">What do we call you?</label>
                         <input name='playerName' type="text" value={formData.playername} onChange={handleChange} className="form-control text-center" id="playerName" aria-describedby="roomCode" required/>
                     </div>
                     <button type="submit" className="btn btn-info text-light">Submit!</button>
+                    <div className='mt-5'>
+                        <p className='text-secondary fst-italic mb-0' >Already have an account?</p>
+                        <p className='mt-0'><small className=' fst-italic' >Login to use username:</small></p>
+
+                        <div>
+                            <a href='/login' className='btn btn-secondary d-'>Login</a>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
