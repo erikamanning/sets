@@ -30,9 +30,6 @@ const Navigation = ({logout}) => {
                   <li className="nav-item">
                     <a className="nav-link active" href="/multi">
                       Multiplayer 
-                      <span className="badge rounded bg-primary">
-                          Sign Up
-                      </span>
                     </a>
                   </li>
                 </ul>

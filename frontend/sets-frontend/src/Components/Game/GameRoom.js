@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef, useContext } from "react"
+import React, { useState, useEffect, useRef, useContext, useImperativeHandle } from "react"
 import {useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom";
+import { useParams, Redirect, useHistory } from "react-router-dom";
 import {getRandName} from "./RoomHelpers"
 import Game from './Game'
 import Lobby from './Lobby'
@@ -15,6 +15,7 @@ const GameRoom = ({mode}) => {
     let client = useRef(null); // why?
 
     const user = useSelector(state=>state.user);
+    const history = useHistory();
 
     const [userIdentified, setUserIdentified] = useState(false);
     const [guestId, setGuestId] = useState(false);
@@ -92,6 +93,8 @@ const GameRoom = ({mode}) => {
             } 
             catch (e) {
                 console.error("join error", e);
+                alert('Invalid room code! Please try again.');
+                history.push('/join');
             }
         }
 
