@@ -1,12 +1,13 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import Game from './Game'
+import Lobby from './Lobby'
+import GameContext from './GameContext'
 
-const GameRoom = ({room}) => {
+const GameRoom = ({room, guestUser}) => {
 
+    const username = guestUser || useSelector(state=>state.user.username);
 
-    const user = useSelector(state=>state.user);
-
-    const [userIdentified, setUserIdentified] = useState(false);
     const [guestId, setGuestId] = useState(false);
     const [game, setGame] = useState(false);
     const [deck, setDeck] = useState(false);
@@ -16,18 +17,13 @@ const GameRoom = ({room}) => {
     const [currentPlayer, setCurrentPlayer] = useState(false);
     const [stateChanged, seStateChanged] = useState(false);
     const [board,setBoard] = useState(false);
-
-
-    function addGuest(username){
-        setGuestId(username);
-        setUserIdentified(true);
-    }
+    const [roomSetup, setRoomSetup] = useState(false);
 
     function setUpGame(room, username){
 
         setGame(room.state);
         setCurrentPlayer({
-            username: guestId,
+            username: username,
             sessionId: room.sessionId
         });
         room.state.players.onAdd = (player,key)=>{
@@ -48,7 +44,12 @@ const GameRoom = ({room}) => {
             setDeck(d=>state.deck);
             seStateChanged(changed=>!changed);
         });
+        setRoomSetup(true);
     }
+
+    useEffect(()=>{
+        setUpGame(room);
+    },[]);
 
     function startMatch(){
         room.send('all_in');
@@ -67,27 +68,18 @@ const GameRoom = ({room}) => {
         room.send('quit');
     }
 
-
-    if(players){
-        // console.log('Players: ',players);
-
-        // board.forEach(cell=>console.log('Selected: ', cell.selected));
-    }
-
     return (
         <div>
 
-        <h1>Game Room</h1>
-        {/* { !userIdentified
-            ? <GuestIdForm addGuest={addGuest}/>
+        { !roomSetup
+            ? <h5>Setting up room...</h5>
             : <GameContext.Provider value={
                 {
                     game,
-                    mode,
                     board,
                     deck, 
-                    players:players, 
-                    currentPlayer, 
+                    players, 
+                    user:username, 
                     room,
                     startMatch, 
                     selectCard,
@@ -95,9 +87,9 @@ const GameRoom = ({room}) => {
                     endGame
                 }
                 }>
-                { startGame && room ? <Game /> : <Lobby/>}
+                { startGame ? <Game /> : <Lobby/>}
             </GameContext.Provider>
-        } */}
+        }
         </div>
     )    
 }
