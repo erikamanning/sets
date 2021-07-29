@@ -1,6 +1,5 @@
 import React, { useEffect, useState} from "react"
 import {useSelector} from "react-redux"
-import {createRoom} from "./RoomHelpers.js"
 import GameRoom from './GameRoom'
 import GuestIdForm from "./GuestIdForm.js"
 import * as Colyseus from 'colyseus.js';

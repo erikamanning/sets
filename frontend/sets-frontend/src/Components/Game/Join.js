@@ -1,69 +1,70 @@
-import React, { useState} from "react"
-import {joinRoom} from "./RoomHelpers.js"
+import React, { useEffect, useState} from "react"
+import {useSelector} from "react-redux"
 import GameRoom from './GameRoom'
-const Join = () => {
+import GuestIdForm from "./GuestIdForm.js"
+import * as Colyseus from 'colyseus.js';
+import JoinRoomIdForm from "./JoinRoomIdForm";
 
-    const INITIAL_FORM = {
-        roomCode:''
-    };
+const Join = ({mode='sets_multiplayer'}) => {
+    
+    let client;
+    const user = useSelector(state=>state.user);
+    const [roomCode, setRoomCode] = useState(false);
+    const [room,setRoom] = useState(false);
+    const [guestUser, setGuestUser] = useState(false);
 
-    const [formData,setFormData] = useState(INITIAL_FORM);
-    const [room, setRoom] = useState(false);
+    useEffect(()=>{
+        const joinRoom = async (mode,userId) => {
+            client = new Colyseus.Client('ws://localhost:5000');
 
-    const handleChange = (event) =>{
+            try {
+                const room = await client.joinById(roomCode, {username: userId});
+                setRoom(room);
+            } 
+            catch (e) {
+                console.error("join error", e);
+            }
+        }
 
-        const {name,value} = event.target;
+        if(roomCode){
+            if(user.username){
+                console.log('Creating game for logged in user...');
+                joinRoom(mode,user.username);
+            }
+            else if(guestUser){
+                console.log('Creating game for guest user...');
+                joinRoom(mode,guestUser);
+            }
+        }
+    },[user,guestUser,roomCode]);
 
-        setFormData(data=>({
-            ...data,
-            [name]:value
-        }));
+    function saveRoomCode(code){
+
+        setRoomCode(code);
     }
 
-    const handleSubmit = async (event) =>{
-
-        event.preventDefault();
-        const room = await joinRoom(formData.roomCode);
-        if(room){
-            console.log('Room successfully joined!');
-            setRoom(room);
-        }
-        else{
-            alert('Invalid room id! Please try again');
-        }
-        setFormData(INITIAL_FORM);
-
+    function addGuest(username){
+        setGuestUser(username);
     }
 
     return (
-            <div>
-                { room 
-                    ?(
-                        <div>
-                            <h1 className='mt-5' >Join a game!</h1>
-                            <div className="row justify-content-center mt-5">
-                                <div className="col-12 col-lg-3">
-                                    <form onSubmit={handleSubmit} action='/lobby'>
-                                        <div className="mb-3">
-                                            <label htmlFor="roomCode" className="form-label">Enter the room code here:</label>
-                                            <input name='roomCode' type="text" value={formData.roomCode} onChange={handleChange} className="form-control text-center" id="roomCode" aria-describedby="roomCode" required/>
-                                        </div>
-                                        <button type="submit" className="btn btn-info text-light">Submit!</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                    :(
-                        
-                        <div>
-                            {console.log('room exists')}
-                            <GameRoom room={room} mode='sets_multiplayer'/>
-                        </div>
-                    )
+            <div className='mt-5'>
+                {!room ? <h1>Join a Game</h1> : null}
+                {
+                    !roomCode
+                        ? <JoinRoomIdForm saveRoomCode={saveRoomCode}/>
+                        : null
                 }
-
-
+                {
+                    (!user.username && !guestUser) && roomCode
+                        ?  <GuestIdForm addGuest={addGuest}/>
+                        : null
+                }
+                {
+                    room 
+                        ? <GameRoom room={room} guestUser={guestUser}/>
+                        : null
+                }
             </div>
             )
 
