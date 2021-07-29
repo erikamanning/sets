@@ -1,5 +1,4 @@
 import {SET_USER, CLEAR_USER} from './actions/actionTypes'
-import {setCurrentUser, clearCurrentUser} from '../localStorage/helpers'
 
 const INITIAL_STATE = {user:{}};
 

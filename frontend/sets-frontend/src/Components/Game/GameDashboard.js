@@ -5,7 +5,7 @@ import GameScoreTable from './GameScoreTable'
 
 const GameDashboard = () => {
 
-    const {currentPlayer,players, addRow, endGame,deck} = useContext(GameContext);
+    const {currentPlayer, addRow, endGame,deck} = useContext(GameContext);
 
     return (
         <div className='row justify-content-center'>

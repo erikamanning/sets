@@ -94,7 +94,7 @@ const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
 return  <div onMouseLeave={removeHighlight} onMouseEnter={addHighlight}  className='m-1 m-sm-3'>
             <div onClick={handleClick} className={'card rounded GameCard shadow '+isSelected +" "+highlightClass}>
                 <div className="row p-3 p-sm-5 g-1 g-sm-3 justify-content-center">
-                    {printedShapes.map((shape,idx)=> (<div key={idx} className="col-4"><img src={imgSrc} className='GameCard-shape'/></div>))}                
+                    {printedShapes.map((shape,idx)=> (<div key={idx} className="col-4"><img alt='shape' src={imgSrc} className='GameCard-shape'/></div>))}                
                 </div>
             </div>
     </div>

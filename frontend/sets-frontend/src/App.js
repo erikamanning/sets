@@ -1,10 +1,10 @@
 import './App.css';
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import Navigation from './Components/Navigation'
 import {BrowserRouter} from "react-router-dom"
 import Router from './Components/Router'
 import {checkLoggedIn, getLocalStorage, clearCurrentUser} from './localStorage/helpers'
-import {useDispatch, useSelector} from "react-redux"
+import {useDispatch} from "react-redux"
 import { setUser, clearUser } from './state/actions/userActions';
 import SetsAPI from "./SetsAPI"
 

@@ -1,7 +1,37 @@
+import * as Colyseus from 'colyseus.js';
 
 const names = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',];
 
 
+export const createRoom = async (mode,username) => {
+
+    console.log('calling create room');
+
+    let client = new Colyseus.Client('ws://localhost:5000');
+
+    try {
+        let reservation = await client.joinOrCreate(mode, {username: username});
+        return reservation;
+    }
+
+    catch (e) {
+        console.error("join error", e);
+    }
+}
+
+export const joinRoom = async (roomId,userId='none') => {
+
+    let client = new Colyseus.Client('ws://localhost:5000');
+
+    try {
+        const room = await client.joinById(roomId, {user: userId});
+        return room;
+    } 
+    catch (e) {
+        console.error("join error", e);
+        return false;
+    }
+}
 
 export function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);

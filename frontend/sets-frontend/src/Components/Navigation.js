@@ -1,13 +1,13 @@
 
 import React, { useState } from 'react';
 import {useSelector} from 'react-redux'
-import {NavLink, Link} from "react-router-dom"
+import {NavLink} from "react-router-dom"
 
 const Navigation = ({logout}) => {
 
   const user = useSelector(state=>state.user);
   const [isOpen, setIsOpen] = useState(false);
-  console.log('isOpen: ', isOpen);  
+  // console.log('isOpen: ', isOpen);  
 
   const toggle = () => {
     

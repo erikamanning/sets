@@ -1,26 +1,13 @@
-import React, { useState, useEffect, useRef, useContext, useImperativeHandle } from "react"
-import {useDispatch, useSelector } from "react-redux"
-import { useParams, Redirect, useHistory } from "react-router-dom";
-import {getRandName} from "./RoomHelpers"
-import Game from './Game'
-import Lobby from './Lobby'
-import GameContext from './GameContext'
-import GuestIdForm from './GuestIdForm'
+import React, { useState } from "react"
+import { useSelector } from "react-redux"
 
-import * as Colyseus from 'colyseus.js';
+const GameRoom = ({room}) => {
 
-const GameRoom = ({mode}) => {
-
-    let {roomId} = useParams();
-    let client = useRef(null); // why?
 
     const user = useSelector(state=>state.user);
-    const history = useHistory();
 
     const [userIdentified, setUserIdentified] = useState(false);
     const [guestId, setGuestId] = useState(false);
-    const [currentRoomId, setCurrentRoomId] = useState(roomId || false);
-    const [room, setRoom] = useState(false);
     const [game, setGame] = useState(false);
     const [deck, setDeck] = useState(false);
     const [players, setPlayers] = useState(false);
@@ -30,14 +17,6 @@ const GameRoom = ({mode}) => {
     const [stateChanged, seStateChanged] = useState(false);
     const [board,setBoard] = useState(false);
 
-    useEffect(()=>{
-
-        if(user.username){
-            addGuest(user.username);
-        }
-
-    },[user]);
-
 
     function addGuest(username){
         setGuestId(username);
@@ -46,9 +25,7 @@ const GameRoom = ({mode}) => {
 
     function setUpGame(room, username){
 
-        setRoom(room);
         setGame(room.state);
-        setCurrentRoomId(room.id);
         setCurrentPlayer({
             username: guestId,
             sessionId: room.sessionId
@@ -72,45 +49,6 @@ const GameRoom = ({mode}) => {
             seStateChanged(changed=>!changed);
         });
     }
-
-    useEffect(()=>{
-        client = new Colyseus.Client('ws://localhost:5000');
-        const randName = getRandName();
-
-        const createRoom = async (client) => {
-            try {
-                await client.joinOrCreate(mode, {username: guestId})
-                .then((room)=>setUpGame(room,guestId));
-            } 
-            catch (e) {
-                console.error("join error", e);
-            }
-        }
-        const joinRoom = async (client) => {
-            try {
-                const roomResp = await client.joinById(roomId, {username: guestId});
-                setUpGame(roomResp,guestId);
-            } 
-            catch (e) {
-                console.error("join error", e);
-                alert('Invalid room code! Please try again.');
-                history.push('/join');
-            }
-        }
-
-        if(userIdentified){
-            if(roomId){
-                console.log('Joining room....')
-                joinRoom(client);
-    
-            }
-            else{
-                console.log('Creating room....')
-                createRoom(client);
-            }
-        }
-
-    },[userIdentified]);
 
     function startMatch(){
         room.send('all_in');
@@ -138,7 +76,9 @@ const GameRoom = ({mode}) => {
 
     return (
         <div>
-        { !userIdentified
+
+        <h1>Game Room</h1>
+        {/* { !userIdentified
             ? <GuestIdForm addGuest={addGuest}/>
             : <GameContext.Provider value={
                 {
@@ -155,9 +95,9 @@ const GameRoom = ({mode}) => {
                     endGame
                 }
                 }>
-                { startGame ? <Game /> : <Lobby/>}
+                { startGame && room ? <Game /> : <Lobby/>}
             </GameContext.Provider>
-        }
+        } */}
         </div>
     )    
 }
