@@ -1,5 +1,4 @@
 import React, { useState} from "react"
-import {useHistory} from "react-router-dom"
 
 const GuestIdForm = ({addGuest}) => {
 
@@ -8,7 +7,6 @@ const GuestIdForm = ({addGuest}) => {
     };
 
     const [formData,setFormData] = useState(INITIAL_FORM);
-    // const history = useHistory();
 
     const handleChange = (event) =>{
 
@@ -24,7 +22,6 @@ const GuestIdForm = ({addGuest}) => {
 
         event.preventDefault();
         addGuest(formData.playerName);
-        // history.push(`/lobby/${formData.roomCode}`);
         setFormData(INITIAL_FORM);
     }
 

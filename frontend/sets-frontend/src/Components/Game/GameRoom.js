@@ -1,26 +1,14 @@
-import React, { useState, useEffect, useRef, useContext, useImperativeHandle } from "react"
-import {useDispatch, useSelector } from "react-redux"
-import { useParams, Redirect, useHistory } from "react-router-dom";
-import {getRandName} from "./RoomHelpers"
+import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import Game from './Game'
 import Lobby from './Lobby'
 import GameContext from './GameContext'
-import GuestIdForm from './GuestIdForm'
 
-import * as Colyseus from 'colyseus.js';
+const GameRoom = ({room, guestUser}) => {
 
-const GameRoom = ({mode}) => {
+    const username = guestUser || useSelector(state=>state.user.username);
 
-    let {roomId} = useParams();
-    let client = useRef(null); // why?
-
-    const user = useSelector(state=>state.user);
-    const history = useHistory();
-
-    const [userIdentified, setUserIdentified] = useState(false);
     const [guestId, setGuestId] = useState(false);
-    const [currentRoomId, setCurrentRoomId] = useState(roomId || false);
-    const [room, setRoom] = useState(false);
     const [game, setGame] = useState(false);
     const [deck, setDeck] = useState(false);
     const [players, setPlayers] = useState(false);
@@ -29,28 +17,13 @@ const GameRoom = ({mode}) => {
     const [currentPlayer, setCurrentPlayer] = useState(false);
     const [stateChanged, seStateChanged] = useState(false);
     const [board,setBoard] = useState(false);
-
-    useEffect(()=>{
-
-        if(user.username){
-            addGuest(user.username);
-        }
-
-    },[user]);
-
-
-    function addGuest(username){
-        setGuestId(username);
-        setUserIdentified(true);
-    }
+    const [roomSetup, setRoomSetup] = useState(false);
 
     function setUpGame(room, username){
 
-        setRoom(room);
         setGame(room.state);
-        setCurrentRoomId(room.id);
         setCurrentPlayer({
-            username: guestId,
+            username: username,
             sessionId: room.sessionId
         });
         room.state.players.onAdd = (player,key)=>{
@@ -71,46 +44,12 @@ const GameRoom = ({mode}) => {
             setDeck(d=>state.deck);
             seStateChanged(changed=>!changed);
         });
+        setRoomSetup(true);
     }
 
     useEffect(()=>{
-        client = new Colyseus.Client('ws://localhost:5000');
-        const randName = getRandName();
-
-        const createRoom = async (client) => {
-            try {
-                await client.joinOrCreate(mode, {username: guestId})
-                .then((room)=>setUpGame(room,guestId));
-            } 
-            catch (e) {
-                console.error("join error", e);
-            }
-        }
-        const joinRoom = async (client) => {
-            try {
-                const roomResp = await client.joinById(roomId, {username: guestId});
-                setUpGame(roomResp,guestId);
-            } 
-            catch (e) {
-                console.error("join error", e);
-                alert('Invalid room code! Please try again.');
-                history.push('/join');
-            }
-        }
-
-        if(userIdentified){
-            if(roomId){
-                console.log('Joining room....')
-                joinRoom(client);
-    
-            }
-            else{
-                console.log('Creating room....')
-                createRoom(client);
-            }
-        }
-
-    },[userIdentified]);
+        setUpGame(room);
+    },[]);
 
     function startMatch(){
         room.send('all_in');
@@ -129,25 +68,18 @@ const GameRoom = ({mode}) => {
         room.send('quit');
     }
 
-
-    if(players){
-        // console.log('Players: ',players);
-
-        // board.forEach(cell=>console.log('Selected: ', cell.selected));
-    }
-
     return (
         <div>
-        { !userIdentified
-            ? <GuestIdForm addGuest={addGuest}/>
+
+        { !roomSetup
+            ? <h5>Setting up room...</h5>
             : <GameContext.Provider value={
                 {
                     game,
-                    mode,
                     board,
                     deck, 
-                    players:players, 
-                    currentPlayer, 
+                    players, 
+                    user:username, 
                     room,
                     startMatch, 
                     selectCard,

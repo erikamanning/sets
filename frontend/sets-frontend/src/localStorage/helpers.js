@@ -10,14 +10,13 @@ const getLocalStorage = () => {
     const username = localStorage.getItem("username");
     const token = localStorage.getItem("token" );
 
-    console.log('localstorage username: ', username);
-    console.log('localstorage token: ', token);
+    // console.log('localstorage username: ', username);
+    // console.log('localstorage token: ', token);
 
     return {username,token}
 }
 
 const checkLoggedIn = () => {
-    const username = localStorage.getItem("username");
     const token = localStorage.getItem("token");
 
     if(token !== null)

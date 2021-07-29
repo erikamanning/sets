@@ -1,47 +1,72 @@
-import React, { useState} from "react"
-import {useHistory} from "react-router-dom"
+import React, { useEffect, useState} from "react"
+import {useSelector} from "react-redux"
+import GameRoom from './GameRoom'
+import GuestIdForm from "./GuestIdForm.js"
+import * as Colyseus from 'colyseus.js';
+import JoinRoomIdForm from "./JoinRoomIdForm";
 
-const Join = () => {
+const Join = ({mode='sets_multiplayer'}) => {
+    
+    let client;
+    const user = useSelector(state=>state.user);
+    const [roomCode, setRoomCode] = useState(false);
+    const [room,setRoom] = useState(false);
+    const [guestUser, setGuestUser] = useState(false);
 
-    const INITIAL_FORM = {
-        roomCode:''
-    };
+    useEffect(()=>{
+        const joinRoom = async (mode,userId) => {
+            client = new Colyseus.Client('ws://localhost:5000');
 
-    const [formData,setFormData] = useState(INITIAL_FORM);
-    const history = useHistory();
+            try {
+                const room = await client.joinById(roomCode, {username: userId});
+                setRoom(room);
+            } 
+            catch (e) {
+                console.error("join error", e);
+            }
+        }
 
-    const handleChange = (event) =>{
+        if(roomCode){
+            if(user.username){
+                console.log('Creating game for logged in user...');
+                joinRoom(mode,user.username);
+            }
+            else if(guestUser){
+                console.log('Creating game for guest user...');
+                joinRoom(mode,guestUser);
+            }
+        }
+    },[user,guestUser,roomCode]);
 
-        const {name,value} = event.target;
+    function saveRoomCode(code){
 
-        setFormData(data=>({
-            ...data,
-            [name]:value
-        }));
+        setRoomCode(code);
     }
 
-    const handleSubmit = async (event) =>{
-
-        event.preventDefault();
-        setFormData(INITIAL_FORM);
-        history.push(`/lobby/${formData.roomCode}`);
+    function addGuest(username){
+        setGuestUser(username);
     }
 
-    return <div>
-
-        <h1 className='mt-5' >Join a game!</h1>
-        <div className="row justify-content-center mt-5">
-            <div className="col-12 col-lg-3">
-                <form onSubmit={handleSubmit} action='/lobby'>
-                    <div className="mb-3">
-                        <label htmlFor="roomCode" className="form-label">Enter the room code here:</label>
-                        <input name='roomCode' type="text" value={formData.roomCode} onChange={handleChange} className="form-control text-center" id="roomCode" aria-describedby="roomCode" required/>
-                    </div>
-                    <button type="submit" className="btn btn-info text-light">Submit!</button>
-                </form>
+    return (
+            <div className='mt-5'>
+                {!room ? <h1>Join a Game</h1> : null}
+                {
+                    !roomCode
+                        ? <JoinRoomIdForm saveRoomCode={saveRoomCode}/>
+                        : null
+                }
+                {
+                    (!user.username && !guestUser) && roomCode
+                        ?  <GuestIdForm addGuest={addGuest}/>
+                        : null
+                }
+                {
+                    room 
+                        ? <GameRoom room={room} guestUser={guestUser}/>
+                        : null
+                }
             </div>
-        </div>
-    </div>
+            )
 
 }
 

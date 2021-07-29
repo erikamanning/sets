@@ -1,6 +1,4 @@
 import React, {useContext} from "react"
-import GameBoard from './GameBoard'
-import GameDashboard from './GameDashboard'
 import GameContext from './GameContext'
 import GameScoreTable from "./GameScoreTable"
 

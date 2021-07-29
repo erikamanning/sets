@@ -1,6 +1,4 @@
 import React, {useContext} from "react"
-import GameBoard from './GameBoard'
-import GameDashboard from './GameDashboard'
 import GameContext from './GameContext'
 
 const GameScoreTable = () => {
@@ -71,7 +69,7 @@ const GameScoreTable = () => {
         <thead>
             <tr>
                 <th scope="col">Rank #</th>
-                <th scope="col">username</th>
+                <th scope="col">player</th>
                 <th scope="col">score</th>
             </tr>
         </thead>
