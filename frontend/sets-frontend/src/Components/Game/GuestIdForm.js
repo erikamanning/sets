@@ -1,15 +1,14 @@
 import React, { useState} from "react"
 import {useHistory} from "react-router-dom"
 
-const Join = () => {
+const GuestIdForm = ({addGuest}) => {
 
     const INITIAL_FORM = {
         playerName:'',
-        roomCode:''
     };
 
     const [formData,setFormData] = useState(INITIAL_FORM);
-    const history = useHistory();
+    // const history = useHistory();
 
     const handleChange = (event) =>{
 
@@ -24,23 +23,20 @@ const Join = () => {
     const handleSubmit = async (event) =>{
 
         event.preventDefault();
+        addGuest(formData.playerName);
+        // history.push(`/lobby/${formData.roomCode}`);
         setFormData(INITIAL_FORM);
-        history.push(`/lobby/${formData.roomCode}`);
     }
 
     return <div>
 
-        <h1 className='mt-5' >Join a game!</h1>
+        <h1 className='mt-5' >What should we call you?</h1>
         <div className="row justify-content-center mt-5">
             <div className="col-12 col-lg-3">
                 <form onSubmit={handleSubmit} action='/lobby'>
                     <div className="mb-3">
                         <label htmlFor="playerName" className="form-label">What do we call you?</label>
                         <input name='playerName' type="text" value={formData.playername} onChange={handleChange} className="form-control text-center" id="playerName" aria-describedby="roomCode" required/>
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="roomCode" className="form-label">Enter the room code here:</label>
-                        <input name='roomCode' type="text" value={formData.roomCode} onChange={handleChange} className="form-control text-center" id="roomCode" aria-describedby="roomCode" required/>
                     </div>
                     <button type="submit" className="btn btn-info text-light">Submit!</button>
                 </form>
@@ -51,4 +47,4 @@ const Join = () => {
 }
 
 
-export default Join;
+export default GuestIdForm;

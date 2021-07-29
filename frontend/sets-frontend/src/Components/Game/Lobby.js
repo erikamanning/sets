@@ -4,7 +4,7 @@ import GameContext from './GameContext'
 
 const Lobby = () => {
 
-    const {room,players,startMatch} = useContext(GameContext);
+    const {room,players,startMatch, loggedIn} = useContext(GameContext);
 
     return <div>
 
