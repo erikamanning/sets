@@ -9,6 +9,7 @@ class Player extends Schema {
     this.active = true;
     this.playerNumber=playerNumber;
     this.score=0;
+    this.ready=false;
   }
 
   printDetails(){
@@ -32,7 +33,8 @@ schema.defineTypes(Player, {
   username: "string",
   active: "boolean",
   playerNumber: "number",
-  score: "number"
+  score: "number",
+  ready:"boolean"
 });
 
 exports.Player = Player;

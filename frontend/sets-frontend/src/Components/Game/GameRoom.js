@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import {useHistory} from "react-router-dom"
 import Game from './Game'
 import Lobby from './Lobby'
 import GameContext from './GameContext'
@@ -7,7 +8,7 @@ import GameContext from './GameContext'
 const GameRoom = ({room, guestUser}) => {
 
     const username = guestUser || useSelector(state=>state.user.username);
-
+    const history = useHistory();
     const [guestId, setGuestId] = useState(false);
     const [game, setGame] = useState(false);
     const [deck, setDeck] = useState(false);
@@ -68,6 +69,18 @@ const GameRoom = ({room, guestUser}) => {
         room.send('quit');
     }
 
+    function leave(){
+        room.leave();
+        history.push('/')
+    }
+
+    function readyUp(){
+        room.send('ready');
+    }
+    function unReady(){
+        room.send('not_ready');
+    }
+
     return (
         <div>
 
@@ -79,12 +92,15 @@ const GameRoom = ({room, guestUser}) => {
                     board,
                     deck, 
                     players, 
-                    user:username, 
+                    user:currentPlayer, 
                     room,
                     startMatch, 
                     selectCard,
                     addRow, 
-                    endGame
+                    endGame,
+                    leave,
+                    readyUp,
+                    unReady
                 }
                 }>
                 { startGame ? <Game /> : <Lobby/>}

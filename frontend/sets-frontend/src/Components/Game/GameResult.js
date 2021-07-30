@@ -4,7 +4,7 @@ import GameScoreTable from "./GameScoreTable"
 
 const GameResult = () => {
 
-    const {game, mode} = useContext(GameContext);
+    const {game, mode, leave} = useContext(GameContext);
     const playAgainLink = mode === 'sets_singleplayer' ? 'single' : 'multi';
 
     const showResults = () => {
@@ -35,6 +35,7 @@ const GameResult = () => {
             <h1 className='text-danger'>Game Over! </h1>
             {showResults()}
             <a className='btn btn-info' href={`/${playAgainLink}`}>Play Again?</a>
+            <button className='btn btn-secondary' onClick={leave}>Leave</button>
         </div>
     )
 }

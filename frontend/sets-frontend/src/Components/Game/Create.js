@@ -4,7 +4,6 @@ import GameRoom from './GameRoom'
 import GuestIdForm from "./GuestIdForm.js"
 import * as Colyseus from 'colyseus.js';
 
-
 const Create = ({mode='sets_multiplayer'}) => {
     
     let client;
@@ -52,8 +51,7 @@ const Create = ({mode='sets_multiplayer'}) => {
                         : null
                 }
             </div>
-            )
-
+    )
 }
 
 

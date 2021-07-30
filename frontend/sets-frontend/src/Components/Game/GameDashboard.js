@@ -12,7 +12,7 @@ const GameDashboard = () => {
             <div className="col-12 col-sm-10 col-lg-8">
                 <div className='border border-light rounded'>
 
-                    <p><b>You: </b> {user}</p>
+                    <p><b>You: </b> {user.username}</p>
                     <GameScoreTable />
                     <p><b>Cards Remaining: </b> <i>{deck.cards.size}</i></p>
                     {deck.cards.size 

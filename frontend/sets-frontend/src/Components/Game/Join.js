@@ -23,6 +23,8 @@ const Join = ({mode='sets_multiplayer'}) => {
             } 
             catch (e) {
                 console.error("join error", e);
+                alert('Invalid room code!');
+                setRoomCode(false);
             }
         }
 
@@ -56,7 +58,7 @@ const Join = ({mode='sets_multiplayer'}) => {
                         : null
                 }
                 {
-                    (!user.username && !guestUser) && roomCode
+                    (!user.username && !guestUser ) && roomCode
                         ?  <GuestIdForm addGuest={addGuest}/>
                         : null
                 }
