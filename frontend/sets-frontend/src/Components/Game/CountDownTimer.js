@@ -24,6 +24,8 @@ const CountDownTimer = () => {
 
         },1000)
 
+        return ()=>{clearInterval(clearInt);}
+
     },[]);
 
     return (
