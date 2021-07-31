@@ -27,6 +27,7 @@ exports.GameRoom = class extends colyseus.Room {
     this.onMessage("all_in", (client, message) => {  
 
       console.log("BACKEND! Message 'all_in' recieved! Game starting!");
+      this.lock();
       this.state.started=true;
     });
 
@@ -43,6 +44,7 @@ exports.GameRoom = class extends colyseus.Room {
       if(this.state.checkAllReady()){
         console.log('Everyone is ready!');
         this.state.allReady=true;
+        this.lock();
       }
       else{
         console.log('Not everyone is ready yet!');
@@ -65,11 +67,13 @@ exports.GameRoom = class extends colyseus.Room {
   }
 
   async onLeave (client, consented) {
-    console.log(this.state.players.get(client.sessionId).username, "left!");
+    // console.log(this.state.players.get(client.sessionId).username, "left!");
 
-    this.state.removePlayer(client.sessionId);
+    // this.state.removePlayer(client.sessionId);
 
     console.log(client.sessionId, "left!");
+    this.state.getGameResult();
+    // this.disconnect();
   }
 
   onDispose() {
