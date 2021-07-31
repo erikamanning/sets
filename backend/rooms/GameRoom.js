@@ -5,6 +5,7 @@ exports.GameRoom = class extends colyseus.Room {
 
   onCreate (options) {
 
+    this.minPlayers=options.minPlayers;
     if(options.maxClients){
       this.maxClients=options.maxClients;
     }
@@ -24,11 +25,10 @@ exports.GameRoom = class extends colyseus.Room {
         this.state.board.addGridCards(this.state.deck.drawCards(3));
     });
 
-    this.onMessage("all_in", (client, message) => {  
+    this.onMessage("start_game", (client, message) => {  
 
-      console.log("BACKEND! Message 'all_in' recieved! Game starting!");
-      this.lock();
-      this.state.started=true;
+      console.log("BACKEND! Message 'start_game' recieved! Game starting!");
+        this.state.started=true;
     });
 
     this.onMessage("quit", (client, message) => {  
@@ -41,13 +41,15 @@ exports.GameRoom = class extends colyseus.Room {
 
       console.log("BACKEND! Message 'ready' recieved! Changing player to ready!");
       this.state.players.get(client.sessionId).ready=true;
-      if(this.state.checkAllReady()){
-        console.log('Everyone is ready!');
-        this.state.allReady=true;
-        this.lock();
+      if(this.state.players.size >= this.minPlayers){
+        if(this.state.checkAllReady()){
+          console.log('Everyone is ready!');
+          this.state.allReady=true;
+          this.lock();
+        }        
       }
       else{
-        console.log('Not everyone is ready yet!');
+        console.log('Not everyone is ready yet!/ not enough players');
       }
     });
 

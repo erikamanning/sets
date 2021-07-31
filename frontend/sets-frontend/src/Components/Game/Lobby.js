@@ -8,7 +8,7 @@ import CountDownTimer from './CountDownTimer'
 
 const Lobby = () => {
 
-    const {room,startMatch, readyUp, unReady, user, players, game} = useContext(GameContext);
+    const {room, readyUp, unReady, user, players, game} = useContext(GameContext);
 
     const [startTimer, setStartTimer] = useState(false);
 
@@ -24,6 +24,16 @@ const Lobby = () => {
             : null
         }
         <LobbyPlayerList/>
+
+        { console.log('# of players : ', Object.keys(players).length) }
+
+        <div>
+            {
+                players[user.sessionId] && players[user.sessionId].ready && Object.keys(players).length < 2
+                ? <p className='text-info'><small>Multiplayer mode requires at least 2 players!</small></p>
+                : null
+            }
+        </div>
 
         <div>
             {

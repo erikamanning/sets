@@ -54,8 +54,8 @@ app.use('/colyseus', monitor());
 const gameServer = new colyseus.Server({  server: http.createServer(app)
 });
 
-gameServer.define("sets_singleplayer", GameRoom, {mode:'singleplayer',maxClients:1}).enableRealtimeListing();
-gameServer.define("sets_multiplayer", GameRoom,{mode:'multiplayer'} ).enableRealtimeListing();
+gameServer.define("sets_singleplayer", GameRoom, {mode:'singleplayer',maxClients:1, minPlayers:1}).enableRealtimeListing();
+gameServer.define("sets_multiplayer", GameRoom,{mode:'multiplayer', minPlayers:2} ).enableRealtimeListing();
 
 // (optional) attach web monitoring panel
 app.use('/colyseus', monitor());

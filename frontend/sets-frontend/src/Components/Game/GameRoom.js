@@ -53,7 +53,7 @@ const GameRoom = ({room, guestUser}) => {
     },[]);
 
     function startMatch(){
-        room.send('all_in');
+        room.send('start_game');
     }
     function selectCard(coord) {
 
