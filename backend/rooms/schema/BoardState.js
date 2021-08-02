@@ -61,25 +61,16 @@ class BoardState extends Schema {
         }
     }
 
-    addGridCards(cards){
-        console.log('Adding cards to grid...')
+    addRow(cards){
 
         let cardIndices = Array.from(cards.keys());
         let cardIndex = 0;
-        let cells = Array.from(this.grid.values());
-        let gridIndices = Array.from(this.grid.keys());
 
-        for(let gridIndex of gridIndices){
-
-            if(cardIndex>2){
-                break;
-            }
-
-            if(!this.grid.get(gridIndex).card){
-                let newCell = new CellState(gridIndex,cards.get(cardIndices[cardIndex]));
-                this.grid.set(gridIndex,newCell);
-                cardIndex++;
-            }
+        for(let col of this.cols){
+            let gridIndex = `4-${col}`;
+            let newCell = new CellState(gridIndex,cards.get(cardIndices[cardIndex]));
+            this.grid.set(gridIndex,newCell);
+            cardIndex++;
         }        
     }
 

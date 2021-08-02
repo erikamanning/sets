@@ -22,7 +22,7 @@ exports.GameRoom = class extends colyseus.Room {
     this.onMessage("add_row", (client, message) => {  
 
         console.log("BACKEND! Message 'add_row' recieved!");
-        this.state.board.addGridCards(this.state.deck.drawCards(3));
+        this.state.board.addRow(this.state.deck.drawCards(3));
     });
 
     this.onMessage("start_game", (client, message) => {  
