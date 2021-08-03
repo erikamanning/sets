@@ -74,7 +74,7 @@ class BoardState extends Schema {
         }        
     }
 
-    getActiveCardCount(){
+    getGridCardCount(){
 
         let count = 0;
         let cells = Array.from(this.grid.keys())
@@ -87,7 +87,7 @@ class BoardState extends Schema {
         return count;
     }
 
-    getCurrentCards(){
+    getGridCards(){
 
         const gridIds = Array.from(this.grid.keys());
         const cards = new Map();
@@ -102,7 +102,7 @@ class BoardState extends Schema {
     shiftGridCards(){
 
         // get all cells with cards into array
-        const currentCards = this.getCurrentCards();
+        const currentCards = this.getGridCards();
 
         // clear board
         this.clearBoard();
