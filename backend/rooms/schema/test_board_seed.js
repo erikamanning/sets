@@ -8,13 +8,14 @@ class GameTest{
     constructor(){
 
         this.game = new GameState(true);
-
+        this.game.addPlayer('testId', 'testuser');
     }
     testMatch(){
         console.log('Testing GOOD match...')
         const beforeTestCount = this.game.board.getActiveCardCount();
-        this.game.handleSelection('0-A');
-        this.game.handleSelection('0-C');
+        this.game.handleSelection('testId','0-A');
+        this.game.handleSelection('testId','0-B');
+        this.game.handleSelection('testId','0-C');
         const afterTestCount = this.game.board.getActiveCardCount();
         console.log('# of cards on grid BEFORE good match: ',beforeTestCount);
         console.log('# of cards on grid AFTER good match: ', afterTestCount);
@@ -25,9 +26,9 @@ class GameTest{
     testNotMatch(){
         console.log('Testing BAD match...')
         const beforeTestCount = this.game.board.getActiveCardCount();
-        this.game.handleSelection('0-A');
-        this.game.handleSelection('0-B');
-        this.game.handleSelection('1-A');
+        this.game.handleSelection('testId','0-A');
+        this.game.handleSelection('testId','0-B');
+        this.game.handleSelection('testId','1-A');
         const afterTestCount = this.game.board.getActiveCardCount();
         console.log('# of cards on grid BEFORE bad match: ',beforeTestCount);
         console.log('# of cards on grid after bad match: ', afterTestCount);        // this.game.board.showGridSelectionsStatus();
@@ -35,15 +36,15 @@ class GameTest{
 
     testAddCardsToGrid(){
         console.log('Testing testAddCardsToGrid match...');
-        this.game.board.addGridCards(this.game.deck.drawFromTopOfDeck(3));
-        // this.printGridResults('testAddCardsToGrid');
+        this.game.board.addRow(this.game.deck.drawFromTopOfDeck(3));
+        this.printGridResults('testAddCardsToGrid');
     }
 
     testShiftAfterMatch(){
         // this.printGridResults('START TEST');
-        this.testAddCardsToGrid();
+        this.game.board.addRow(this.game.deck.drawFromTopOfDeck(3));
         this.testMatch();
-        // this.printGridResults('testShiftAfterMatch');
+        this.printGridResults('testShiftAfterMatch');
     }
 
     testPlayerJoin(){

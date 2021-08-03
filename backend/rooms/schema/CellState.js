@@ -14,7 +14,7 @@ class CellState extends Schema {
     }
 
     printDetails(){
-        console.log('Card: ');
+        console.log(`Cell ${this.id}: `);
         if(this.card)
             this.card.printDetails();
         

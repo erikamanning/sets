@@ -87,72 +87,58 @@ class BoardState extends Schema {
         return count;
     }
 
+    getCurrentCards(){
+
+        const gridIds = Array.from(this.grid.keys());
+        const cards = new Map();
+
+        for(let gridId of gridIds){
+            if(this.grid.get(gridId).card)
+                cards.set(this.grid.get(gridId).card.id,this.grid.get(gridId).card);
+        }
+        return cards;
+    }
+
     shiftGridCards(){
 
-        console.log('Shifting spread out cards back to 4 rows...');
-        let allCells = Array.from(this.grid.values());
-        allCells.forEach(cell=>cell.printDetails());
+        // get all cells with cards into array
+        const currentCards = this.getCurrentCards();
 
-        console.log('**********************************');
+        // clear board
+        this.clearBoard();
 
-        let currentCells = Array.from(this.grid.values()).filter(cell=>cell.card);
-        currentCells.forEach(cell=>cell.printDetails());
+        // remake board with cells in order, last 3 empty
+        this.makeGrid(currentCards);
 
-        let cellIndex = 0;
-        let gridIndices = Array.from(this.grid.keys());
-        // gridIndices.forEach(gi=>console.log('gi: ',gi));
-
-        for(let gridIndex of gridIndices){
-            if(cellIndex<currentCells.length){
-                let newCell = currentCells[cellIndex];
-                this.grid.set(gridIndices[gridIndex], newCell);
-                cellIndex++;
-            }
-            else{
-                this.grid.set(gridIndices[gridIndex], new CellState(gridIndices[gridIndex]));
-            }
+    }
+    clearBoard(){
+        for(let coord of Array.from(this.grid.keys())){
+            this.grid.set(coord, new CellState(coord));
         }
     }
 
     fillEmptySlots(coords, cards){
 
-        console.log('Filling Empty Slots: ', coords);
-
         let coordIndex=0;
         let cardIds = Array.from(cards.keys());
 
         for(let cardId of cardIds){
-
-            const newCard = cards.get(cardId);
-            const newCell = new CellState(coords[coordIndex],newCard);
+            const newCell = new CellState(coords[coordIndex],cards.get(cardId));
             this.grid.set(coords[coordIndex],newCell);
             coordIndex++;
-            // console.log('Filled Slot: ', this.grid.get(coords[coordIndex]));
-            // console.log('Card: ', cards[cardId]);
         }
-        // console.log('GRID AFTER EMPTY SLOTS ARE FILLED')
-        // console.log(this.printGrid())
     }
     
     selectCard(coord){
 
-        console.log("Selecting card...");
-        // console.log('Current Grid: ', this.grid);
         const card = this.grid.get(coord).card;
-
-        // console.log(`Selecting card... ${coord}`);
         this.grid.get(coord).selected=true;
-        // console.log("SELECTED WORKED? : ", this.grid.get(coord).selected);
         this.selectedCards.set(coord,card);
-
-        // console.log(this.grid.get(coord), ' has been selected!');
-        // console.log(`CURRENTLY SELECTED CARDS: `, this.selectedCards);
     }
 
     clearSet(coords){
-        console.log('Grid after cards cleared: ');
         for(let coord of Array.from(this.selectedCards.keys())){
-            this.grid.set(coord, new CellState());
+            this.grid.set(coord, new CellState(coord));
         }
     }
 
