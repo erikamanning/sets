@@ -171,7 +171,7 @@ class GameState extends Schema {
         this.board.clearSelectedCards();
 
         // fill empty slots if necessary
-        if(this.board.getActiveCardCount() <12){
+        if(this.board.getGridCardCount() <12){
             this.board.fillEmptySlots(coords,this.deck.drawCards(3));
         }
         else{

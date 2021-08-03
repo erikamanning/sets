@@ -68,7 +68,7 @@ const Create = ({mode='sets_multiplayer'}) => {
                         : <h1>Create a New Game</h1>
                 }
                 {
-                    !loggedIn && mode==='sets_multiplayer'
+                    !loggedIn && !guestUser && mode==='sets_multiplayer'
                         ?  <GuestIdForm addGuest={addGuest}/>
                         : null
                 }

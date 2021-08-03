@@ -12,6 +12,39 @@ const Lobby = () => {
 
     const [startTimer, setStartTimer] = useState(false);
 
+    function showMultiplayerLobby(){
+        return (
+            <div>
+                {
+                    room.id 
+                    ? <p><b>Room Id: </b> {room.id}</p>
+                    : null
+                }
+                <LobbyPlayerList/>
+        
+                { console.log('# of players : ', Object.keys(players).length) }
+        
+                <div>
+                    {
+                        players[user.sessionId] && players[user.sessionId].ready && Object.keys(players).length < 2
+                        ? <p className='text-info'><small>Multiplayer mode requires at least 2 players!</small></p>
+                        : null
+                    }
+                </div>
+        
+                <div>
+                    {
+                        players[user.sessionId] && players[user.sessionId].ready && !game.allReady
+                        ? <p className='text-secondary fst-italic'><small>Waiting on other players...</small></p>
+                        : null
+                    }
+                </div>
+            </div>
+        )
+    }
+
+    console.log('game mode: ', game.mode);
+
     return <div>
 
         <h1 className='my-5'>Lobby</h1>
@@ -19,29 +52,10 @@ const Lobby = () => {
         <h5>Welcome, <u className='text-info'>{user.username}</u>!</h5>
 
         {
-            room.id 
-            ? <p><b>Room Id: </b> {room.id}</p>
+            game && game.mode===`multiplayer`
+            ? showMultiplayerLobby()
             : null
         }
-        <LobbyPlayerList/>
-
-        { console.log('# of players : ', Object.keys(players).length) }
-
-        <div>
-            {
-                players[user.sessionId] && players[user.sessionId].ready && Object.keys(players).length < 2
-                ? <p className='text-info'><small>Multiplayer mode requires at least 2 players!</small></p>
-                : null
-            }
-        </div>
-
-        <div>
-            {
-                players[user.sessionId] && players[user.sessionId].ready && !game.allReady
-                ? <p className='text-secondary fst-italic'><small>Waiting on other players...</small></p>
-                : null
-            }
-        </div>
 
         {console.log('game.allReady: ', game.allReady)}
 

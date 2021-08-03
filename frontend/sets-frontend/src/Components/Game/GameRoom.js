@@ -49,7 +49,7 @@ const GameRoom = ({room, guestUser}) => {
     }
 
     useEffect(()=>{
-        setUpGame(room);
+        setUpGame(room, username);
     },[]);
 
     function startMatch(){
