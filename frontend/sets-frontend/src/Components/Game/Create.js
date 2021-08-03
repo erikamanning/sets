@@ -26,7 +26,7 @@ const Create = ({mode='sets_multiplayer'}) => {
 
     useEffect(()=>{
 
-        if(mode!=='sets_multiplayer' && !loggedIn){
+        if(user.username && mode!=='sets_multiplayer' && !loggedIn){
             setGuestUser(`guest${getRandomIntInclusive(1000,9999)}`);
         }
 
@@ -68,7 +68,7 @@ const Create = ({mode='sets_multiplayer'}) => {
                         : <h1>Create a New Game</h1>
                 }
                 {
-                    !loggedIn && !guestUser && mode==='sets_multiplayer'
+                    !loggedIn && !user.username && !guestUser && mode==='sets_multiplayer'
                         ?  <GuestIdForm addGuest={addGuest}/>
                         : null
                 }
