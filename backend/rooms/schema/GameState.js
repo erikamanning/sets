@@ -4,12 +4,14 @@ const MapSchema = schema.MapSchema;
 const {BoardState} = require("./BoardState");
 const { DeckState } = require('./DeckState');
 const { Player } = require('./PlayerState');
+const colyseus = require('colyseus');
 
 class GameState extends Schema {    
 
     constructor(testState=false, mode) {
         super();
         this.mode = mode;
+        this.turn='any';
         this.allReady=false;
         this.started=false;
         this.finished=false;
@@ -131,6 +133,8 @@ class GameState extends Schema {
     checkSet(cards){
         console.log('Checking if cards are a set...');
 
+        if(cards.size <3) return false;
+
         for(let property of this.deck.cardProperties){
             let set = this.checkIndividualProperty(property,cards);
             if(!set)
@@ -180,6 +184,19 @@ class GameState extends Schema {
             this.board.shiftGridCards();
         }
     }
+    checkSelection(sessionId){
+        // check match
+        const isSet = this.checkSet(this.board.selectedCards);
+        const coords = Array.from(this.board.selectedCards.keys());
+
+        // handle results
+        if(isSet)
+            this.handleGoodSet(sessionId,coords);
+        else
+            this.handleBadSet(sessionId);
+
+        this.timeOut.clear();
+    }
 
     handleSelection(sessionId, coord){
 
@@ -190,20 +207,24 @@ class GameState extends Schema {
 
         if(this.board.selectedCards.size ===3){
 
-            // check match
-            const isSet = this.checkSet(this.board.selectedCards);
-            const coords = Array.from(this.board.selectedCards.keys());
+            this.checkSelection(sessionId);
 
-            // handle results
-            if(isSet)
-                this.handleGoodSet(sessionId,coords);
-            else
-                this.handleBadSet(sessionId);
+            // // check match
+            // const isSet = this.checkSet(this.board.selectedCards);
+            // const coords = Array.from(this.board.selectedCards.keys());
+
+            // // handle results
+            // if(isSet)
+            //     this.handleGoodSet(sessionId,coords);
+            // else
+            //     this.handleBadSet(sessionId);
         }
     }
 }
 schema.defineTypes(GameState, {
   mode: "string",
+  timeOut:colyseus.Delayed,
+  turn:"string",
   allReady:"boolean",
   topScore: "string",
   perfectGame: "boolean",

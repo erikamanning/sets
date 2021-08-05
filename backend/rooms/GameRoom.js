@@ -2,10 +2,13 @@ const colyseus = require('colyseus');
 const { GameState } = require('./schema/GameState');
 
 exports.GameRoom = class extends colyseus.Room {
+  timeoutClear;
 
   onCreate (options) {
 
+    this.clock.start();
     this.minPlayers=options.minPlayers;
+
     if(options.maxClients){
       this.maxClients=options.maxClients;
     }
@@ -13,10 +16,34 @@ exports.GameRoom = class extends colyseus.Room {
     console.log('ROOM CREATED');
     this.setState(new GameState(false,options.mode));
 
+    /* SELECT A CARD */
     this.onMessage("select_card", (client, message) => {
 
-      console.log("BACKEND! Message 'select_card' recieved!");
-      this.state.handleSelection(client.sessionId,message);
+      console.log('You: ', client.sessionId);
+      console.log('this.state.turn: ', this.state.turn);
+      // CHECK IF IT'S PLAYERS TURN:
+      if(this.state.turn==='any'){
+
+        this.state.turn = client.sessionId;
+
+        this.state.timeOut = this.clock.setTimeout(() => {
+          console.log('3 seconds passed!')
+          // clear selected cards, if any
+          if(this.state.board.selectedCards.length > 0){
+            this.state.checkSelection(this.state.turn);
+          }
+          this.state.turn='any'
+          
+        }, 3000);
+
+        this.state.handleSelection(client.sessionId,message);
+      }
+      else if(this.state.turn===client.sessionId){
+        this.state.handleSelection(client.sessionId,message);
+      }
+      else{
+        console.log('Cannot select! Not your turn!');
+      }
     });
 
     this.onMessage("add_row", (client, message) => {  

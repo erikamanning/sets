@@ -21,12 +21,11 @@ const Create = ({mode='sets_multiplayer'}) => {
     console.log('CREATE -- user: ', user.username);
 
     const [room,setRoom] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(user.username ? true :false);
     const [guestUser, setGuestUser] = useState(false);
 
     useEffect(()=>{
 
-        if(user.username && mode!=='sets_multiplayer' && !loggedIn){
+        if(user.username && mode!=='sets_multiplayer'){
             setGuestUser(`guest${getRandomIntInclusive(1000,9999)}`);
         }
 
@@ -68,7 +67,7 @@ const Create = ({mode='sets_multiplayer'}) => {
                         : <h1>Create a New Game</h1>
                 }
                 {
-                    !loggedIn && !user.username && !guestUser && mode==='sets_multiplayer'
+                    !user.username && !guestUser && mode==='sets_multiplayer'
                         ?  <GuestIdForm addGuest={addGuest}/>
                         : null
                 }
