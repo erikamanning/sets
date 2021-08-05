@@ -185,6 +185,8 @@ class GameState extends Schema {
         }
     }
     checkSelection(sessionId){
+        console.log('checking set!!!');
+
         // check match
         const isSet = this.checkSet(this.board.selectedCards);
         const coords = Array.from(this.board.selectedCards.keys());
@@ -194,8 +196,6 @@ class GameState extends Schema {
             this.handleGoodSet(sessionId,coords);
         else
             this.handleBadSet(sessionId);
-
-        this.timeOut.clear();
     }
 
     handleSelection(sessionId, coord){
@@ -223,7 +223,6 @@ class GameState extends Schema {
 }
 schema.defineTypes(GameState, {
   mode: "string",
-  timeOut:colyseus.Delayed,
   turn:"string",
   allReady:"boolean",
   topScore: "string",

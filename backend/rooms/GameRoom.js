@@ -1,8 +1,10 @@
 const colyseus = require('colyseus');
 const { GameState } = require('./schema/GameState');
 
+let timeout;
+let count = 0;
+
 exports.GameRoom = class extends colyseus.Room {
-  timeoutClear;
 
   onCreate (options) {
 
@@ -19,17 +21,34 @@ exports.GameRoom = class extends colyseus.Room {
     /* SELECT A CARD */
     this.onMessage("select_card", (client, message) => {
 
+      console.log('Received message to select card!');
+
+      if(this.state.turn===client.sessionId && count<3){
+        count++;
+        console.log('Increasing count to: ', count);;
+      }
+      if(this.state.turn===client.sessionId && count ===3){
+        console.log('Count === 3');
+        this.state.checkSelection(this.state.turn);
+        this.state.turn='any'
+        timeout.clear();
+        count=0;
+      }
+
       console.log('You: ', client.sessionId);
       console.log('this.state.turn: ', this.state.turn);
       // CHECK IF IT'S PLAYERS TURN:
       if(this.state.turn==='any'){
 
+        console.log(`Anyone's turn!`);
+
         this.state.turn = client.sessionId;
 
-        this.state.timeOut = this.clock.setTimeout(() => {
+        timeout = this.clock.setTimeout(() => {
           console.log('3 seconds passed!')
           // clear selected cards, if any
-          if(this.state.board.selectedCards.length > 0){
+          if(this.state.board.selectedCards.size > 0){
+            console.log('selected cards >0, running check selection code!')
             this.state.checkSelection(this.state.turn);
           }
           this.state.turn='any'
@@ -39,6 +58,7 @@ exports.GameRoom = class extends colyseus.Room {
         this.state.handleSelection(client.sessionId,message);
       }
       else if(this.state.turn===client.sessionId){
+        console.log(`${this.state.players.get(client.sessionId).username}'s turn!`);
         this.state.handleSelection(client.sessionId,message);
       }
       else{
