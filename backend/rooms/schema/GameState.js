@@ -166,7 +166,7 @@ class GameState extends Schema {
         this.decreaseScore(playerSessionId);
         this.board.deselectNonSet();
         this.board.clearSelectedCards();
-        this.board.showGridSelectionsStatus();
+        // this.board.showGridSelectionsStatus();
     }
 
     handleGoodSet(playerSessionId, coords){
@@ -198,28 +198,6 @@ class GameState extends Schema {
             this.handleBadSet(sessionId);
     }
 
-    handleSelection(sessionId, coord){
-
-        console.log('session: ', sessionId, ` ${this.players.get(sessionId).username} is selecting a card`);
-
-        // select card
-        this.board.selectCard(coord);
-
-        if(this.board.selectedCards.size ===3){
-
-            this.checkSelection(sessionId);
-
-            // // check match
-            // const isSet = this.checkSet(this.board.selectedCards);
-            // const coords = Array.from(this.board.selectedCards.keys());
-
-            // // handle results
-            // if(isSet)
-            //     this.handleGoodSet(sessionId,coords);
-            // else
-            //     this.handleBadSet(sessionId);
-        }
-    }
 }
 schema.defineTypes(GameState, {
   mode: "string",
