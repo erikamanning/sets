@@ -30,7 +30,6 @@ const CountDownTimer = () => {
 
     return (
         <div>
-            <h1>Count Down Timer</h1>
             {
                 count>0
                 ? <h1>{count}</h1>
