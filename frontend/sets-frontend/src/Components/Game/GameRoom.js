@@ -12,7 +12,7 @@ const GameRoom = ({room, guestUser}) => {
     const [guestId, setGuestId] = useState(false);
     const [game, setGame] = useState(false);
     const [deck, setDeck] = useState(false);
-    const [players, setPlayers] = useState(false);
+    const [players, setPlayers] = useState(new Map());
     const [startGame, setStartGame] = useState(false);
     const [gameFinished, setGameFinished] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState(false);
@@ -28,10 +28,11 @@ const GameRoom = ({room, guestUser}) => {
             sessionId: room.sessionId
         });
         room.state.players.onAdd = (player,key)=>{
-            setPlayers(p=>({
-                [key]:player,
-                ...p
-            }));
+            console.log('jung players: ', players);
+            setPlayers((p)=>{
+                let newMap = p;
+                return newMap.set(key,player);
+            });
         }
         room.onStateChange((state) => {
 
@@ -103,6 +104,8 @@ const GameRoom = ({room, guestUser}) => {
                     unReady
                 }
                 }>
+                {console.log('Player map: ', players)}
+
                 { startGame ? <Game /> : <Lobby/>}
             </GameContext.Provider>
         }

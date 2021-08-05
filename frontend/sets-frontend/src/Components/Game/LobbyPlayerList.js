@@ -17,7 +17,7 @@ const LobbyPlayerList = () => {
                         <div className="row justify-content-center">
                             <div className="col-12">
                                 <ul>
-                                    { Object.keys(players).map(key=> <LobbyPlayerListItem key={key} player={players[key]} />)}
+                                    { Array.from(players.keys()).map(key=> <LobbyPlayerListItem key={key} player={players.get(key)} />)}
                                 </ul>
                             </div>
                         </div>

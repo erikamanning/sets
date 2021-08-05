@@ -107,6 +107,8 @@ exports.GameRoom = class extends colyseus.Room {
   }
 
   onDispose() {
+    // count =null;
+    // timeout=null;
     console.log("room", this.roomId, "disposing...");
   }
 }

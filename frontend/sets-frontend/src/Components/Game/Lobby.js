@@ -22,11 +22,11 @@ const Lobby = () => {
                 }
                 <LobbyPlayerList/>
         
-                { console.log('# of players : ', Object.keys(players).length) }
+                { console.log('# of players : ', players) }
         
                 <div>
                     {
-                        players[user.sessionId] && players[user.sessionId].ready && Object.keys(players).length < 2
+                        players.get(user.sessionId) &&  players.get(user.sessionId).ready && players.size < 2
                         ? <p className='text-info'><small>Multiplayer mode requires at least 2 players!</small></p>
                         : null
                     }
@@ -34,7 +34,7 @@ const Lobby = () => {
         
                 <div>
                     {
-                        players[user.sessionId] && players[user.sessionId].ready && !game.allReady
+                         players.get(user.sessionId) &&  players.get(user.sessionId).ready && !game.allReady
                         ? <p className='text-secondary fst-italic'><small>Waiting on other players...</small></p>
                         : null
                     }

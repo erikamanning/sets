@@ -11,23 +11,26 @@ const GameScoreTable = () => {
 
         // bubble sorting for now
         let tempKey;
-        let pKeys = Object.keys(players);
+        console.log('players output check, size: ', players.size);
+        console.log('players: ');
+        players.forEach(p=>{console.log(p.username)})
+
+        let pKeys = Array.from(players.keys());
         // console.log('pKeys: ', typeof(pKeys));
-        for(let i = 0; i < pKeys.length-1; i++){
+        for(let i = 0; i < pKeys.length; i++){
 
             // console.log('pKeys[i]: ', players[pKeys[i+1]]);
-            for(let j = 0; j < pKeys.length-1; j++){
+            for(let j = 0; j < pKeys.length-i-1; j++){
 
-                if(players[pKeys[j]].score < players[pKeys[j+1]].score){
+                if(players.get(pKeys[j]).score < players.get(pKeys[j+1]).score){
                     console.log('j: ', j);
-                    console.log('pKey[j]: ',pKeys[j],' Player: ',players[pKeys[j]].username , " Score: ",players[pKeys[j]].score );
-                    console.log('pKey[j+1]: ',pKeys[j+1],' Player: ',players[pKeys[j+1]].username , " Score: ",players[pKeys[j+1]].score );
-                    tempKey=[pKeys[j]];
+                    console.log('pKey[j]: ',pKeys[j],' Player: ',players.get(pKeys[j]).username , " Score: ",players.get(pKeys[j]).score );
+                    console.log('pKey[j+1]: ',pKeys[j+1],' Player: ',players.get(pKeys[j+1]).username , " Score: ",players.get(pKeys[j+1]).score );
+                    tempKey=pKeys[j];
                     pKeys[j]=pKeys[j+1];
                     pKeys[j+1]=tempKey;
-                    console.log('pKey[j]: ',pKeys[j],' Player: ',players[pKeys[j]].username , " Score: ",players[pKeys[j]].score );
-                    console.log('pKey[j+1]: ',pKeys[j+1],' Player: ',players[pKeys[j+1]].username , " Score: ",players[pKeys[j+1]].score );
-
+                    console.log('pKey[j]: ',pKeys[j],' Player: ',players.get(pKeys[j]).username , " Score: ",players.get(pKeys[j]).score );
+                    console.log('pKey[j+1]: ',pKeys[j+1],' Player: ',players.get(pKeys[j+1]).username , " Score: ",players.get(pKeys[j+1]).score );
                 }
             }
         }
@@ -47,6 +50,7 @@ const GameScoreTable = () => {
         return( 
             <tbody>
                 {sortedKeys.map(pKey=>{
+                // {Array.from(players.keys()).map(pKey=>{
                     x++;
                     return <tr key={pKey}>
                         {/* {console.log('pKey: ', pKey)} */}
@@ -54,8 +58,8 @@ const GameScoreTable = () => {
                         {/* {console.log('players[pKey].username: ', players[pKey].username)} */}
                         {/* {console.log('players[pKey].score: ', players[pKey].score)} */}
                         <td>{x}</td>
-                        <td>{players[pKey].username}</td>
-                        <td>{players[pKey].score}</td>
+                        <td>{players.get(pKey).username}</td>
+                        <td>{players.get(pKey).score}</td>
                     </tr>
                 })}
             </tbody>

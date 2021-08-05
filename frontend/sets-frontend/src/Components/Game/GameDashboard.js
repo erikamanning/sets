@@ -5,7 +5,7 @@ import GameScoreTable from './GameScoreTable'
 
 const GameDashboard = () => {
 
-    const {user, addRow, endGame,deck} = useContext(GameContext);
+    const {user, addRow, endGame,deck, game, players} = useContext(GameContext);
 
     return (
         <div className='row justify-content-center'>
@@ -19,6 +19,12 @@ const GameDashboard = () => {
                     
                         ? <button onClick={addRow} className='btn btn-info'>Add Row</button>
                         : <p className='text-danger'><i>No cards left to draw!</i></p>
+                    }
+
+                    {console.log('players: ', players)}
+                    {game.mode==='multiplayer' &&  game.turn!== 'any'
+                     ? <p>Whose Turn: {players.get(game.turn).username}</p>
+                     :<p>Whose Turn: {game.turn}</p>
                     }
                     <button onClick={endGame} className='btn btn-secondary'>Quit?</button>
                 </div>
