@@ -47,7 +47,9 @@ exports.GameRoom = class extends colyseus.Room {
       }
       else{
         this.state.board.selectCard(message);
-        this.state.checkSelection(client.sessionId);
+        if(this.state.board.selectedCards.size===3){
+          this.state.checkSelection(client.sessionId);
+        }
       }
     });
 
