@@ -6,7 +6,9 @@ import GameResult from './GameResult'
 
 const Game = () => {
 
-    const {game} = useContext(GameContext);
+    const {game,viewResult, showResult} = useContext(GameContext);
+
+    console.log('VIEWRESULT: ', viewResult);
     const showDisplay = () => {
 
         let display;
@@ -21,6 +23,14 @@ const Game = () => {
             )
         }
 
+        else if(game.finished && !viewResult){
+            display = (
+                <div>
+                    <h3>Game Over</h3>
+                    <button onClick={showResult} className='btn btn-secondary'>View Result?</button>
+                </div>
+            )
+        }
         else{
             display = (
                 <div>

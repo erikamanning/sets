@@ -175,6 +175,7 @@ class GameState extends Schema {
 
         if(this.currentSetCount === 0 && this.deck.cards.size ===0){
             this.noSetsNoCards=true;
+            this.finished=true;
         }
     }
 

@@ -19,6 +19,7 @@ const GameRoom = ({room, guestUsername}) => {
     const [stateChanged, seStateChanged] = useState(false);
     const [board,setBoard] = useState(false);
     const [roomSetup, setRoomSetup] = useState(false);
+    const [viewResult, setViewResult] = useState(false);
 
     function setUpGame(room, username){
 
@@ -50,18 +51,22 @@ const GameRoom = ({room, guestUsername}) => {
             console.log("message received from server");
             // console.log(`${players.get(playerId).username} left!`);
             alert(`${players.get(playerId).username} left!`);
+            setGameFinished(true);
         });
         room.onMessage("player_quit", (message) => {
             const {playerId} = message;
             console.log("message received from server");
             // console.log(`${players.get(playerId).username} left!`);
             alert(`${players.get(playerId).username} left!`);
+            setGameFinished(true);
+
         });
         room.onMessage("noSets_noCards", (message) => {
             const {playerId} = message;
             console.log("message received from server");
             // console.log(`${players.get(playerId).username} left!`);
             alert(`No more sets and no more cards to draw! Game over.`);
+            setGameFinished(true);
         });
 
         setRoomSetup(true);
@@ -99,6 +104,9 @@ const GameRoom = ({room, guestUsername}) => {
     function unReady(){
         room.send('not_ready');
     }
+    function showResult(){
+        setViewResult(true);
+    }
 
     return (
         <div>
@@ -119,7 +127,9 @@ const GameRoom = ({room, guestUsername}) => {
                     endGame,
                     leave,
                     readyUp,
-                    unReady
+                    unReady,
+                    showResult,
+                    viewResult
                 }
                 }>
 
