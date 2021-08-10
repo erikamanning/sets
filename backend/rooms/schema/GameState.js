@@ -17,12 +17,17 @@ class GameState extends Schema {
         this.started=false;
         this.finished=false;
         this.players = new MapSchema();
-        this.deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
+        this.noSetsNoCards = false;
+        this.playerLeft = false;
 
-        if(!testState)
+        if(!testState){
+            this.deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
             this.board = new BoardState(this.deck.drawCards(12));
-        else
+        }
+        else{
+            this.deck = new DeckState(["red","green"], ["square","circle", "triangle"]);
             this.board = new BoardState(this.deck.drawFromTopOfDeck(12));
+        }
 
         this.checkBoardForSets();
     }
@@ -134,7 +139,7 @@ class GameState extends Schema {
     }
 
     addRow(){
-        this.board.addRow(this.deck.drawCards(3));
+        this.board.addRow(this.testState ? this.deck.drawFromTopOfDeck(3) : this.deck.drawCards(3));
         this.checkBoardForSets();
     }
 
@@ -167,6 +172,10 @@ class GameState extends Schema {
         this.currentSetCount = currentSetCount;
         this.currentSets = currentSets;
         Array.from(this.currentSets.keys()).forEach(key=>this.currentSets.get(key).printDetails());
+
+        if(this.currentSetCount === 0 && this.deck.cards.size ===0){
+            this.noSetsNoCards=true;
+        }
     }
 
     checkSet(cards){
@@ -223,8 +232,8 @@ class GameState extends Schema {
         this.board.clearSelectedCards();
 
         // fill empty slots if necessary
-        if(this.board.getGridCardCount() <12){
-            this.board.fillEmptySlots(coords,this.deck.drawCards(3));
+        if(this.board.getGridCardCount() <12 && this.deck.cards.size>0){
+            this.board.fillEmptySlots(coords,this.testState ? this.deck.drawFromTopOfDeck(3) : this.deck.drawCards(3));
         }
         else{
             // shift cells back
@@ -252,6 +261,8 @@ class GameState extends Schema {
 schema.defineTypes(GameState, {
   mode: "string",
   turn:"string",
+  noSetsNoCards: 'boolean',
+  playerLeft: 'boolean',
   currentSetCount: "number",
   currentSets: {map: Set},
   allReady:"boolean",
