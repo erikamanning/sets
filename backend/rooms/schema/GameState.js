@@ -2,6 +2,7 @@ const schema = require('@colyseus/schema');
 const Schema = schema.Schema;
 const MapSchema = schema.MapSchema;
 const {BoardState} = require("./BoardState");
+const {Set} = require("./SetState");
 const { DeckState } = require('./DeckState');
 const { Player } = require('./PlayerState');
 const colyseus = require('colyseus');
@@ -22,6 +23,8 @@ class GameState extends Schema {
             this.board = new BoardState(this.deck.drawCards(12));
         else
             this.board = new BoardState(this.deck.drawFromTopOfDeck(12));
+
+        this.checkBoardForSets();
     }
 
     addPlayer(sessionId, username){
@@ -130,16 +133,61 @@ class GameState extends Schema {
         this.players.get(sessionId).score-=1;
     }
 
-    checkSet(cards){
-        console.log('Checking if cards are a set...');
+    addRow(){
+        this.board.addRow(this.deck.drawCards(3));
+        this.checkBoardForSets();
+    }
 
-        if(cards.size <3) return false;
+
+    checkBoardForSets(){
+
+        const cards = this.board.getGridCards();
+        const cardIds = Array.from(cards.keys());
+        let currentSetCount = 0;
+        const currentSets = new Map();
+        for(let i=0; i<cards.size; i++){
+            for(let j=i+1; j<cards.size; j++){
+                for(let k=j+1; k<cards.size; k++){
+    
+                    const newSelection = new Map();
+                    newSelection.set(cardIds[i], cards.get(cardIds[i]));
+                    newSelection.set(cardIds[j], cards.get(cardIds[j]));
+                    newSelection.set(cardIds[k], cards.get(cardIds[k]));
+    
+                    if(this.checkSet(newSelection)){
+                        const newSet = new Set(newSelection);
+                        currentSets.set(currentSetCount,newSet);
+                        currentSetCount++;
+                    }
+                }
+            }
+        }
+        console.log('set count: ', currentSetCount);
+
+        this.currentSetCount = currentSetCount;
+        this.currentSets = currentSets;
+        Array.from(this.currentSets.keys()).forEach(key=>this.currentSets.get(key).printDetails());
+    }
+
+    checkSet(cards){
+        // console.log('Checking if cards are a set...');
+        // Array.from(cards.keys).forEach(key=>cards[key].printDetails);
+
+        if(cards.size <3){
+            console.log('cards less than size 3')
+            return false;
+        } 
 
         for(let property of this.deck.cardProperties){
             let set = this.checkIndividualProperty(property,cards);
-            if(!set)
+            if(!set){
+                // Array.from(cards.keys()).forEach(key=>cards.get(key).printDetails());
+                // console.log('XXXX are NOT a set!');
                 return false;
+            }
         }
+        // Array.from(cards.keys()).forEach(key=>cards.get(key).printDetails());
+        // console.log('****** are a set!');
         return true;
     }
 
@@ -147,15 +195,15 @@ class GameState extends Schema {
 
         const keys = Array.from(cards.keys());
 
-        if(cards[keys[0]][property] === cards[keys[1]][property]){
+        if(cards.get(keys[0])[property] === cards.get(keys[1])[property]){
 
-            if(cards[keys[0]][property]!== cards[keys[2]][property])
+            if(cards.get(keys[0])[property]!== cards.get(keys[2])[property])
                 return false;
             else
                 return true;
         }
         else{
-            if(cards[keys[1]][property] === cards[keys[2]][property] || cards[keys[0]][property] === cards[keys[2]][property])
+            if(cards.get(keys[1])[property] === cards.get(keys[2])[property] || cards.get(keys[0])[property] === cards.get(keys[2])[property])
                 return false;
             else
                 return true;
@@ -196,12 +244,16 @@ class GameState extends Schema {
             this.handleGoodSet(sessionId,coords);
         else
             this.handleBadSet(sessionId);
+
+        this.checkBoardForSets();
     }
 
 }
 schema.defineTypes(GameState, {
   mode: "string",
   turn:"string",
+  currentSetCount: "number",
+  currentSets: {map: Set},
   allReady:"boolean",
   topScore: "string",
   perfectGame: "boolean",

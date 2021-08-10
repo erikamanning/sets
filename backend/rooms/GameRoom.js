@@ -56,7 +56,7 @@ exports.GameRoom = class extends colyseus.Room {
     this.onMessage("add_row", (client, message) => {  
 
         console.log("MESSAGE: 'add_row' recieved!");
-        this.state.board.addRow(this.state.deck.drawCards(3));
+        this.state.addRow();
     });
 
     this.onMessage("start_game", (client, message) => {  
@@ -109,8 +109,10 @@ exports.GameRoom = class extends colyseus.Room {
   }
 
   onDispose() {
-    // count =null;
-    // timeout=null;
+
+    // save game result at this point with backend api
+
+    
     console.log("room", this.roomId, "disposing...");
   }
 }

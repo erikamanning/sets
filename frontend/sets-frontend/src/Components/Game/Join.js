@@ -21,7 +21,6 @@ const Join = ({mode='sets_multiplayer'}) => {
 
     },[]);
 
-
     useEffect(()=>{
         const joinRoom = async (mode,userId) => {
             client = new Colyseus.Client('ws://localhost:5000');
