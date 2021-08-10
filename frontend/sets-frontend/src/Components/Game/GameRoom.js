@@ -45,6 +45,25 @@ const GameRoom = ({room, guestUsername}) => {
             setDeck(d=>state.deck);
             seStateChanged(changed=>!changed);
         });
+        room.onMessage("player_left", (message) => {
+            const {playerId} = message;
+            console.log("message received from server");
+            // console.log(`${players.get(playerId).username} left!`);
+            alert(`${players.get(playerId).username} left!`);
+        });
+        room.onMessage("player_quit", (message) => {
+            const {playerId} = message;
+            console.log("message received from server");
+            // console.log(`${players.get(playerId).username} left!`);
+            alert(`${players.get(playerId).username} left!`);
+        });
+        room.onMessage("noSets_noCards", (message) => {
+            const {playerId} = message;
+            console.log("message received from server");
+            // console.log(`${players.get(playerId).username} left!`);
+            alert(`No more sets and no more cards to draw! Game over.`);
+        });
+
         setRoomSetup(true);
     }
 

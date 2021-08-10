@@ -13,7 +13,7 @@ class GameTest{
     testMatch(){
         console.log('Testing GOOD match...')
         const beforeTestCount = this.game.board.getActiveCardCount();
-        this.game.ection('testId','0-A');
+        this.game.handleSelection('testId','0-A');
         this.game.handleSelection('testId','0-B');
         this.game.handleSelection('testId','0-C');
         const afterTestCount = this.game.board.getActiveCardCount();

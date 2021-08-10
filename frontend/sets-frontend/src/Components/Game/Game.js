@@ -6,37 +6,27 @@ import GameResult from './GameResult'
 
 const Game = () => {
 
-    const {game,endGame} = useContext(GameContext);
+    const {game} = useContext(GameContext);
     const showDisplay = () => {
 
         let display;
 
         if(!game.finished){
 
-            if(!game.noSetsNoCards){
-
-                display = (
-                    <div>
-                        <GameDashboard />
-                        <GameBoard />
-                    </div>
-                )
-            }
-            else{
-                display=(
-                    <div>
-                        <h1>NO SETS on board & NO CARDS remaining!</h1>
-                        <h5>View Results? </h5>
-                        <button onClick={endGame} className='btn btn-secondary'>Results</button>
-                    </div>
-                )
-            }
+            display = (
+                <div>
+                    <GameDashboard />
+                    <GameBoard />
+                </div>
+            )
         }
 
         else{
-            display = <div>
-                <GameResult/>
-            </div>
+            display = (
+                <div>
+                    <GameResult/>
+                </div>
+            )
         }
 
         return display;

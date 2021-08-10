@@ -20,6 +20,7 @@ const GameResult = () => {
                         <GameScoreTable />
                         
                         <p> <b>Result:</b> {game.gameResult}</p> 
+                        <p> <b>Winner:</b> {game.winner.username}</p> 
 
                         
                     </div>

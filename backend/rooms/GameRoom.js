@@ -51,12 +51,19 @@ exports.GameRoom = class extends colyseus.Room {
           this.state.checkSelection(client.sessionId);
         }
       }
+
+      if(this.state.noSetsNoCards){
+        this.broadcast('noSets_noCards', 'aint no dang sets or cards left');
+      }
     });
 
     this.onMessage("add_row", (client, message) => {  
 
         console.log("MESSAGE: 'add_row' recieved!");
         this.state.addRow();
+        if(this.state.noSetsNoCards){
+          this.broadcast('noSets_noCards', 'aint no dang sets or cards left');
+        }
     });
 
     this.onMessage("start_game", (client, message) => {  
@@ -68,6 +75,8 @@ exports.GameRoom = class extends colyseus.Room {
     this.onMessage("quit", (client, message) => {  
 
       console.log("MESSAGE:  'quit' recieved! Getting game result!");
+      this.broadcast('player_quit', {playerId:client.sessionId});
+      this.state.players.delete(client.sessionId);
       this.state.getGameResult();
     });
 
@@ -104,6 +113,8 @@ exports.GameRoom = class extends colyseus.Room {
 
   async onLeave (client, consented) {
     console.log(client.sessionId, "left!");
+    this.broadcast('player_left', {playerId:client.sessionId});
+    this.state.players.delete(client.sessionId);
     this.state.getGameResult();
     timeout=null;
   }
