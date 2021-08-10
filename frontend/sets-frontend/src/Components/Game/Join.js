@@ -11,7 +11,16 @@ const Join = ({mode='sets_multiplayer'}) => {
     const user = useSelector(state=>state.user);
     const [roomCode, setRoomCode] = useState(false);
     const [room,setRoom] = useState(false);
-    const [guestUser, setGuestUser] = useState(false);
+    const [username, setUsername] = useState(false);
+
+    useEffect(()=>{
+
+        if(user.username)
+            setUsername(user.username);
+        
+
+    },[]);
+
 
     useEffect(()=>{
         const joinRoom = async (mode,userId) => {
@@ -28,17 +37,12 @@ const Join = ({mode='sets_multiplayer'}) => {
             }
         }
 
-        if(roomCode){
-            if(user.username){
-                console.log('Creating game for logged in user...');
-                joinRoom(mode,user.username);
-            }
-            else if(guestUser){
-                console.log('Creating game for guest user...');
-                joinRoom(mode,guestUser);
-            }
+        if(username){
+            console.log('Creating game for logged in user...');
+            joinRoom(mode,username);
         }
-    },[user,guestUser,roomCode]);
+
+    },[username,roomCode]);
 
     function saveRoomCode(code){
 
@@ -46,7 +50,7 @@ const Join = ({mode='sets_multiplayer'}) => {
     }
 
     function addGuest(username){
-        setGuestUser(username);
+        setUsername(username);
     }
 
     return (
@@ -58,13 +62,13 @@ const Join = ({mode='sets_multiplayer'}) => {
                         : null
                 }
                 {
-                    (!user.username && !guestUser ) && roomCode
+                    !username && roomCode
                         ?  <GuestIdForm addGuest={addGuest}/>
                         : null
                 }
                 {
                     room 
-                        ? <GameRoom room={room} guestUser={guestUser}/>
+                        ? <GameRoom room={room} guestUsername={!user.username ? username : false}/>
                         : null
                 }
             </div>

@@ -5,9 +5,9 @@ import Game from './Game'
 import Lobby from './Lobby'
 import GameContext from './GameContext'
 
-const GameRoom = ({room, guestUser}) => {
+const GameRoom = ({room, guestUsername}) => {
 
-    const username = guestUser || useSelector(state=>state.user.username);
+    const username = guestUsername || useSelector(state=>state.user.username);
     const history = useHistory();
     const [guestId, setGuestId] = useState(false);
     const [game, setGame] = useState(false);
@@ -28,7 +28,6 @@ const GameRoom = ({room, guestUser}) => {
             sessionId: room.sessionId
         });
         room.state.players.onAdd = (player,key)=>{
-            console.log('jung players: ', players);
             setPlayers((p)=>{
                 let newMap = p;
                 return newMap.set(key,player);
@@ -104,7 +103,6 @@ const GameRoom = ({room, guestUser}) => {
                     unReady
                 }
                 }>
-                {console.log('Player map: ', players)}
 
                 { startGame ? <Game /> : <Lobby/>}
             </GameContext.Provider>

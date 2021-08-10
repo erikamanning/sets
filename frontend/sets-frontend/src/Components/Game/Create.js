@@ -14,19 +14,24 @@ const Create = ({mode='sets_multiplayer'}) => {
     // otherwise render gameroom with no username, 
         // since it does not matter at all in any way shape or form
 
-
     let client;
     const user = useSelector(state=>state.user);
 
-    console.log('CREATE -- user: ', user.username);
+    console.log('comp: [ CREATE ] -- user: ', user.username);
 
     const [room,setRoom] = useState(false);
-    const [guestUser, setGuestUser] = useState(false);
+    const [username, setUsername] = useState(false);
+    console.log('user: ', user);
 
     useEffect(()=>{
 
-        if(user.username && mode!=='sets_multiplayer'){
-            setGuestUser(`guest${getRandomIntInclusive(1000,9999)}`);
+        if(user.username){
+            setUsername(user.username);
+        }
+        else{
+            if(mode==='sets_singleplayer'){
+                setUsername(`guest${getRandomIntInclusive(1000,9999)}`);
+            }
         }
 
     },[]);
@@ -45,29 +50,25 @@ const Create = ({mode='sets_multiplayer'}) => {
             }
         }
 
-        if(user.username){
-            console.log('Creating game for logged in user...');
-            createRoom(mode,user.username);
+        if(username){
+            createRoom(mode,username);
         }
-        else if(guestUser){
-            console.log('Creating game for guest user...');
-            createRoom(mode,guestUser);
-        }
-    },[user,guestUser]);
+
+    },[username]);
 
     function addGuest(username){
-        setGuestUser(username);
+        setUsername(username);
     }
 
     return (
             <div className='mt-5'>
                 {
                     room 
-                        ? <GameRoom room={room} guestUser={guestUser}/>
+                        ? <GameRoom room={room} guestUsername={!user.username ? username : false}/>
                         : <h1>Create a New Game</h1>
                 }
                 {
-                    !user.username && !guestUser && mode==='sets_multiplayer'
+                    !username
                         ?  <GuestIdForm addGuest={addGuest}/>
                         : null
                 }
