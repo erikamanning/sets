@@ -8,13 +8,6 @@ import RoomContext from "./RoomContext";
 const Multiplayer = ({username}) => {
 
     const {id} = useContext(RoomContext);
-
-    console.log('MULTIPLAYER-- roomId: ', id);
-
-    // check for roomId context-- if room id, render create or join
-
-        // set join flag so useEffect joins game
-
     let client;
 
     const [room, setRoom] = useState(false);
@@ -26,26 +19,16 @@ const Multiplayer = ({username}) => {
         client = new Colyseus.Client('ws://localhost:5000');
         async function createRoom(){
             try {
-                const room = await client.create("sets_multiplayer");
+                const room = await client.create("sets_multiplayer", {username});
                 console.log("joined successfully", room);
-                return room;
+                setRoom(room);
             } 
             catch (e) {
                 console.error("join error", e);
             }
         }
-    
-        async function createJoinRoom(){
-            // create
-            let room = await createRoom();
-            console.log('room: ', room);
-    
-            // join
-            await joinWithId(room.id);
-            // this way we doin't use createORjoin and join games when we should be creating
-        }
         
-        async function joinWithId(roomId){
+        async function joinRoom(roomId){
             try {
                 const room = await client.joinById(roomId, {username});
                 console.log("joined successfully", room);
@@ -60,11 +43,11 @@ const Multiplayer = ({username}) => {
 
         if(create){
             console.log('Client wants to CREATE & JOIN!');
-            createJoinRoom();
+            createRoom();
         }
         else if(join){
             console.log('Client wants to JOIN!');
-            joinWithId(roomId);
+            joinRoom(roomId);
         }
 
     },[create,join]);
@@ -76,10 +59,6 @@ const Multiplayer = ({username}) => {
 
     return (
         <div>
-
-            
-            {/* if room, generate room type (multiplayer, singleplayer) */}
-
             {
                 room
                 ? <GameRoom room={room} username={username}/>

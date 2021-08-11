@@ -8,7 +8,6 @@ import GameContext from './GameContext'
 const GameRoom = ({room, username}) => {
 
     const history = useHistory();
-    const [guestId, setGuestId] = useState(false);
     const [game, setGame] = useState(false);
     const [deck, setDeck] = useState(false);
     const [players, setPlayers] = useState(new Map());
@@ -33,6 +32,14 @@ const GameRoom = ({room, username}) => {
                 return newMap.set(key,player);
             });
         }
+        room.state.players.onRemove = (player, key) => {
+            console.log(player, "has been removed at", key);
+            setPlayers((p)=>{
+                let newMap = p;
+                newMap.delete(key);
+                return newMap;
+            });
+        };
         room.onStateChange((state) => {
 
             if(state.started == true)
