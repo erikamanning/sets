@@ -28,7 +28,7 @@ const Navigation = ({logout}) => {
                     <a className="nav-link active" href="/single">Single Player</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link active" href="/multi">
+                    <a className="nav-link active" href="/multiplayer">
                       Multiplayer 
                     </a>
                   </li>

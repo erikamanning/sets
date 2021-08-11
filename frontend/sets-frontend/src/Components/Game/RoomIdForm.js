@@ -1,6 +1,6 @@
 import React, { useState} from "react"
 
-const JoinRoomIdForm = ({saveRoomCode}) => {
+const RoomIdForm = ({handleJoin}) => {
 
     const INITIAL_FORM = {
         roomCode:'',
@@ -21,7 +21,7 @@ const JoinRoomIdForm = ({saveRoomCode}) => {
     const handleSubmit = async (event) =>{
 
         event.preventDefault();
-        saveRoomCode(formData.roomCode);
+        handleJoin(formData.roomCode);
         setFormData(INITIAL_FORM);
     }
 
@@ -42,4 +42,4 @@ const JoinRoomIdForm = ({saveRoomCode}) => {
 }
 
 
-export default JoinRoomIdForm;
+export default RoomIdForm;

@@ -5,9 +5,8 @@ import Game from './Game'
 import Lobby from './Lobby'
 import GameContext from './GameContext'
 
-const GameRoom = ({room, guestUsername}) => {
+const GameRoom = ({room, username}) => {
 
-    const username = guestUsername || useSelector(state=>state.user.username);
     const history = useHistory();
     const [guestId, setGuestId] = useState(false);
     const [game, setGame] = useState(false);
