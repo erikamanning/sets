@@ -1,14 +1,13 @@
-import React, { useState} from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useState,useContext} from "react"
 import SetsAPI from '../../SetsAPI'
 import { setLocalStorage } from '../../localStorage/helpers'
 import { setUser } from '../../state/actions/userActions';
 import { Redirect } from "react-router-dom"
+import UserContext from '../Game/UserContext'
 
 const SignupForm = ({title='Signup'}) => {
 
-    const {user} = useSelector(s=>s);
-    const dispatch = useDispatch();
+    const {user, setUser} = useContext(UserContext);
 
     const INITIAL_FORM = {
         username:'',
@@ -33,7 +32,7 @@ const SignupForm = ({title='Signup'}) => {
         let resp = await SetsAPI.register(formData);
         if(resp){
             setLocalStorage(formData.username,resp.token);
-            dispatch(setUser(formData.username, resp.token));
+            setUser({username:formData.username, token:resp.token });
         }
         setFormData(INITIAL_FORM);
 

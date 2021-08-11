@@ -1,11 +1,10 @@
 
-import React, { useState } from 'react';
-import {useSelector} from 'react-redux'
+import React, { useState,useContext } from 'react';
 import {NavLink} from "react-router-dom"
-
+import UserContext from './Game/UserContext';
 const Navigation = ({logout}) => {
 
-  const user = useSelector(state=>state.user);
+  const {user} = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   // console.log('isOpen: ', isOpen);  
 
@@ -33,7 +32,7 @@ const Navigation = ({logout}) => {
                     </a>
                   </li>
                 </ul>
-                {user.username
+                {user && user.username
                   ? 
                   <ul className='navbar-nav mb-2 mb-lg-0'>
                     <li className="nav-item">

@@ -1,48 +1,51 @@
 import './App.css';
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import Navigation from './Components/Navigation'
 import {BrowserRouter} from "react-router-dom"
 import Router from './Components/Router'
 import {checkLoggedIn, getLocalStorage, clearCurrentUser} from './localStorage/helpers'
-import {useDispatch} from "react-redux"
-import { setUser, clearUser } from './state/actions/userActions';
 import SetsAPI from "./SetsAPI"
+import UserContext from './Components/Game/UserContext'
 
 function App() {
 
-  // console.log('LOADING APP COMPONENT');
+  // console.log('LOADING APP COMPONENT');      
   document.body.classList.add('bg-info');
-  const dispatch = useDispatch();
-
+  const [user,setUser] = useState(false);
 
   useEffect(()=>{
     if(checkLoggedIn()){
       const {username, token} = getLocalStorage();
       // console.log('TOKEN PRESENT IN LOCAL STORAGE, user should be logged in, grab data with token & set state');
       SetsAPI.setAPIToken(token);
-      dispatch(setUser(username, token));
+      setUser({username, token});
+      console.log('Logged in!');
+      console.log('Username: ', username);
+      console.log('Token: ', token);
     }
-    
     else{
-      // console.log('TOKEN NOT PRESENT IN LOCAL STORAGE');
+      console.log('TOKEN NOT PRESENT IN LOCAL STORAGE');
     }
   },[]);
 
   const logout = () => {
 
     clearCurrentUser();
-    dispatch(clearUser());
+    setUser({});
   }
 
   return (
-    <div className='bg-light text-dark pb-5'>
-      <BrowserRouter>
-          <div className="App">
-            <Navigation logout={logout}/>
-            <Router/>
-        </div>
-      </BrowserRouter>
-    </div>
+
+    <UserContext.Provider value={{user,setUser}}>
+      <div className='bg-light text-dark pb-5'>
+        <BrowserRouter>
+            <div className="App">
+              <Navigation logout={logout}/>
+              <Router/>
+          </div>
+        </BrowserRouter>
+      </div>
+    </UserContext.Provider>
   );
 }
 
