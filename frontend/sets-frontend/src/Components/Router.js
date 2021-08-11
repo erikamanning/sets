@@ -5,7 +5,8 @@ import LoginForm from './Forms/LoginForm'
 import SignupForm from './Forms/SignupForm'
 import UserProfile from './User/UserProfile'
 import GameRoom from "./Game/GameRoom"
-import SetupMultiplayer from './Game/SetupMultiplayer'
+import MultiplayerSetup from './Game/MultiplayerSetup'
+import SinglePlayerSetup from './Game/SinglePlayerSetup'
 
 const Router = () => {
 
@@ -24,14 +25,14 @@ const Router = () => {
                 <Route exact path='/profile'>
                     <UserProfile />
                 </Route>
-                <Route exact path='/single'>
-                    <h1>Single Player Mode</h1>
+                <Route exact path='/singleplayer'>
+                    <SinglePlayerSetup/>
                 </Route>
                 <Route exact path='/multiplayer'>
-                    <SetupMultiplayer />
+                    <MultiplayerSetup />
                 </Route>
                 <Route exact path='/join/:roomId'>
-                    <SetupMultiplayer />
+                    <MultiplayerSetup />
                 </Route>
                 <Route exact path='/lobby/:roomId'>
                     <GameRoom mode='sets_multiplayer'/>

@@ -7,7 +7,7 @@ import RoomContext from "./RoomContext";
 
 const Multiplayer = ({username}) => {
 
-    const {id} = useContext(RoomContext);
+    const {id} = useContext(RoomContext); // may also be able to do with useParams since url is unchanged at this point
     let client;
 
     const [room, setRoom] = useState(false);

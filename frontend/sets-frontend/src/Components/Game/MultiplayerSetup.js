@@ -5,7 +5,7 @@ import Multiplayer from "./Multiplayer";
 import GuestIdForm from "./GuestIdForm";
 import RoomContext from "./RoomContext";
 
-const SetupMultiplayer = () => {
+const MultiplayerSetup = () => {
 
     // check for room id url param & set context
     const { roomId } = useParams();
@@ -33,4 +33,4 @@ const SetupMultiplayer = () => {
     )
 }
 
-export default SetupMultiplayer;
+export default MultiplayerSetup;
