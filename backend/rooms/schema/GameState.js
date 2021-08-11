@@ -66,11 +66,11 @@ class GameState extends Schema {
 
     getGameResult(){
 
-        const playerKeys = Array.from(this.players.keys());
+        const scoreboardKeys = Array.from(this.scoreboard.keys());
         const indexZero = 0;
 
         if(this.mode==="singleplayer"){
-            const score = this.players[playerKeys[indexZero]].score;
+            const score = this.scoreboard.get(scoreboardKeys[indexZero]).score;
             if(score/27===1)
                 this.perfectGame=true;
             else
@@ -92,10 +92,12 @@ class GameState extends Schema {
         let topScore=0;
         let topScoringPlayer;
 
-        for(let key of this.players.keys()){
-            if(topScore<=this.players[key].score){
-                topScore=this.players[key].score;
-                topScoringPlayer=this.players[key];
+        for(let key of this.scoreboard.keys()){
+            if(!this.scoreboard.get(key).abandoned){
+                if(topScore<=this.scoreboard.get(key).score){
+                    topScore=this.scoreboard.get(key).score;
+                    topScoringPlayer=this.scoreboard.get(key);
+                }
             }
         }
         return {topScore,topScoringPlayer};
@@ -107,8 +109,8 @@ class GameState extends Schema {
 
         console.log('topScoringPlayer: ', topScoringPlayer.username);
 
-        for(let key of this.players.keys()){
-            if(topScore==this.players[key].score){
+        for(let key of this.scoreboard.keys()){
+            if(topScore==this.scoreboard.get(key).score){
                 topScoringPlayers++;
             }
         }
