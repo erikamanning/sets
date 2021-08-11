@@ -17,9 +17,10 @@ class GameState extends Schema {
         this.started=false;
         this.finished=false;
         this.players = new MapSchema();
+        this.scoreboard = new MapSchema();
         this.noSetsNoCards = false;
         this.playerLeft = false;
-
+        
         if(!testState){
             this.deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
             this.board = new BoardState(this.deck.drawCards(12));
@@ -36,12 +37,28 @@ class GameState extends Schema {
         const newPlayerNumber = this.players.size+1;
         const newPlayer = new Player(username,newPlayerNumber);
         this.players.set(sessionId, newPlayer);
+        this.updateScoreBoard();
     }
 
     removePlayer(sessionId){
         this.players.delete(sessionId);
     }
 
+    playerAbandoned(playerId){
+        const player = this.scoreboard.get(playerId);
+        player.abandoned = true;
+        this.scoreboard.set(playerId,player);
+    }
+    printScoreBoard(){
+        const scoreboardKeys = Array.from(this.scoreboard.keys());
+        scoreboardKeys.forEach(scoreboardKey=> this.scoreboard.get(scoreboardKey).printDetails());
+    }
+
+    updateScoreBoard(){
+        const playerKeys = Array.from(this.players.keys());
+        playerKeys.forEach(playerKey=> this.scoreboard.set(playerKey, this.players.get(playerKey)));
+        this.printScoreBoard();
+    }
 
     getMultiplayerResults(){
 
@@ -131,11 +148,13 @@ class GameState extends Schema {
     increaseScore(sessionId){
       console.log('increasing score...')
       this.players.get(sessionId).score+=1;
+      this.updateScoreBoard();
     }
 
     decreaseScore(sessionId){
         console.log('decreasing score...')
         this.players.get(sessionId).score-=1;
+        this.updateScoreBoard();
     }
 
     addRow(){
@@ -274,6 +293,7 @@ schema.defineTypes(GameState, {
   gameResult: 'string',
   winner: Player,
   players: { map: Player },
+  scoreboard: { map: Player },
   board: BoardState,
   deck: DeckState,
 });

@@ -3,34 +3,39 @@ import GameContext from './GameContext'
 
 const GameScoreTable = () => {
 
-    const {players} = useContext(GameContext);
-    // console.log('PLAYERS: ', players);
+    const {players, scoreboard} = useContext(GameContext);
+    console.log('scoreboard: ');
+    console.log('players: ')
+    scoreboard.forEach(p=>{console.log(p.username)})
+    console.log('abandoned: ')
+    scoreboard.forEach(p=>{console.log(p.abandoned)})
+
 
 
     const sortPlayersByScore = () => {
 
         // bubble sorting for now
         let tempKey;
-        console.log('players output check, size: ', players.size);
-        console.log('players: ');
-        players.forEach(p=>{console.log(p.username)})
+        console.log('scoreboard output check, size: ', scoreboard.size);
+        console.log('scoreboard: ');
+        scoreboard.forEach(p=>{console.log(p.username)})
 
-        let pKeys = Array.from(players.keys());
+        let pKeys = Array.from(scoreboard.keys());
         // console.log('pKeys: ', typeof(pKeys));
         for(let i = 0; i < pKeys.length; i++){
 
             // console.log('pKeys[i]: ', players[pKeys[i+1]]);
             for(let j = 0; j < pKeys.length-i-1; j++){
 
-                if(players.get(pKeys[j]).score < players.get(pKeys[j+1]).score){
+                if(scoreboard.get(pKeys[j]).score < scoreboard.get(pKeys[j+1]).score){
                     console.log('j: ', j);
-                    console.log('pKey[j]: ',pKeys[j],' Player: ',players.get(pKeys[j]).username , " Score: ",players.get(pKeys[j]).score );
-                    console.log('pKey[j+1]: ',pKeys[j+1],' Player: ',players.get(pKeys[j+1]).username , " Score: ",players.get(pKeys[j+1]).score );
+                    console.log('pKey[j]: ',pKeys[j],' Player: ',scoreboard.get(pKeys[j]).username , " Score: ",scoreboard.get(pKeys[j]).score );
+                    console.log('pKey[j+1]: ',pKeys[j+1],' Player: ',scoreboard.get(pKeys[j+1]).username , " Score: ",scoreboard.get(pKeys[j+1]).score );
                     tempKey=pKeys[j];
                     pKeys[j]=pKeys[j+1];
                     pKeys[j+1]=tempKey;
-                    console.log('pKey[j]: ',pKeys[j],' Player: ',players.get(pKeys[j]).username , " Score: ",players.get(pKeys[j]).score );
-                    console.log('pKey[j+1]: ',pKeys[j+1],' Player: ',players.get(pKeys[j+1]).username , " Score: ",players.get(pKeys[j+1]).score );
+                    console.log('pKey[j]: ',pKeys[j],' Player: ',scoreboard.get(pKeys[j]).username , " Score: ",scoreboard.get(pKeys[j]).score );
+                    console.log('pKey[j+1]: ',pKeys[j+1],' Player: ',scoreboard.get(pKeys[j+1]).username , " Score: ",scoreboard.get(pKeys[j+1]).score );
                 }
             }
         }
@@ -58,8 +63,8 @@ const GameScoreTable = () => {
                         {/* {console.log('players[pKey].username: ', players[pKey].username)} */}
                         {/* {console.log('players[pKey].score: ', players[pKey].score)} */}
                         <td>{x}</td>
-                        <td>{players.get(pKey).username}</td>
-                        <td>{players.get(pKey).score}</td>
+                        <td>{scoreboard.get(pKey).username} {scoreboard.get(pKey).abandoned ? <b className='text-danger'>ABANDONED</b> : null}</td>
+                        <td>{scoreboard.get(pKey).score}</td>
                     </tr>
                 })}
             </tbody>

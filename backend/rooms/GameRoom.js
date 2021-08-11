@@ -115,7 +115,7 @@ exports.GameRoom = class extends colyseus.Room {
     console.log(client.sessionId, "left!");
     this.broadcast('player_left', {playerId:client.sessionId});
     this.state.players.delete(client.sessionId);
-    this.state.getGameResult();
+    this.state.playerAbandoned(client.sessionId);
     timeout=null;
   }
 
