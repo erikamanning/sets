@@ -1,6 +1,5 @@
 
-import React, {useState} from "react"
-import GameContext from './GameContext'
+import React from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 const LobbyPlayerListItem = ({player}) => {

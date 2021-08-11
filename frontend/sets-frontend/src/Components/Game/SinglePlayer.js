@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useContext} from "react"
+import React, { useEffect, useState} from "react"
 import * as Colyseus from 'colyseus.js';
 import GameRoom from './GameRoom'
 

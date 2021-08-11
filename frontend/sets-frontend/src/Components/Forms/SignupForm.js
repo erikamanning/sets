@@ -1,7 +1,6 @@
 import React, { useState,useContext} from "react"
 import SetsAPI from '../../SetsAPI'
 import { setLocalStorage } from '../../localStorage/helpers'
-import { setUser } from '../../state/actions/userActions';
 import { Redirect } from "react-router-dom"
 import UserContext from '../Game/UserContext'
 

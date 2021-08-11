@@ -1,5 +1,5 @@
 
-import React, {useContext, useState} from "react"
+import React, {useContext} from "react"
 import GameContext from './GameContext'
 import LobbyPlayerList from './LobbyPlayerList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,8 +9,6 @@ import CountDownTimer from './CountDownTimer'
 const Lobby = () => {
 
     const {room, readyUp, unReady, user, players, game} = useContext(GameContext);
-
-    const [startTimer, setStartTimer] = useState(false);
 
     function showMultiplayerLobby(){
         return (

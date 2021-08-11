@@ -13,7 +13,7 @@ const GameRoom = ({room, username}) => {
     const [startGame, setStartGame] = useState(false);
     const [gameFinished, setGameFinished] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState(false);
-    const [stateChanged, seStateChanged] = useState(false);
+    const [stateChanged, setStateChanged] = useState(false);
     const [board,setBoard] = useState(false);
     const [roomSetup, setRoomSetup] = useState(false);
     const [viewResult, setViewResult] = useState(false);
@@ -41,15 +41,15 @@ const GameRoom = ({room, username}) => {
         };
         room.onStateChange((state) => {
 
-            if(state.started == true)
+            if(state.started === true)
                 setStartGame(true);
-            if(state.finished == true)
+            if(state.finished === true)
                 setGameFinished(true);
             
             setGame(room.state);
             setBoard(state.board.grid);
             setDeck(d=>state.deck);
-            seStateChanged(changed=>!changed);
+            setStateChanged(changed=>!changed);
         });
         room.onMessage("player_left", (message) => {
             const {playerId} = message;
