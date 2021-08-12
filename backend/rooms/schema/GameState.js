@@ -113,8 +113,10 @@ class GameState extends Schema {
         console.log('topScoringPlayer: ', topScoringPlayer.username);
 
         for(let key of this.scoreboard.keys()){
-            if(topScore==this.scoreboard.get(key).score){
-                topScoringPlayers++;
+            if(!this.scoreboard.get(key).abandoned){
+                if(topScore==this.scoreboard.get(key).score){
+                    topScoringPlayers++;
+                }
             }
         }
         if(topScoringPlayers>1){
