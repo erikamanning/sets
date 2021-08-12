@@ -15,6 +15,7 @@ const GameRoom = ({room, username}) => {
     const [currentPlayer, setCurrentPlayer] = useState(false);
     const [stateChanged, setStateChanged] = useState(false);
     const [board,setBoard] = useState(false);
+    const [scoreboard,setScoreboard] = useState(false);
     const [roomSetup, setRoomSetup] = useState(false);
     const [viewResult, setViewResult] = useState(false);
 
@@ -39,6 +40,14 @@ const GameRoom = ({room, username}) => {
                 return newMap;
             });
         };
+        room.state.scoreboard.onAdd = ((player,key)=>{
+            player.onChange = (()=>{
+                console.log('SCOREBOARD CHAAAAAAAAAAAAAAAAAAAANGED!!')
+
+            });
+            // setScoreboard(state.scoreboard);
+        })
+
         room.onStateChange((state) => {
 
             if(state.started === true)
@@ -47,6 +56,7 @@ const GameRoom = ({room, username}) => {
                 setGameFinished(true);
             
             setGame(room.state);
+            setScoreboard(state.scoreboard);
             setBoard(state.board.grid);
             setDeck(d=>state.deck);
             setStateChanged(changed=>!changed);
@@ -56,6 +66,8 @@ const GameRoom = ({room, username}) => {
             console.log("message received from server");
             // console.log(`${players.get(playerId).username} left!`);
             alert(`${players.get(playerId).username} left!`);
+            console.log('***************************************');
+            console.log(`${players.get(playerId).username} left!`);
             setGameFinished(true);
         });
         room.onMessage("player_quit", (message) => {
@@ -63,6 +75,8 @@ const GameRoom = ({room, username}) => {
             console.log("message received from server");
             // console.log(`${players.get(playerId).username} left!`);
             alert(`${players.get(playerId).username} left!`);
+
+
             setGameFinished(true);
 
         });
@@ -134,7 +148,8 @@ const GameRoom = ({room, username}) => {
                     readyUp,
                     unReady,
                     showResult,
-                    viewResult
+                    viewResult,
+                    scoreboard
                 }
                 }>
 
