@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@colyseus/monitor": "^0.14.3",
+    "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",

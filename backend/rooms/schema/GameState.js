@@ -50,7 +50,7 @@ class GameState extends Schema {
         this.scoreboard.set(playerId,player);
         // why in the heck doesn't this work
         // this.scoreboard.get(playerId).abandoned=true;
-        printScoreBoard();
+        this.printScoreBoard();
     }
     printScoreBoard(){
         const scoreboardKeys = Array.from(this.scoreboard.keys());
@@ -103,6 +103,7 @@ class GameState extends Schema {
                 }
             }
         }
+        this.topScore = topScore.toString();
         return {topScore,topScoringPlayer};
     }
 

@@ -1,6 +1,6 @@
 const colyseus = require('colyseus');
 const { GameState } = require('./schema/GameState');
-
+const axios = require('axios');
 let timeout;
 
 exports.GameRoom = class extends colyseus.Room {
@@ -122,8 +122,12 @@ exports.GameRoom = class extends colyseus.Room {
   onDispose() {
 
     // save game result at this point with backend api
-
-    
+    try{
+      axios.post('http://localhost:5000/game/save', {score: this.state.topScore, winner: this.state.winner.username});
+    }
+    catch(e){
+      console.log('Error: ', e);
+    }
     console.log("room", this.roomId, "disposing...");
   }
 }
