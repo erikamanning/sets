@@ -48,6 +48,9 @@ class GameState extends Schema {
         const player = this.scoreboard.get(playerId);
         player.abandoned = true;
         this.scoreboard.set(playerId,player);
+        // why in the heck doesn't this work
+        // this.scoreboard.get(playerId).abandoned=true;
+        printScoreBoard();
     }
     printScoreBoard(){
         const scoreboardKeys = Array.from(this.scoreboard.keys());
