@@ -123,7 +123,8 @@ exports.GameRoom = class extends colyseus.Room {
 
     // save game result at this point with backend api
     try{
-      axios.post('http://localhost:5000/game/save', {score: this.state.topScore, winner: this.state.winner.username});
+      axios.post('http://localhost:5000/game/save', {gameId: this.state.id, gameResult: this.state.gameResult, mode: this.state.mode});
+      
     }
     catch(e){
       console.log('Error: ', e);

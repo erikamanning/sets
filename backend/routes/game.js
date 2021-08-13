@@ -8,17 +8,17 @@ const Game = require('../models/game')
 router.post("/save", async function(req,res,next){
 
     try{
-        let { score, winner } = req.body;
-        console.log('score: ', score);
-        console.log('score type: ', typeof(score));
-        console.log('winner: ', winner);
-        score=parseInt(score);
-        let result = await Game.saveGame(score,winner);
-        return res.json(result);
+        let { gameId,gameResult,mode, players } = req.body;
+        console.log('gameId: ', gameId);
+        console.log('gameResult: ', gameResult);
+        console.log('mode: ', mode);
+        let gameSaveResult = await Game.saveGame(gameId,gameResult,mode);
+        let userGameSaveResult = await Game.saveUserGame(gameId,players);
+        return res.json({gameSaveResult,userGameSaveResult});
     }
     catch(error){
         console.log('error: ', error);
-        return res.json({'msg':'Game Save failed', 'err': err});
+        return res.json({'msg':'Game Save failed', 'error': error});
     }
 
 });
