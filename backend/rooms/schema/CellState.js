@@ -22,14 +22,6 @@ class CellState extends Schema {
             console.log('No Card Yet');
         console.log('-- selected: ', this.selected);
     }
-
-    toJSON(){
-
-        return {
-            card:this.card,
-            selected:this.selected
-        }
-    }
 }
 schema.defineTypes(CellState, {
     card: Card,

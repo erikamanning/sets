@@ -154,16 +154,6 @@ class BoardState extends Schema {
     clearSelectedCards(){
         this.selectedCards.clear();
     }
-
-    toJSON(){
-
-        return {
-            grid: this.grid,
-            maxRows: this.maxRows,
-            cols: this.cols, 
-            selectedCards: this.selectedCards,
-        }
-    }
 }
 schema.defineTypes(BoardState, {
     grid: { map: CellState },

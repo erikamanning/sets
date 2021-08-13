@@ -6,7 +6,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE games (
-    id VARCHAR(25) PRIMARY KEY,
+    id VARCHAR(100) PRIMARY KEY,
     gameResult VARCHAR(25),
     mode VARCHAR(25)
 );
@@ -14,7 +14,7 @@ CREATE TABLE games (
 CREATE TABLE user_games (
     id SERIAL PRIMARY KEY,
     username VARCHAR(25),
-    game_id VARCHAR(25),
+    game_id VARCHAR(100),
     user_result VARCHAR(4),
     user_score INT,
     FOREIGN KEY (game_id) REFERENCES games(id)

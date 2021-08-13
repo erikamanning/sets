@@ -16,17 +16,6 @@ class Card extends Schema {
             ? console.log(`- CARD: ${this.numShapes} ${this.color} ${this.fillLevel} ${this.shape}s`)
             : console.log(`- CARD: ${this.numShapes} ${this.color} ${this.fillLevel} ${this.shape}`)
     }
-    toJSON(){
-
-        return {
-            color: this.color,
-            shape: this.shape,
-            numShapes: this.numShapes,
-            fillLevel: this.fillLevel,
-            id: this.id
-        }
-    }
-
 }
 schema.defineTypes(Card, {
     color: "string",

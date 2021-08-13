@@ -21,14 +21,6 @@ class Player extends Schema {
     console.log('score: ', this.score);
     console.log('abandoned: ', this.abandoned);
   }
-  toJSON(){
-
-    return {
-      username: this.username,
-      playerNumber: this.playerNumber,
-      score: this.score
-    }
-  }
 }
 
 schema.defineTypes(Player, {
@@ -37,7 +29,8 @@ schema.defineTypes(Player, {
   playerNumber: "number",
   score: "number",
   ready:"boolean",
-  abandoned:'boolean'
+  abandoned:'boolean',
+  playerResult: 'string'
 });
 
 exports.Player = Player;

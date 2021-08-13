@@ -92,19 +92,6 @@ class DeckState extends Schema {
         // console.log('Cards: ', cards);
         return cards;
     }
-
-    toJSON(){
-
-        return {
-            colors: this.colors,
-            shapes: this.shapes,
-            maxShapes: this.maxShapes,
-            fillLevels: this.fillLevels,
-            numCards: this.numCards,
-            cardProperties: this.cardProperties,
-            cards: this.cards,
-        }
-    }
 }
 schema.defineTypes(DeckState, {
   colors: ["string"],

@@ -30,11 +30,14 @@ class Game{
     }
 
     static async saveUserGame(gameId, players){
+        console.log('********** hello from the saveUserGame!!!')
+        console.log('players: ', players)
 
         const promArr = [];
 
         for(let playerKey of Object.keys(players)){
-
+            console.log('********** hello from the saveUserGame for loop!!!')
+            console.log('playa playaaaaa: ',players[playerKey]);
             const {username,score,playerResult} = players[playerKey];
 
             promArr.push(queryUserGame(username, gameId, playerResult,score));

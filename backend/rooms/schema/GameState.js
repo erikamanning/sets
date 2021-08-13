@@ -5,12 +5,15 @@ const {BoardState} = require("./BoardState");
 const {Set} = require("./SetState");
 const { DeckState } = require('./DeckState');
 const { Player } = require('./PlayerState');
+const { v4: uuidv4 } = require('uuid');
+
 const colyseus = require('colyseus');
 
 class GameState extends Schema {    
 
     constructor(testState=false, mode) {
         super();
+        this.id = uuidv4();
         this.mode = mode;
         this.turn='any';
         this.allReady=false;
@@ -26,7 +29,7 @@ class GameState extends Schema {
             this.board = new BoardState(this.deck.drawCards(12));
         }
         else{
-            this.deck = new DeckState(["red","green"], ["square","circle", "triangle"]);
+            this.deck = new DeckState(["red"], ["square", "circle"]);
             this.board = new BoardState(this.deck.drawFromTopOfDeck(12));
         }
 
@@ -63,33 +66,6 @@ class GameState extends Schema {
         this.printScoreBoard();
     }
 
-    getMultiplayerResults(){
-
-    }
-
-    getGameResult(){
-
-        const scoreboardKeys = Array.from(this.scoreboard.keys());
-        const indexZero = 0;
-
-        if(this.mode==="singleplayer"){
-            const score = this.scoreboard.get(scoreboardKeys[indexZero]).score;
-            if(score/27===1)
-                this.perfectGame=true;
-            else
-                this.perfectGame=false;
-            
-            this.topScore=`${score}/27`;
-        }
-        else{
-            const {topScore,topScoringPlayer} =  this.getTopScore();
-            const result = this.checkForTie(topScore,topScoringPlayer);;
-            this.gameResult =result.result;
-            this.winner = result.winner;
-        }
-        this.finished=true;
-    }
-
     getTopScore(){
 
         let topScore=0;
@@ -101,12 +77,21 @@ class GameState extends Schema {
                     topScore=this.scoreboard.get(key).score;
                     topScoringPlayer=this.scoreboard.get(key);
                 }
+                else{
+                    const losingPlayer = this.scoreboard.get(key);
+                    losingPlayer.playerResult='loss';
+                    this.scoreboard.set(key,losingPlayer);
+                }
+            }
+            else{
+                const abandoningPlayer = this.scoreboard.get(key);
+                abandoningPlayer.playerResult='loss';
+                this.scoreboard.set(key,abandoningPlayer);
             }
         }
         this.topScore = topScore.toString();
         return {topScore,topScoringPlayer};
     }
-
     checkForTie(topScore,topScoringPlayer){
         let topScoringPlayers=0;
         let result;
@@ -116,6 +101,9 @@ class GameState extends Schema {
         for(let key of this.scoreboard.keys()){
             if(!this.scoreboard.get(key).abandoned){
                 if(topScore==this.scoreboard.get(key).score){
+                    const winningPlayer = this.scoreboard.get(key);
+                    winningPlayer.playerResult='win';
+                    this.scoreboard.set(key,winningPlayer);
                     topScoringPlayers++;
                 }
             }
@@ -123,6 +111,15 @@ class GameState extends Schema {
         if(topScoringPlayers>1){
             result={
                 result: 'tie',
+            }
+            for(let key of this.scoreboard.keys()){
+                if(!this.scoreboard.get(key).abandoned){
+                    if(topScore==this.scoreboard.get(key).score){
+                        const winningPlayer = this.scoreboard.get(key);
+                        winningPlayer.playerResult='tie';
+                        this.scoreboard.set(key,winningPlayer);
+                    }
+                }
             }
         }
         else{
@@ -133,6 +130,24 @@ class GameState extends Schema {
             }
         }
         return result;
+    }
+    getMultiplayerGameResult(){
+
+        const {topScore,topScoringPlayer} =  this.getTopScore();
+        const result = this.checkForTie(topScore,topScoringPlayer);;
+        this.gameResult =result.result;
+        this.winner = result.winner;
+        
+        this.finished=true;
+    }
+    getSinglePlayerResults(){
+        const pKeys = Array.from(this.scoreboard.keys());
+        const player = this.scoreboard.get(pKeys[0]);
+        player.playerResult = 'na';
+        this.scoreboard.set(pKeys[0],player);
+        this.gameResult = 'na';
+        console.log('inside getSinglePlayerResults -- this.gameResult: ', this.gameResult)
+        this.finished=true;
     }
 
     printBoard(){
@@ -287,6 +302,7 @@ class GameState extends Schema {
 
 }
 schema.defineTypes(GameState, {
+  id: "string",
   mode: "string",
   turn:"string",
   noSetsNoCards: 'boolean',

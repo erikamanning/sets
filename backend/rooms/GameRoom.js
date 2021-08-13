@@ -54,6 +54,13 @@ exports.GameRoom = class extends colyseus.Room {
 
       if(this.state.noSetsNoCards){
         this.broadcast('noSets_noCards', 'aint no dang sets or cards left');
+        if(this.state.mode==='singleplayer'){
+          this.state.getSinglePlayerResults();
+        }
+        else{
+          this.state.getMultiplayerGameResult();
+  
+        }
       }
     });
 
@@ -63,6 +70,13 @@ exports.GameRoom = class extends colyseus.Room {
         this.state.addRow();
         if(this.state.noSetsNoCards){
           this.broadcast('noSets_noCards', 'aint no dang sets or cards left');
+          if(this.state.mode==='singleplayer'){
+            this.state.getSinglePlayerResults();
+          }
+          else{
+            this.state.getMultiplayerGameResult();
+    
+          }
         }
     });
 
@@ -77,7 +91,6 @@ exports.GameRoom = class extends colyseus.Room {
       console.log("MESSAGE:  'quit' recieved! Getting game result!");
       this.broadcast('player_quit', {playerId:client.sessionId});
       this.state.players.delete(client.sessionId);
-      this.state.getGameResult();
     });
 
     this.onMessage("ready", (client, message) => {  
@@ -113,17 +126,21 @@ exports.GameRoom = class extends colyseus.Room {
 
   async onLeave (client, consented) {
     console.log(client.sessionId, "left!");
-    this.broadcast('player_left', {playerId:client.sessionId});
+    if(this.state.started && !this.state.finished){
+      this.broadcast('player_left', {playerId:client.sessionId});
+      this.state.playerAbandoned(client.sessionId);
+    }
     this.state.players.delete(client.sessionId);
-    this.state.playerAbandoned(client.sessionId);
+
     timeout=null;
   }
 
   onDispose() {
 
+    console.log('this.state.gameResult? : ', this.state.gameResult);
     // save game result at this point with backend api
     try{
-      axios.post('http://localhost:5000/game/save', {gameId: this.state.id, gameResult: this.state.gameResult, mode: this.state.mode});
+      axios.post('http://localhost:5000/game/save', {gameId: this.state.id, gameResult: this.state.gameResult, mode: this.state.mode, players:this.state.scoreboard});
       
     }
     catch(e){
