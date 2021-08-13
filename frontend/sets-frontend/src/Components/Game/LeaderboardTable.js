@@ -1,5 +1,6 @@
 import React from "react"
 import { useEffect } from "react";
+const { v4: uuidv4 } = require('uuid');
 
 const LeaderBoardTable = ({players}) => {
 
@@ -9,14 +10,14 @@ const LeaderBoardTable = ({players}) => {
 
         return( 
             <tbody>
-                {players.map(pKey=>{
+                {players.map(player=>{
                     x++;
                     return (
 
-                        <tr key={pKey}>
+                        <tr key={uuidv4()}>
                             <td>{x}</td>
-                            <td>{players.get(pKey).username} {players.get(pKey).abandoned ? <b className='text-danger'>ABANDONED</b> : null}</td>
-                            <td>{players.get(pKey).score}</td>
+                            <td>{player.username}</td>
+                            <td>{player.count}</td>
                         </tr>
                     ) 
                 })}
@@ -26,9 +27,18 @@ const LeaderBoardTable = ({players}) => {
     }
     return (
         <div>
-            <h5>Leaderboard Table</h5>
 
-            
+            <table className="table">
+            <thead>
+                <tr>
+                    <th scope="col">Rank #</th>
+                    <th scope="col">player</th>
+                    <th scope="col">wins</th>
+                </tr>
+            </thead>
+            {makeTable(players)}
+        
+        </table>
 
         </div>
     )

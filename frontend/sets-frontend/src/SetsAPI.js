@@ -52,6 +52,16 @@ class SetsAPI{
         }
     }
 
+    static async getLeaderboardData(){
+      try{
+        let data = await this.request(`game/all`, {}, 'get');
+        return data;
+      }
+      catch(error){
+        return false;
+      }
+  }
+
 
 
 }
