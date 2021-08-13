@@ -10,7 +10,7 @@ import UserContext from './Components/Game/UserContext'
 function App() {
 
   // console.log('LOADING APP COMPONENT');      
-  document.body.classList.add('bg-info');
+  // document.body.classList.add('bg-info');
   const [user,setUser] = useState(false);
 
   useEffect(()=>{

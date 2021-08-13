@@ -31,13 +31,19 @@ const Navigation = ({logout}) => {
                       Multiplayer 
                     </a>
                   </li>
+                  <li className="nav-item">
+                    <a className="nav-link active" href="/leaderboard">
+                      Leaderboard <span class="badge bg-danger">New</span>
+
+                    </a>
+                  </li>
                 </ul>
                 {user && user.username
                   ? 
                   <ul className='navbar-nav mb-2 mb-lg-0'>
                     <li className="nav-item">
                       <NavLink className="nav-link active" to="/profile">
-                        Hello, {user.username}
+                        Hello, <span className='text-decoration-underline'>{user.username}</span>
                       </NavLink>                           
                     </li>
                     <li className="nav-item">

@@ -7,6 +7,7 @@ import UserProfile from './User/UserProfile'
 import GameRoom from "./Game/GameRoom"
 import MultiplayerSetup from './Game/MultiplayerSetup'
 import SinglePlayerSetup from './Game/SinglePlayerSetup'
+import Leaderboard from './Game/LeaderBoard'
 
 const Router = () => {
 
@@ -30,6 +31,9 @@ const Router = () => {
                 </Route>
                 <Route exact path='/multiplayer'>
                     <MultiplayerSetup />
+                </Route>
+                <Route exact path='/leaderboard'>
+                    <Leaderboard />
                 </Route>
                 <Route exact path='/join/:roomId'>
                     <MultiplayerSetup />
