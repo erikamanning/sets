@@ -67,20 +67,19 @@ class GameState extends Schema {
     }
 
     getTopScore(){
-
+        console.log('333333333333333333333333333333')
+        console.log('      inside getTopScore      ')
+        console.log('333333333333333333333333333333')
         let topScore=0;
         let topScoringPlayer;
 
         for(let key of this.scoreboard.keys()){
+            console.log('player: ', this.scoreboard.get(key).username);
+            console.log('score: ', this.scoreboard.get(key).score);
             if(!this.scoreboard.get(key).abandoned){
                 if(topScore<=this.scoreboard.get(key).score){
                     topScore=this.scoreboard.get(key).score;
                     topScoringPlayer=this.scoreboard.get(key);
-                }
-                else{
-                    const losingPlayer = this.scoreboard.get(key);
-                    losingPlayer.playerResult='loss';
-                    this.scoreboard.set(key,losingPlayer);
                 }
             }
             else{
@@ -122,7 +121,19 @@ class GameState extends Schema {
                 }
             }
         }
+
         else{
+            for(let key of this.scoreboard.keys()){
+                if(!this.scoreboard.get(key).abandoned){
+                    if(!this.scoreboard.get(key).id!==topScoringPlayer.id){
+                        if(topScore>this.scoreboard.get(key).score){
+                            const losingPlayer = this.scoreboard.get(key);
+                            losingPlayer.playerResult='loss';
+                            this.scoreboard.set(key,losingPlayer);
+                        }
+                    }
+                }
+            }
             result={
                 result:'win',
                 winner:topScoringPlayer,
@@ -137,7 +148,6 @@ class GameState extends Schema {
         const result = this.checkForTie(topScore,topScoringPlayer);;
         this.gameResult =result.result;
         this.winner = result.winner;
-        
         this.finished=true;
     }
     getSinglePlayerResults(){
