@@ -52,15 +52,24 @@ class Game{
 
     static async getAll(){
 
+        // const result = await db.query(
+        //         `SELECT users.username, COUNT(user_result) 
+        //          FROM users 
+        //          JOIN user_games 
+        //          ON users.username=user_games.username 
+        //          WHERE user_result='win' 
+        //          GROUP BY users.username 
+        //          ORDER BY count(user_result) 
+        //          DESC LIMIT(5)`,
+        // );
+
+        // version without needing to register account
         const result = await db.query(
-                `SELECT users.username, COUNT(user_result) 
-                 FROM users 
-                 JOIN user_games 
-                 ON users.username=user_games.username 
-                 WHERE user_result='win' 
-                 GROUP BY users.username 
-                 ORDER BY count(user_result) 
-                 DESC LIMIT(5)`,
+            `SELECT username, COUNT(user_result) 
+             FROM user_games 
+             GROUP BY username 
+             ORDER BY count(user_result) 
+             DESC LIMIT(5)`
         );
     
         return result.rows;

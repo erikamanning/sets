@@ -26,9 +26,9 @@ const LeaderBoardTable = ({players}) => {
 
     }
     return (
-        <div className='card p-5 rounded'>
+        <div className='card p-5 rounded shadow'>
 
-            <table className="table table-dark table-hover ">
+            <table className="table table-info border border-dark table-hover table-striped ">
             <thead>
                 <tr>
                     <th scope="col">Rank #</th>
