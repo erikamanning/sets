@@ -24,12 +24,15 @@ const LeaderBoard = () => {
         <div className='mt-5'>
             <h1>Leaderboard</h1>
 
-            {
-                leaderboardData
-                ? <LeaderBoardTable players={leaderboardData}/>
-                : null
-            }
-
+            <div className="row justify-content-center mt-5">
+                <div className="col-12 col-md-8 col-lg-6">
+                {
+                    leaderboardData
+                    ? <LeaderBoardTable players={leaderboardData}/>
+                    : null
+                }
+                </div>
+            </div>
         </div>
     )
 }
