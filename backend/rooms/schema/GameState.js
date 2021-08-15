@@ -159,6 +159,14 @@ class GameState extends Schema {
         console.log('inside getSinglePlayerResults -- this.gameResult: ', this.gameResult)
         this.finished=true;
     }
+    getGameResults(){
+        if(this.mode==='singleplayer'){
+            this.getSinglePlayerResults();
+        }
+        else{
+            this.getMultiplayerGameResult();
+        }
+    }
 
     printBoard(){
         for(let cell of Array.from(this.board.grid.keys())){

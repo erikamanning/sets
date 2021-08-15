@@ -74,7 +74,7 @@ const GameRoom = ({room, username}) => {
             const {playerId} = message;
             console.log("message received from server");
             // console.log(`${players.get(playerId).username} left!`);
-            alert(`${players.get(playerId).username} left!`);
+            alert(`${players.get(playerId).username} quit!`);
 
 
             setGameFinished(true);

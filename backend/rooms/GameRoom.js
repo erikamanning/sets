@@ -54,13 +54,7 @@ exports.GameRoom = class extends colyseus.Room {
 
       if(this.state.noSetsNoCards){
         this.broadcast('noSets_noCards', 'aint no dang sets or cards left');
-        if(this.state.mode==='singleplayer'){
-          this.state.getSinglePlayerResults();
-        }
-        else{
-          this.state.getMultiplayerGameResult();
-  
-        }
+        this.state.getGameResults();
       }
     });
 
@@ -70,13 +64,7 @@ exports.GameRoom = class extends colyseus.Room {
         this.state.addRow();
         if(this.state.noSetsNoCards){
           this.broadcast('noSets_noCards', 'aint no dang sets or cards left');
-          if(this.state.mode==='singleplayer'){
-            this.state.getSinglePlayerResults();
-          }
-          else{
-            this.state.getMultiplayerGameResult();
-    
-          }
+          this.state.getGameResults();
         }
     });
 
@@ -90,7 +78,8 @@ exports.GameRoom = class extends colyseus.Room {
 
       console.log("MESSAGE:  'quit' recieved! Getting game result!");
       this.broadcast('player_quit', {playerId:client.sessionId});
-      this.state.players.delete(client.sessionId);
+      this.state.getGameResults();
+      // this.state.players.delete(client.sessionId);
     });
 
     this.onMessage("ready", (client, message) => {  
