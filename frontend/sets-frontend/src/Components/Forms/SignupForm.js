@@ -28,7 +28,6 @@ const SignupForm = ({title='Signup'}) => {
     const handleSubmit = async (event) =>{
 
         event.preventDefault();
-        alert('Signup form submitted!');
         let resp = await SetsAPI.register(formData.username,formData.password);
         if(resp){
             setLocalStorage(formData.username,resp.token);
