@@ -3,6 +3,7 @@
 const db = require('../db');
 const bcrypt = require("bcrypt");
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
+const {UnauthorizedError} = require('../expressError'); 
 
 class User{
     constructor(username,password){
@@ -28,8 +29,8 @@ class User{
                 return user;
             }
         }
-        throw new Error("Invalid username/password");
 
+        throw new UnauthorizedError("Invalid username/password");
     }
     static async register(username, password){
 
