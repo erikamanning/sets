@@ -44,6 +44,8 @@ class SetsAPI{
 
     static async register(username,password){
         try{
+          console.log('****************************');
+          console.log('in FE sets register function');
           await this.request(`auth/register`, {username,password}, 'post');
           return true;
         }

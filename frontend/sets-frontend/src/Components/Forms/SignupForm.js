@@ -7,6 +7,7 @@ import UserContext from '../Game/UserContext'
 const SignupForm = ({title='Signup'}) => {
 
     const {user, setUser} = useContext(UserContext);
+    console.log('user.token: ', user.token);
 
     const INITIAL_FORM = {
         username:'',
@@ -27,8 +28,8 @@ const SignupForm = ({title='Signup'}) => {
     const handleSubmit = async (event) =>{
 
         event.preventDefault();
-        alert('Form submitted!');
-        let resp = await SetsAPI.register(formData);
+        alert('Signup form submitted!');
+        let resp = await SetsAPI.register(formData.username,formData.password);
         if(resp){
             setLocalStorage(formData.username,resp.token);
             setUser({username:formData.username, token:resp.token });
