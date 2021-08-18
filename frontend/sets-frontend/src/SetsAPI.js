@@ -31,14 +31,13 @@ class SetsAPI{
     // individual api routes
     static async authenticate(username,password){
         try{
-          return await this.request(`auth/token`, {username,password}, 'post');
-          // return true;
-          // const headers = { Authorization: `Bearer ${SetsAPI.token}`};
-
-          // return await axios.post(`${BASE_URL}/auth/token`, {username,password},{headers})
+          let res = await this.request(`auth/token`, {username,password}, 'post');
+          console.log('000000000000000000000000000');
+          return res;
         }
         catch(error){
-          return false;
+          console.log('error in authenticate sets API!: ', error[0]);
+          return error[0];
         }
     }
 

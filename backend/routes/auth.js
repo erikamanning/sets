@@ -27,13 +27,19 @@ router.post("/token", async function (req, res, next) {
         console.log('Password: ', password);
 
         const user = await User.authenticate(username,password);
-        
-        const token = createToken(user);
-        return res.json({ token });
+        console.log('-----USER: ', user);
+
+        // if(user){
+            // console.log('-----USER: ', user);
+            const token = createToken(user);
+            return res.json({ token });
+
+        // }
+        // return res.json(false);
     }
     catch(err){
         console.log('error: ', err);
-        res.json({'msg':'Authentication failed', 'err': err});
+        return next(err);
     }
 
 });

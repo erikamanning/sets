@@ -28,11 +28,14 @@ const LoginForm = (props) => {
     const handleSubmit = async (event) =>{
 
         event.preventDefault();
-        alert('Form submitted!');
         let resp = await SetsAPI.authenticate(formData.username, formData.password);
-        if(resp){
+        console.log('RESP: ', resp);
+        if(resp.token){
             setLocalStorage(formData.username,resp.token);
             setUser({username:formData.username, token:resp.token });
+        }
+        else{
+            alert(`ERROR: ${resp}`);
         }
         setFormData(INITIAL_FORM);
     }
