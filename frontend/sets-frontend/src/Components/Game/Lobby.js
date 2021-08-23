@@ -3,19 +3,29 @@ import React, {useContext} from "react"
 import GameContext from './GameContext'
 import LobbyPlayerList from './LobbyPlayerList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faTimes, faCopy } from '@fortawesome/free-solid-svg-icons'
 import CountDownTimer from './CountDownTimer'
 
 const Lobby = () => {
 
     const {room, readyUp, unReady, user, players, game} = useContext(GameContext);
+    const roomLink = `localhost:3000/join/${room.id}`;
+
 
     function showMultiplayerLobby(){
         return (
             <div>
                 {
                     room.id 
-                    ? <p><b>Room Id: </b> {room.id}</p>
+                    ?   <div className='row justify-content-center'>
+                            <div className='col-12 col-md-4 col-lg-2'>
+                                <p><b>Room Id: </b> {room.id}</p>
+                                <div className='input-group mb-3'>
+                                    <input className='form-control' type="text" value={roomLink} />
+                                    <button onClick={()=>{navigator.clipboard.writeText(roomLink)}} className='btn btn-secondary'><FontAwesomeIcon icon={faCopy}/></button>
+                                </div>
+                            </div>
+                        </div>
                     : null
                 }
                 <LobbyPlayerList/>
