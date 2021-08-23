@@ -14,7 +14,7 @@ const Router = () => {
     return <div>
             <Switch>
 
-                <Route exact path='/home'>
+                <Route exact path='/'>
                     <Home />
                 </Route>
                 <Route exact path='/login'>
