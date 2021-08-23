@@ -4,14 +4,15 @@ import GameScoreTable from "./GameScoreTable"
 
 const GameResult = () => {
 
-    const {game, mode, leave} = useContext(GameContext);
-    const playAgainLink = mode === 'sets_singleplayer' ? 'single' : 'multi';
-
+    const {game, leave} = useContext(GameContext);
+    const playAgainLink = game.mode === 'singleplayer' ? 'singleplayer' : 'multiplayer';
+    console.log('999999999999999999 mode: ', game.mode);
+    console.log('play again link: ', playAgainLink);
     const showResults = () => {
 
         let results;
 
-        if(mode==="sets_singleplayer"){
+        if(game.mode==="sets_singleplayer"){
             results =  <p> Score: {game.topScore}</p> 
         }
         else{
