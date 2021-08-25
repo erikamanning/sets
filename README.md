@@ -15,11 +15,30 @@ Sets is an application that allows you to play the classic puzzle game Set! You 
 
 
 ## Installation
+1. Clone Repo.
+    ```sh
+    https://github.com/erikamanning/sets.git
+    ```
+2. Install back end packages    
+   ```sh
+    cd backend
+    npm install
+    ```
+3. Create postgres database. Must have postgres installed.
+    ```sh
+    psql < sets.sql
+    ```
 
+4. Install front end packages.
+    ```sh
+    cd frontend/sets-frontend
+    npm install
+    ```
 
-2. Install packages.
-
-3. npm start from frontend folder-- need to change
+5. Run application from `sets-frontend` directory.
+    ```sh
+    npm start
+    ```
 
 
 ## User Flows
@@ -53,7 +72,7 @@ This project owes much to the [Colyseus Framework](https://colyseus.io). The man
 
 
 ## Roadmap
-* Currently in development is a charitable donation payment portal, using Stripe API. 
-* Registered users will soon be able to see their game history.
-* Want to add varying levels of difficulty when playing the computer.
-* Would also like to add more card skins to the game. If you would like to make skins and submit them then credit will be given to you for teh skins and if possible down the road we will set up a portal for users to pay for the skins.
+* In Development: A feature to make a charitable donation via a payment portal, using the Stripe API. 
+* In Development: Registered users will soon be able to see their game history.
+* Future: Want to add varying levels of difficulty when playing the computer.
+* Future: Add more card skins to the game. If you would like to make skins and submit them then credit will be given to you for the skins and if possible down the road we will set up a portal for users to pay for the skins.
