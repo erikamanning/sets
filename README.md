@@ -8,13 +8,11 @@
 * [Multiplayer Server](https://github.com/erikamanning/sets#api)
 * [Roadmap](https://github.com/erikamanning/sets#roadmap)
 
----
 
 ## About
 
 Sets is an application that allows you to play the classic puzzle game Set! You can play singleplayer or multiplayer. You can join a game with a link shared by a friend or you can enter the room code into the join form. If you register you can be part of the site ranking and compare your scores to other users. You will also have access to a dashboard which will contain your match history so you can track your progress.
 
----
 
 ## Installation
 
@@ -47,14 +45,12 @@ Sets is an application that allows you to play the classic puzzle game Set! You 
 ### User Flow: Leaderboard
 ![Leaderboard](/readme_images/leaderboard.png)
 
----
 
 ## Multiplayer Server
 This project owes much to the [Colyseus Framework](https://colyseus.io). The management of the game state, and player timing was handled using this library.
 
 ![Colyseus Logo](readme_images/colyseus_logo.webp)
 
----
 
 ## Roadmap
 * Currently in development is a charitable donation payment portal, using Stripe API. 
