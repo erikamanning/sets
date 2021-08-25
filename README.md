@@ -21,7 +21,7 @@ Sets is an application that allows you to play the classic puzzle game Set! You 
     ```
 2. Install back end packages    
    ```sh
-    cd backend
+    cd sets-backend
     npm install
     ```
 3. Create postgres database. Must have postgres installed.
@@ -31,7 +31,7 @@ Sets is an application that allows you to play the classic puzzle game Set! You 
 
 4. Install front end packages.
     ```sh
-    cd frontend/sets-frontend
+    cd sets-frontend
     npm install
     ```
 
