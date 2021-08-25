@@ -33,7 +33,7 @@ const Navigation = ({logout}) => {
                   </li>
                   <li className="nav-item">
                     <a className="nav-link active" href="/leaderboard">
-                      Leaderboard <span class="badge bg-danger">New</span>
+                      Leaderboard <span class="badge bg-primary">New</span>
 
                     </a>
                   </li>
