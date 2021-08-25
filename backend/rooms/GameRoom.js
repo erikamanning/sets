@@ -13,7 +13,8 @@ exports.GameRoom = class extends colyseus.Room {
     this.minPlayers=options.minPlayers;
     if(options.maxClients)this.maxClients=options.maxClients;
 
-    this.setState(new GameState(true,options.mode));
+    // this.setState(new GameState(true,options.mode));
+    this.setState(new GameState(false,options.mode));
 
     /* SELECT A CARD */
     this.onMessage("select_card", (client, message) => {

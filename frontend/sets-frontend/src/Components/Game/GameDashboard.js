@@ -12,9 +12,9 @@ const GameDashboard = () => {
             <div className="col-12 col-sm-10 col-lg-8">
                 <div className='border border-light rounded'>
 
-                    <h3># of Sets on board: {game.currentSetCount}</h3>
+                    {/* <h3># of Sets on board: {game.currentSetCount}</h3> */}
 
-                    <p><b>You: </b> {user.username}</p>
+                    {/* <p><b>You: </b> {user.username}</p> */}
                     <GameScoreTable />
                     <p><b>Cards Remaining: </b> <i>{deck.cards.size}</i></p>
                     {deck.cards.size 
