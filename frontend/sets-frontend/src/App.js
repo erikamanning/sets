@@ -9,6 +9,23 @@ import UserContext from './Components/Game/UserContext'
 
 function App() {
 
+/**
+ * 
+ *  user {
+ *  
+ *    username,
+ *    token,
+ *    guestId:
+ *    gameRooms:
+ *          id:{
+ *            sessionId:sessionId
+ *          }
+ * }
+ * 
+ * 
+ */
+
+
   // console.log('LOADING APP COMPONENT');      
   document.body.classList.add('bg-light');
   const [user,setUser] = useState(false);
