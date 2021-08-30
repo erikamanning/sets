@@ -13,13 +13,13 @@ async function insertUserGame(username, gameId, userResult,userScore){
     return result.rows[0];
 }
 
-async function insertGuestGame(username, gameId, userResult,userScore){
+async function insertGuestGame(guestName, gameId, guestResult,guestScore){
     const result = await db.query(
-        `INSERT INTO user_games
-        (username, game_id, user_result,user_score)
+        `INSERT INTO guest_games
+        (guestname, game_id, guest_result,guest_score)
         VALUES ($1, $2, $3, $4)
-        RETURNING id, username, game_id, user_result,user_score`,
-    [username, gameId, userResult,userScore]);
+        RETURNING id, guestname, game_id, guest_result,guest_score`,
+    [guestName, gameId, guestResult,guestScore]);
 
     return result.rows[0];
 }
