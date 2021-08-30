@@ -5,6 +5,12 @@ CREATE TABLE users (
         -- CHECK (position('@' IN email) > 1)
 );
 
+CREATE TABLE guests (
+    id SERIAL PRIMARY KEY,
+    guestname VARCHAR(25)
+        -- CHECK (position('@' IN email) > 1)
+);
+
 CREATE TABLE games (
     id VARCHAR(100) PRIMARY KEY,
     gameResult VARCHAR(25),

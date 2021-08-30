@@ -11,6 +11,14 @@ VALUES ('gandalf',
         '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
         'guest@fakemail.com');
 
+INSERT INTO guests (guestname)
+VALUES ('guest1'),
+       ('guest2'),
+       ('guest3'),
+       ('guest4'),
+       ('guest5'),
+       ('guest6');
+
 -- WIN, TIE, or NA
 INSERT INTO games (id,gameResult,mode)
 VALUES ('testgame1','WIN','multiplayer'),
