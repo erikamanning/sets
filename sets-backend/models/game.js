@@ -16,9 +16,9 @@ async function insertUserGame(username, gameId, userResult,userScore){
 async function insertGuestGame(guestName, gameId, guestResult,guestScore){
     const result = await db.query(
         `INSERT INTO guest_games
-        (guestname, game_id, guest_result,guest_score)
+        (guest_name, game_id, guest_result,guest_score)
         VALUES ($1, $2, $3, $4)
-        RETURNING id, guestname, game_id, guest_result,guest_score`,
+        RETURNING id, guest_name, game_id, guest_result,guest_score`,
     [guestName, gameId, guestResult,guestScore]);
 
     return result.rows[0];
@@ -26,7 +26,7 @@ async function insertGuestGame(guestName, gameId, guestResult,guestScore){
 
 class Game{
 
-    static async saveGame(gameId,gameResult,mode){
+    static async save(gameId,gameResult,mode){
 
         const result = await db.query(
             `INSERT INTO games
@@ -38,18 +38,22 @@ class Game{
         return result.rows[0];
     }
 
-    static async saveUserGame(gameId, players){
+    static async savePlayerData(gameId, players, playerLog){
         console.log('********** hello from the saveUserGame!!!')
-        console.log('players: ', players)
+        // console.log('player LOG: ', playerLog);
+        console.log('players: ', players);
 
         const promArr = [];
-
-        for(let playerKey of Object.keys(players)){
-            console.log('********** hello from the saveUserGame for loop!!!')
-            console.log('playa playaaaaa: ',players[playerKey]);
-            const {username,score,playerResult} = players[playerKey];
-
-            promArr.push(insertUserGame(username, gameId, playerResult,score));
+        const playerKeys = Array.from(players.keys())
+        console.log('playerKeys: ',playerKeys);
+        for(let playerKey of playerKeys){
+            console.log('player key: ', playerKey);
+            const currentPlayer = players.get(playerKey);
+            console.log('player: ', currentPlayer.username);
+            if(playerLog[playerKey].loggedIn)
+                promArr.push(insertUserGame(currentPlayer.username, gameId, currentPlayer.playerResult,currentPlayer.score));
+            else
+                promArr.push(insertGuestGame(currentPlayer.username, gameId, currentPlayer.playerResult,currentPlayer.score));
         }
 
         return Promise.all(promArr).then((values) => {

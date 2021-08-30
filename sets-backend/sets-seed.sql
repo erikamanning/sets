@@ -11,14 +11,6 @@ VALUES ('gandalf',
         '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
         'guest@fakemail.com');
 
-INSERT INTO guests (guestname)
-VALUES ('guest1'),
-       ('guest2'),
-       ('guest3'),
-       ('guest4'),
-       ('guest5'),
-       ('guest6');
-
 -- WIN, TIE, or NA
 INSERT INTO games (id,gameResult,mode)
 VALUES ('testgame1','WIN','multiplayer'),
@@ -26,7 +18,12 @@ VALUES ('testgame1','WIN','multiplayer'),
        ('testgame3','NA', 'singleplayer'),
        ('testgame4','NA', 'singleplayer'),
        ('testgame5','NA', 'singleplayer'),
-       ('testgame6','NA', 'singleplayer');
+       ('testgame6','NA', 'singleplayer'),
+       ('guestgame1','WIN', 'multiplayer');
+
+INSERT INTO guest_games (guest_name,game_id,guest_result,guest_score)
+VALUES ('guest1',  'guestgame1','win', 1),
+       ('guest2','guestgame1','loss', 0);
 
 INSERT INTO user_games (username,game_id,user_result,user_score)
 VALUES ('frodo',  'testgame1','win', 1),

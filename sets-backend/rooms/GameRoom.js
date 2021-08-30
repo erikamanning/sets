@@ -1,6 +1,7 @@
 const colyseus = require('colyseus');
 const { GameState } = require('./schema/GameState');
-const axios = require('axios');
+const Game = require('../models/game');
+const { saveGame } = require('../models/game');
 let timeout;
 
 exports.GameRoom = class extends colyseus.Room {
@@ -8,13 +9,13 @@ exports.GameRoom = class extends colyseus.Room {
   onCreate (options) {
 
     console.log('CREATING ROOM...');
-
+    this.playerLog={};
     this.clock.start();
     this.minPlayers=options.minPlayers;
     if(options.maxClients)this.maxClients=options.maxClients;
 
-    // this.setState(new GameState(true,options.mode));
-    this.setState(new GameState(false,options.mode));
+    this.setState(new GameState(true,options.mode));
+    // this.setState(new GameState(false,options.mode));
 
     /* SELECT A CARD */
     this.onMessage("select_card", (client, message) => {
@@ -111,6 +112,9 @@ exports.GameRoom = class extends colyseus.Room {
   onJoin (client, options) {
     // console.log(`User ${client.sessionId} Joined!`);
     console.log(`User ${options.username} Joined!`);
+    console.log(`User logged in?: ${options.playerLoggedIn}`);
+    this.playerLog[client.sessionId]={loggedIn:options.playerLoggedIn};
+    console.log('Current Player Log: ', this.playerLog);
     this.state.addPlayer(client.sessionId,options.username);
   }
 
@@ -125,13 +129,13 @@ exports.GameRoom = class extends colyseus.Room {
     timeout=null;
   }
 
-  onDispose() {
+  async onDispose() {
 
     console.log('this.state.gameResult? : ', this.state.gameResult);
     // save game result at this point with backend api
     try{
-      axios.post('http://localhost:5000/game/save', {gameId: this.state.id, gameResult: this.state.gameResult, mode: this.state.mode, players:this.state.scoreboard});
-      
+      await Game.save(this.state.id,this.state.gameResult,this.state.mode);
+      await Game.savePlayerData(this.state.id,this.state.scoreboard, this.playerLog);
     }
     catch(e){
       console.log('Error: ', e);

@@ -5,16 +5,19 @@ CREATE TABLE users (
         -- CHECK (position('@' IN email) > 1)
 );
 
-CREATE TABLE guests (
-    id SERIAL PRIMARY KEY,
-    guestname VARCHAR(25)
-        -- CHECK (position('@' IN email) > 1)
-);
-
 CREATE TABLE games (
     id VARCHAR(100) PRIMARY KEY,
     gameResult VARCHAR(25),
     mode VARCHAR(25)
+);
+
+CREATE TABLE guest_games (
+    id SERIAL PRIMARY KEY,
+    guest_name VARCHAR(25),
+    game_id VARCHAR(100),
+    guest_result VARCHAR(4),
+    guest_score INT,
+    FOREIGN KEY (game_id) REFERENCES games(id)
 );
 
 CREATE TABLE user_games (
@@ -23,8 +26,8 @@ CREATE TABLE user_games (
     game_id VARCHAR(100),
     user_result VARCHAR(4),
     user_score INT,
-    FOREIGN KEY (game_id) REFERENCES games(id)
-    -- FOREIGN KEY (username) REFERENCES users(username)
+    FOREIGN KEY (game_id) REFERENCES games(id),
+    FOREIGN KEY (username) REFERENCES users(username)
 );
 
 -- CREATE TABLE user_games (
