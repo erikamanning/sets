@@ -1,10 +1,19 @@
 "user strict"
 
 const db = require('../db');
-const bcrypt = require("bcrypt");
-const { BCRYPT_WORK_FACTOR } = require("../config.js");
 
-async function queryUserGame(username, gameId, userResult,userScore){
+async function insertUserGame(username, gameId, userResult,userScore){
+    const result = await db.query(
+        `INSERT INTO user_games
+        (username, game_id, user_result,user_score)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id, username, game_id, user_result,user_score`,
+    [username, gameId, userResult,userScore]);
+
+    return result.rows[0];
+}
+
+async function insertGuestGame(username, gameId, userResult,userScore){
     const result = await db.query(
         `INSERT INTO user_games
         (username, game_id, user_result,user_score)
@@ -40,7 +49,7 @@ class Game{
             console.log('playa playaaaaa: ',players[playerKey]);
             const {username,score,playerResult} = players[playerKey];
 
-            promArr.push(queryUserGame(username, gameId, playerResult,score));
+            promArr.push(insertUserGame(username, gameId, playerResult,score));
         }
 
         return Promise.all(promArr).then((values) => {
