@@ -2,7 +2,8 @@ const setLocalStorage = (username,token, roomIds) => {
 
     localStorage.setItem("username", username);
     localStorage.setItem("token", token);
-    localStorage.setItem("roomIds", roomIds);
+    if(roomIds)
+        localStorage.setItem("roomIds", roomIds);
 }
 
 
@@ -18,20 +19,35 @@ const getLocalStorage = () => {
     return {username,token, roomIds}
 }
 
-const addRoomId = (roomId) => {
+const addRoomIdLocalStorage = (roomId) => {
     const previousRoomIds = JSON.parse(localStorage.getItem("roomIds" )) || [];
     const currentRoomIds = [...previousRoomIds, roomId];
     localStorage.setItem('roomIds', JSON.stringify(currentRoomIds));
 }
 
-const removeRoomId = (roomId) => {
-    const previousRoomIds = JSON.parse(localStorage.getItem("roomIds" ));
+/**
+ * 
+ * function removes roomId from local storage, no error or issue if array is empty or if roomid not found
+ */
+const removeRoomIdLocalStorage = (roomId) => {
+    const previousRoomIds = JSON.parse(localStorage.getItem("roomIds" )) || [];
 
     const newRoomIds = previousRoomIds.filter(currentId => {
-
-        return roomId === currentId;
+        return roomId !== currentId;
     });
+
+    localStorage.setItem('roomIds', JSON.stringify(newRoomIds));
 }
+
+const getRoomIdsLocalStorage = () =>{
+
+    return JSON.parse(localStorage.getItem('roomIds')) || [];
+}
+
+// test data to be checked in react functions
+// addRoomIdLocalStorage('charlie');
+// addRoomIdLocalStorage('tango');
+// addRoomIdLocalStorage('foxtrot');
 
 const checkLoggedIn = () => {
     const token = localStorage.getItem("token");
@@ -53,4 +69,4 @@ const clearCurrentUser = ()=>{
 }
 
 
-export {checkLoggedIn, setCurrentUser, clearCurrentUser, getLocalStorage,setLocalStorage};
+export {checkLoggedIn, setCurrentUser, clearCurrentUser, getLocalStorage,setLocalStorage, addRoomIdLocalStorage, removeRoomIdLocalStorage, getRoomIdsLocalStorage};

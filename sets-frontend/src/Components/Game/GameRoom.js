@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import {useHistory} from "react-router-dom"
 import Game from './Game'
 import Lobby from './Lobby'
 import GameContext from './GameContext'
+import UserContext from './UserContext'
 
 const GameRoom = ({room, username}) => {
 
@@ -18,6 +19,8 @@ const GameRoom = ({room, username}) => {
     const [scoreboard,setScoreboard] = useState(false);
     const [roomSetup, setRoomSetup] = useState(false);
     const [viewResult, setViewResult] = useState(false);
+    const {roomIds, addRoomId, removeRoomId} = useContext(UserContext); 
+
 
     function setUpGame(room, username){
 
@@ -76,9 +79,7 @@ const GameRoom = ({room, username}) => {
             // console.log(`${players.get(playerId).username} left!`);
             alert(`${players.get(playerId).username} quit!`);
 
-
             setGameFinished(true);
-
         });
         room.onMessage("noSets_noCards", (message) => {
             const {playerId} = message;
@@ -87,6 +88,11 @@ const GameRoom = ({room, username}) => {
             alert(`No more sets and no more cards to draw! Game over.`);
             setGameFinished(true);
         });
+
+        room.onLeave((code) => {
+            console.log("BOIIIIIIIIIIIIIING!!!!!!! client left the room: ", room.id);
+            removeRoomId(room.id);
+          });
 
         setRoomSetup(true);
     }

@@ -122,6 +122,8 @@ exports.GameRoom = class extends colyseus.Room {
 
   async onLeave (client, consented) {
     console.log(client.sessionId, "left!");
+    client.send('player_clear',`client ${this.state.players[client.sessionId].username} left!`);
+
     if(this.state.started && !this.state.finished){
       this.broadcast('player_left', {playerId:client.sessionId});
       this.state.playerAbandoned(client.sessionId);

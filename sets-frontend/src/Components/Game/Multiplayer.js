@@ -1,5 +1,6 @@
 
-import React, { useEffect, useState, useContext} from "react"
+import React, { useEffect, useState, useContext} from "react";
+import { useHistory } from "react-router";
 import * as Colyseus from 'colyseus.js';
 import GameRoom from './GameRoom'
 import RoomIdForm from './RoomIdForm'
@@ -9,7 +10,7 @@ import UserContext from "./UserContext";
 const Multiplayer = ({username}) => {
 
     const {id} = useContext(RoomContext); // may also be able to do with useParams since url is unchanged at this point
-    const {roomIds, addRoomId} = useContext(UserContext); 
+    const {roomIds, addRoomId, removeRoomId, checkRoomId} = useContext(UserContext); 
     
     console.log('Current ROOM-IDs: ', roomIds);
 
@@ -19,6 +20,7 @@ const Multiplayer = ({username}) => {
     const [roomId, setRoomId] = useState(id||false);
     const [create, setCreate] = useState(false);
     const [join, setJoin] = useState(id||false);
+    const history = useHistory();
 
     useEffect(()=>{
         client = new Colyseus.Client('ws://localhost:5000');
@@ -67,7 +69,12 @@ const Multiplayer = ({username}) => {
         }
         else if(join){
             console.log('Client wants to JOIN!');
-            joinRoom(roomId);
+            if(checkRoomId(roomId))
+                joinRoom(roomId);
+            else{
+                history.push('/');
+                alert('You are already in this room in another tab/window! You cannot join the same game twice!');
+            }
         }
 
     },[create,join]);
