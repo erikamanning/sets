@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useEffect, useState} from 'react'
 import Navigation from './Components/Navigation'
-import {BrowserRouter} from "react-router-dom"
+import {BrowserRouter, useLocation} from "react-router-dom"
 import Router from './Components/Router'
 import {checkLoggedIn, getLocalStorage, clearCurrentUser, addRoomIdLocalStorage, removeRoomIdLocalStorage, getRoomIdsLocalStorage} from './localStorage/helpers'
 import SetsAPI from "./SetsAPI"
@@ -30,6 +30,11 @@ function App() {
   document.body.classList.add('bg-light');
   const [user,setUser] = useState(false);
   const [roomIds,setRoomIds] = useState(getRoomIdsLocalStorage());
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log('Location changed');
+  }, [location]);
 
   useEffect(()=>{
     if(checkLoggedIn()){
@@ -83,12 +88,10 @@ function App() {
 
     <UserContext.Provider value={{user,setUser, roomIds, addRoomId, removeRoomId,checkRoomId}}>
       <div className='bg-light text-dark pb-5'>
-        <BrowserRouter>
             <div className="App">
               <Navigation logout={logout}/>
               <Router/>
           </div>
-        </BrowserRouter>
       </div>
     </UserContext.Provider>
   );
