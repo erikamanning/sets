@@ -10,6 +10,17 @@ const SinglePlayer = ({username}) => {
 
     useEffect(()=>{
         client = new Colyseus.Client('ws://localhost:5000');
+        client.getAvailableRooms("sets_singleplayer").then(rooms => {
+            console.log('SINGLEPLAYER -- getting rooms data');
+            rooms.forEach((room) => {
+                console.log('roomId: ',room.roomId);
+                console.log('clients: ',room.clients);
+                console.log('maxClients: ',room.maxClients);
+                console.log('metadata: ',room.metadata);
+            });
+          }).catch(e => {
+            console.error(e);
+          });
         async function createRoom(){
             try {
                 const room = await client.create("sets_singleplayer", {username});

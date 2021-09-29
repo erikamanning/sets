@@ -11,6 +11,7 @@ exports.GameRoom = class extends colyseus.Room {
     console.log('CREATING ROOM...');
     this.playerLog={};
     this.clock.start();
+    this.setMetadata({players:[]});
     this.minPlayers=options.minPlayers;
     if(options.maxClients)this.maxClients=options.maxClients;
 
@@ -115,6 +116,7 @@ exports.GameRoom = class extends colyseus.Room {
     console.log(`User logged in?: ${options.playerLoggedIn}`);
     this.playerLog[client.sessionId]={loggedIn:options.playerLoggedIn};
     console.log('Current Player Log: ', this.playerLog);
+    this.metadata.players.push(client.sessionId);
     this.state.addPlayer(client.sessionId,options.username);
   }
 

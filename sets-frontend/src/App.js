@@ -29,6 +29,7 @@ function App() {
   // console.log('LOADING APP COMPONENT');      
   document.body.classList.add('bg-light');
   const [user,setUser] = useState(false);
+  const [roomIds,setRoomIds] = useState([]);
 
   useEffect(()=>{
     if(checkLoggedIn()){
@@ -45,6 +46,22 @@ function App() {
     }
   },[]);
 
+  const addRoomId = (roomId) => {
+
+    console.log(`adding roomId ${roomId} to current roomIds: ${roomIds}`);
+    setRoomIds(r=>([...r, roomId]));
+  }
+
+  const removeRoomId = (roomId) => {
+
+    const previousRoomIds = roomIds;
+    const newRoomIds = previousRoomIds.filter(currentId => {
+
+      return roomId === currentId;
+    });
+    setRoomIds(newRoomIds);
+  }
+
   const logout = () => {
 
     clearCurrentUser();
@@ -53,7 +70,7 @@ function App() {
 
   return (
 
-    <UserContext.Provider value={{user,setUser}}>
+    <UserContext.Provider value={{user,setUser, roomIds, addRoomId, removeRoomId}}>
       <div className='bg-light text-dark pb-5'>
         <BrowserRouter>
             <div className="App">

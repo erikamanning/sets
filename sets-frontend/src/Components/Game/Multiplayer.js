@@ -4,10 +4,15 @@ import * as Colyseus from 'colyseus.js';
 import GameRoom from './GameRoom'
 import RoomIdForm from './RoomIdForm'
 import RoomContext from "./RoomContext";
+import UserContext from "./UserContext";
 
 const Multiplayer = ({username}) => {
 
     const {id} = useContext(RoomContext); // may also be able to do with useParams since url is unchanged at this point
+    const {roomIds, addRoomId} = useContext(UserContext); 
+    
+    console.log('Current ROOM-IDs: ', roomIds);
+
     let client;
 
     const [room, setRoom] = useState(false);
@@ -17,10 +22,24 @@ const Multiplayer = ({username}) => {
 
     useEffect(()=>{
         client = new Colyseus.Client('ws://localhost:5000');
+
+        client.getAvailableRooms("sets_multiplayer").then(rooms => {
+            console.log('MULTIPLAYER -- getting rooms data');
+            rooms.forEach((room) => {
+              console.log('roomId: ',room.roomId);
+              console.log('clients: ',room.clients);
+              console.log('maxClients: ',room.maxClients);
+              console.log('metadata: ',room.metadata);
+            });
+          }).catch(e => {
+            console.error(e);
+          });
+
         async function createRoom(){
             try {
                 const room = await client.create("sets_multiplayer", {username});
                 console.log("joined successfully", room);
+                addRoomId(room.id);
                 setRoom(room);
             } 
             catch (e) {
@@ -32,7 +51,8 @@ const Multiplayer = ({username}) => {
             try {
                 const room = await client.joinById(roomId, {username});
                 console.log("joined successfully", room);
-    
+                addRoomId(room.id);
+
                 // set Room state
                 setRoom(room);
             } 
