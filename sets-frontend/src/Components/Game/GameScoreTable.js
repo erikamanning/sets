@@ -3,14 +3,7 @@ import GameContext from './GameContext'
 
 const GameScoreTable = () => {
 
-    const {players, scoreboard} = useContext(GameContext);
-    console.log('scoreboard: ');
-    console.log('players: ')
-    scoreboard.forEach(p=>{console.log(p.username)})
-    console.log('abandoned: ')
-    scoreboard.forEach(p=>{console.log(p.abandoned)})
-
-
+    const { scoreboard} = useContext(GameContext);
 
     const sortPlayersByScore = () => {
 
@@ -21,10 +14,8 @@ const GameScoreTable = () => {
         scoreboard.forEach(p=>{console.log(p.username)})
 
         let pKeys = Array.from(scoreboard.keys());
-        // console.log('pKeys: ', typeof(pKeys));
         for(let i = 0; i < pKeys.length; i++){
 
-            // console.log('pKeys[i]: ', players[pKeys[i+1]]);
             for(let j = 0; j < pKeys.length-i-1; j++){
 
                 if(scoreboard.get(pKeys[j]).score < scoreboard.get(pKeys[j+1]).score){
@@ -39,10 +30,6 @@ const GameScoreTable = () => {
                 }
             }
         }
-        // console.log('Player order: ');
-        // for(let pKey of pKeys){
-        //     console.log('Player: ',players[pKey].username , "Score: ",players[pKey].score );
-        // }
 
         return pKeys;
     }
@@ -55,13 +42,8 @@ const GameScoreTable = () => {
         return( 
             <tbody>
                 {sortedKeys.map(pKey=>{
-                // {Array.from(players.keys()).map(pKey=>{
                     x++;
                     return <tr key={pKey}>
-                        {/* {console.log('pKey: ', pKey)} */}
-                        {/* {console.log('players[pKey]: ', players[pKey])} */}
-                        {/* {console.log('players[pKey].username: ', players[pKey].username)} */}
-                        {/* {console.log('players[pKey].score: ', players[pKey].score)} */}
                         <td>{x}</td>
                         <td>{scoreboard.get(pKey).username} {scoreboard.get(pKey).abandoned ? <b className='text-danger'>ABANDONED</b> : null}</td>
                         <td>{scoreboard.get(pKey).score}</td>

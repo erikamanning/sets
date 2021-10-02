@@ -34,6 +34,8 @@ function App() {
 
   useEffect(() => {
     console.log('Location changed');
+    console.log('location: ', location);
+
   }, [location]);
 
   useEffect(()=>{
