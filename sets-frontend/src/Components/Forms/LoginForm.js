@@ -29,7 +29,7 @@ const LoginForm = (props) => {
 
         event.preventDefault();
         let resp = await SetsAPI.authenticate(formData.username, formData.password);
-        console.log('RESP: ', resp);
+        // console.log('RESP: ', resp);
         if(resp.token){
             setLocalStorage(formData.username,resp.token);
             setUser({username:formData.username, token:resp.token });

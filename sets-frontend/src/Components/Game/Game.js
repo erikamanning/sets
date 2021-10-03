@@ -9,7 +9,7 @@ const Game = () => {
 
     const {game,viewResult, showResult} = useContext(GameContext);
 
-    console.log('VIEWRESULT: ', viewResult);
+    // console.log('VIEWRESULT: ', viewResult);
     const showDisplay = () => {
 
         let display;

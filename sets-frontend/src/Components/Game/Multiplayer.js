@@ -26,12 +26,12 @@ const Multiplayer = ({username}) => {
         client = new Colyseus.Client('ws://localhost:5000');
 
         client.getAvailableRooms("sets_multiplayer").then(rooms => {
-            console.log('MULTIPLAYER -- getting rooms data');
+            // console.log('MULTIPLAYER -- getting rooms data');
             rooms.forEach((room) => {
-              console.log('roomId: ',room.roomId);
-              console.log('clients: ',room.clients);
-              console.log('maxClients: ',room.maxClients);
-              console.log('metadata: ',room.metadata);
+            //   console.log('roomId: ',room.roomId);
+            //   console.log('clients: ',room.clients);
+            //   console.log('maxClients: ',room.maxClients);
+            //   console.log('metadata: ',room.metadata);
             });
           }).catch(e => {
             console.error(e);
@@ -40,7 +40,7 @@ const Multiplayer = ({username}) => {
         async function createRoom(){
             try {
                 const room = await client.create("sets_multiplayer", {username});
-                console.log("joined successfully", room);
+                // console.log("joined successfully", room);
                 addRoomId(room.id);
                 setRoom(room);
             } 
@@ -52,7 +52,7 @@ const Multiplayer = ({username}) => {
         async function joinRoom(roomId){
             try {
                 const room = await client.joinById(roomId, {username});
-                console.log("joined successfully", room);
+                // console.log("joined successfully", room);
                 addRoomId(room.id);
 
                 // set Room state
@@ -64,11 +64,11 @@ const Multiplayer = ({username}) => {
         }
 
         if(create){
-            console.log('Client wants to CREATE & JOIN!');
+            // console.log('Client wants to CREATE & JOIN!');
             createRoom();
         }
         else if(join){
-            console.log('Client wants to JOIN!');
+            // console.log('Client wants to JOIN!');
             if(checkRoomId(roomId))
                 joinRoom(roomId);
             else{

@@ -23,7 +23,7 @@ const GameDashboard = () => {
                         : <p className='text-danger'><i>No cards left to draw!</i></p>
                     }
 
-                    {console.log('players: ', players)}
+                    {/* {console.log('players: ', players)} */}
                     {game.mode==='multiplayer' &&  game.turn!== 'any'
                      ? <p>Whose Turn: {players.get(game.turn).username}</p>
                      :<p>Whose Turn: {game.turn}</p>

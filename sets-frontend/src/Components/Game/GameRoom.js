@@ -36,7 +36,7 @@ const GameRoom = ({room, username}) => {
             });
         }
         room.state.players.onRemove = (player, key) => {
-            console.log(player, "has been removed at", key);
+            // console.log(player, "has been removed at", key);
             setPlayers((p)=>{
                 let newMap = p;
                 newMap.delete(key);
@@ -45,7 +45,7 @@ const GameRoom = ({room, username}) => {
         };
         room.state.scoreboard.onAdd = ((player,key)=>{
             player.onChange = (()=>{
-                console.log('SCOREBOARD CHAAAAAAAAAAAAAAAAAAAANGED!!')
+                // console.log('SCOREBOARD CHAAAAAAAAAAAAAAAAAAAANGED!!')
 
             });
             // setScoreboard(state.scoreboard);
@@ -69,13 +69,13 @@ const GameRoom = ({room, username}) => {
             console.log("message received from server");
             // console.log(`${players.get(playerId).username} left!`);
             alert(`${players.get(playerId).username} left!`);
-            console.log('***************************************');
-            console.log(`${players.get(playerId).username} left!`);
+            // console.log('***************************************');
+            // console.log(`${players.get(playerId).username} left!`);
             setGameFinished(true);
         });
         room.onMessage("player_quit", (message) => {
             const {playerId} = message;
-            console.log("message received from server");
+            // console.log("message received from server");
             // console.log(`${players.get(playerId).username} left!`);
             alert(`${players.get(playerId).username} quit!`);
 
@@ -90,7 +90,7 @@ const GameRoom = ({room, username}) => {
         });
 
         room.onLeave((code) => {
-            console.log("BOIIIIIIIIIIIIIING!!!!!!! client left the room: ", room.id);
+            // console.log("BOIIIIIIIIIIIIIING!!!!!!! client left the room: ", room.id);
             removeRoomId(room.id);
           });
 

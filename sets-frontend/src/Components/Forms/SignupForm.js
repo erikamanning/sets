@@ -7,7 +7,7 @@ import UserContext from '../Game/UserContext'
 const SignupForm = ({title='Signup'}) => {
 
     const {user, setUser} = useContext(UserContext);
-    console.log('user.token: ', user.token);
+    // console.log('user.token: ', user.token);
 
     const INITIAL_FORM = {
         username:'',

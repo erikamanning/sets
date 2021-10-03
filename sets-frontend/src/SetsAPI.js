@@ -32,7 +32,7 @@ class SetsAPI{
     static async authenticate(username,password){
         try{
           let res = await this.request(`auth/token`, {username,password}, 'post');
-          console.log('000000000000000000000000000');
+          // console.log('000000000000000000000000000');
           return res;
         }
         catch(error){
@@ -43,8 +43,8 @@ class SetsAPI{
 
     static async register(username,password){
         try{
-          console.log('****************************');
-          console.log('in FE sets register function');
+          // console.log('****************************');
+          // console.log('in FE sets register function');
           await this.request(`auth/register`, {username,password}, 'post');
           return true;
         }

@@ -6,8 +6,8 @@ const GameResult = () => {
 
     const {game, leave} = useContext(GameContext);
     const playAgainLink = game.mode === 'singleplayer' ? 'singleplayer' : 'multiplayer';
-    console.log('999999999999999999 mode: ', game.mode);
-    console.log('play again link: ', playAgainLink);
+    // console.log('999999999999999999 mode: ', game.mode);
+    // console.log('play again link: ', playAgainLink);
     const showResults = () => {
 
         let results;

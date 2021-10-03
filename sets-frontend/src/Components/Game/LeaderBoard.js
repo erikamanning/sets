@@ -8,7 +8,7 @@ const LeaderBoard = () => {
     const [leaderboardData, setLeaderboardData] = useState(false);
 
     useEffect(()=>{
-        console.log('getting all games....')
+        // console.log('getting all games....')
         async function getAllGames(){
             let data = await SetsAPI.getLeaderboardData();
             setLeaderboardData(data);
@@ -18,7 +18,7 @@ const LeaderBoard = () => {
 
 
     if(leaderboardData)
-        console.log('leaderboardData: ',leaderboardData);
+        // console.log('leaderboardData: ',leaderboardData);
 
     return (
         <div className='mt-5'>

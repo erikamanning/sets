@@ -10,7 +10,7 @@ const Navigation = ({logout}) => {
 
   const toggle = () => {
     
-  console.log('toggle button clicked')  
+  // console.log('toggle button clicked')  
     setIsOpen(io=>!io);
   };
 

@@ -9,8 +9,8 @@ const GameScoreTable = () => {
 
         // bubble sorting for now
         let tempKey;
-        console.log('scoreboard output check, size: ', scoreboard.size);
-        console.log('scoreboard: ');
+        // console.log('scoreboard output check, size: ', scoreboard.size);
+        // console.log('scoreboard: ');
         scoreboard.forEach(p=>{console.log(p.username)})
 
         let pKeys = Array.from(scoreboard.keys());
@@ -19,14 +19,14 @@ const GameScoreTable = () => {
             for(let j = 0; j < pKeys.length-i-1; j++){
 
                 if(scoreboard.get(pKeys[j]).score < scoreboard.get(pKeys[j+1]).score){
-                    console.log('j: ', j);
-                    console.log('pKey[j]: ',pKeys[j],' Player: ',scoreboard.get(pKeys[j]).username , " Score: ",scoreboard.get(pKeys[j]).score );
-                    console.log('pKey[j+1]: ',pKeys[j+1],' Player: ',scoreboard.get(pKeys[j+1]).username , " Score: ",scoreboard.get(pKeys[j+1]).score );
+                    // console.log('j: ', j);
+                    // console.log('pKey[j]: ',pKeys[j],' Player: ',scoreboard.get(pKeys[j]).username , " Score: ",scoreboard.get(pKeys[j]).score );
+                    // console.log('pKey[j+1]: ',pKeys[j+1],' Player: ',scoreboard.get(pKeys[j+1]).username , " Score: ",scoreboard.get(pKeys[j+1]).score );
                     tempKey=pKeys[j];
                     pKeys[j]=pKeys[j+1];
                     pKeys[j+1]=tempKey;
-                    console.log('pKey[j]: ',pKeys[j],' Player: ',scoreboard.get(pKeys[j]).username , " Score: ",scoreboard.get(pKeys[j]).score );
-                    console.log('pKey[j+1]: ',pKeys[j+1],' Player: ',scoreboard.get(pKeys[j+1]).username , " Score: ",scoreboard.get(pKeys[j+1]).score );
+                    // console.log('pKey[j]: ',pKeys[j],' Player: ',scoreboard.get(pKeys[j]).username , " Score: ",scoreboard.get(pKeys[j]).score );
+                    // console.log('pKey[j+1]: ',pKeys[j+1],' Player: ',scoreboard.get(pKeys[j+1]).username , " Score: ",scoreboard.get(pKeys[j+1]).score );
                 }
             }
         }

@@ -9,7 +9,7 @@ const MultiplayerSetup = () => {
 
     // check for room id url param & set context
     const { roomId } = useParams();
-    console.log('SETUP_MULTIPLAYER-- roomId: ', roomId);
+    // console.log('SETUP_MULTIPLAYER-- roomId: ', roomId);
     const { username } = getLocalStorage();
     const [guest, setGuest] = useState(false);
 

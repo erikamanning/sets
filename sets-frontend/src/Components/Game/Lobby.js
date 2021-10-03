@@ -30,7 +30,7 @@ const Lobby = () => {
                 }
                 <LobbyPlayerList/>
         
-                { console.log('# of players : ', players) }
+                {/* { console.log('# of players : ', players) } */}
         
                 <div>
                     {
@@ -51,7 +51,7 @@ const Lobby = () => {
         )
     }
 
-    console.log('game mode: ', game.mode);
+    // console.log('game mode: ', game.mode);
 
     return <div>
 
@@ -65,7 +65,7 @@ const Lobby = () => {
             : null
         }
 
-        {console.log('game.allReady: ', game.allReady)}
+        {/* {console.log('game.allReady: ', game.allReady)} */}
 
         <div>
             {
