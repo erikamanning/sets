@@ -22,7 +22,7 @@ const Lobby = () => {
                                 <p><b>Room Id: </b> {room.id}</p>
                                 <div className='input-group mb-3'>
                                     <input className='form-control' type="text" value={roomLink} />
-                                    <button onClick={()=>{navigator.clipboard.writeText(roomLink)}} className='btn btn-secondary'><FontAwesomeIcon icon={faCopy}/></button>
+                                    <button onClick={()=>{navigator.clipboard.writeText(roomLink)}} className='btn btn-primary'><FontAwesomeIcon icon={faCopy}/></button>
                                 </div>
                             </div>
                         </div>
@@ -35,7 +35,7 @@ const Lobby = () => {
                 <div>
                     {
                         players.get(user.sessionId) &&  players.get(user.sessionId).ready && players.size < 2
-                        ? <p className='text-info'><small>Multiplayer mode requires at least 2 players!</small></p>
+                        ? <p className='text-success'><small>Multiplayer mode requires at least 2 players!</small></p>
                         : null
                     }
                 </div>
@@ -53,43 +53,45 @@ const Lobby = () => {
 
     // console.log('game mode: ', game.mode);
 
-    return <div>
+    return <div className='row justify-content-center mt-5'>
 
-        <h1 className='my-5'>Lobby</h1>
+        <div className="col-12 col-md-6 border border-primary border-5 rounded p-5 shadow-lg">
+            <h1 className='my-5 display-1'>Lobby</h1>
 
-        <h5>Welcome, <u className='text-info'>{user.username}</u>!</h5>
+            <h5>Welcome, <u className='text-primary'>{user.username}</u>!</h5>
 
-        {
-            game && game.mode===`multiplayer`
-            ? showMultiplayerLobby()
-            : null
-        }
-
-        {/* {console.log('game.allReady: ', game.allReady)} */}
-
-        <div>
             {
-                game.allReady
-                ? < CountDownTimer />
+                game && game.mode===`multiplayer`
+                ? showMultiplayerLobby()
                 : null
             }
-        </div>
 
-        {
-            players[user.sessionId] && players[user.sessionId].ready
-            ? (
-                <div className='d-inline'>
-                    <p className='font-monospace' >Cancel?</p>
-                    <button className='btn btn-danger' onClick={unReady}><FontAwesomeIcon icon={faTimes}/></button>
-                </div>
-            )
-            :  (
-                <div className='d-inline'>
-                    <p className='font-monospace' >Ready?</p>
-                    <button className='btn btn-info' onClick={readyUp}><FontAwesomeIcon icon={faCheck}/></button>
-                </div>
-            )
-        }
+            {/* {console.log('game.allReady: ', game.allReady)} */}
+
+            <div>
+                {
+                    game.allReady
+                    ? < CountDownTimer />
+                    : null
+                }
+            </div>
+
+            {
+                players[user.sessionId] && players[user.sessionId].ready
+                ? (
+                    <div className='d-inline'>
+                        <p className='font-monospace' >Cancel?</p>
+                        <button className='btn btn-danger' onClick={unReady}><FontAwesomeIcon icon={faTimes}/></button>
+                    </div>
+                )
+                :  (
+                    <div className='d-inline'>
+                        <p className='font-monospace' >Ready?</p>
+                        <button className='btn btn-primary' onClick={readyUp}><FontAwesomeIcon icon={faCheck}/></button>
+                    </div>
+                )
+            }
+        </div>
 
     </div>
 

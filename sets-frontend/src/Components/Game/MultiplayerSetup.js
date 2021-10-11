@@ -20,7 +20,7 @@ const MultiplayerSetup = () => {
     return (
         <div>
             <RoomContext.Provider value={{id: roomId}}>
-                <h1 className='mt-5'>Multiplayer</h1>
+                <h1 className='mt-5 display-5'>Multiplayer Mode</h1>
                 
                 {
                     username || guest

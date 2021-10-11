@@ -11,7 +11,7 @@ const SinglePlayerSetup = () => {
 
     return (
         <div>
-                <h1 className='mt-5'>Single Player Mode</h1>
+                <h1 className='mt-5 display-5'>Single Player Mode</h1>
                 <SinglePlayer username={username || guest }/>
         </div>
     )

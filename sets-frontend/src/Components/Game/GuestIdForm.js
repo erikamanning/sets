@@ -34,13 +34,13 @@ const GuestIdForm = ({addGuest}) => {
                         <label htmlFor="playerName" className="form-label">What do we call you?</label>
                         <input name='playerName' type="text" value={formData.playername} onChange={handleChange} className="form-control text-center" id="playerName" aria-describedby="roomCode" required/>
                     </div>
-                    <button type="submit" className="btn btn-info text-light">Submit!</button>
+                    <button type="submit" className="btn btn-primary text-light">Submit!</button>
                     <div className='mt-5'>
-                        <p className='text-secondary fst-italic mb-0' >Already have an account?</p>
+                        <p className='text-primary fst-italic mb-0' >Already have an account?</p>
                         <p className='mt-0'><small className=' fst-italic' >Login to use username:</small></p>
 
                         <div>
-                            <a href='/login' className='btn btn-secondary d-'>Login</a>
+                            <a href='/login' className='btn btn-primary d-'>Login</a>
                         </div>
                     </div>
                 </form>

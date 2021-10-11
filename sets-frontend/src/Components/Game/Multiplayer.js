@@ -93,7 +93,7 @@ const Multiplayer = ({username}) => {
                     <div>
                         <div>
                             <h5 className='mt-5'>Create a New Game or Join Existing Game?</h5>
-                            <button onClick={ ()=>{setCreate(true)} } className='btn btn-lg btn-secondary m-1'>Create New Game</button>
+                            <button onClick={ ()=>{setCreate(true)} } className='btn btn-lg btn-primary m-1'>Create New Game</button>
                         </div>
 
                         <div>
