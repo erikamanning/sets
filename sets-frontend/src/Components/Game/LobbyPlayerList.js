@@ -7,25 +7,24 @@ const LobbyPlayerList = () => {
 
     const {players} = useContext(GameContext);
 
-    return <div className='row justify-content-center'>
-        <div className="col-12 col-md-6 col-lg-3">
+    return (
+        <div className="">
+            <h5 className='text-start'>Players: </h5>
 
 
-            {
-                players
-                ?   (
-                        <div className="row justify-content-center">
-                            <div className="col-12">
-                                <ul>
-                                    { Array.from(players.keys()).map(key=> <LobbyPlayerListItem key={key} player={players.get(key)} />)}
-                                </ul>
-                            </div>
-                        </div>
-                    )
-                    : null 
-            }
+                    {
+                        players
+                        ?   (
+                                <div className="row justify-content-center">
+                                    <ul>
+                                        { Array.from(players.keys()).map(key=> <LobbyPlayerListItem key={key} player={players.get(key)} />)}
+                                    </ul>
+                                </div>
+                            )
+                            : null 
+                    }
         </div>
-    </div>
+    )
 
 }
 

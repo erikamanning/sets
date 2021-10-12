@@ -5,6 +5,7 @@ import LobbyPlayerList from './LobbyPlayerList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faTimes, faCopy } from '@fortawesome/free-solid-svg-icons'
 import CountDownTimer from './CountDownTimer'
+import './Lobby.css'
 
 const Lobby = () => {
 
@@ -17,18 +18,26 @@ const Lobby = () => {
             <div>
                 {
                     room.id 
-                    ?   <div className='row justify-content-center'>
-                            <div className='col-12 col-md-4 col-lg-2'>
-                                <p><b>Room Id: </b> {room.id}</p>
-                                <div className='input-group mb-3'>
-                                    <input className='form-control' type="text" value={roomLink} />
+                    ?   <div className='row justify-content-center mt-5'>
+                            <div className='col-10 col-lg-8 col-xl-6'>
+                                <h5 className='text-start'>Room Id:</h5>
+                                <input className='form-control text-center' type="text" value={room.id} />
+
+                                <h5 className='text-start mt-4'>Shareable Link:</h5>
+                                <div className='input-group'>
+                                    <input className='form-control text-center' type="text" value={roomLink} />
                                     <button onClick={()=>{navigator.clipboard.writeText(roomLink)}} className='btn btn-primary'><FontAwesomeIcon icon={faCopy}/></button>
                                 </div>
+
                             </div>
                         </div>
                     : null
                 }
-                <LobbyPlayerList/>
+                <div className='row justify-content-center mt-4'>
+                    <div className='col-10 col-lg-8 col-xl-6'>
+                        <LobbyPlayerList/>
+                    </div>
+                </div>
         
                 {/* { console.log('# of players : ', players) } */}
         
@@ -53,47 +62,53 @@ const Lobby = () => {
 
     // console.log('game mode: ', game.mode);
 
-    return <div className='row justify-content-center mt-5'>
+    return (
 
-        <div className="col-12 col-md-6 border border-primary border-5 rounded p-5 shadow-lg">
-            <h1 className='my-5 display-1'>Lobby</h1>
+        <div className="container">
+            <div className='row justify-content-center mt-5'>
 
-            <h5>Welcome, <u className='text-primary'>{user.username}</u>!</h5>
+                <div className="col-12 col-md-8 border border-primary border-5 rounded p-5 shadow-lg">
+                    <h1 className='my-5 display-1'>Lobby</h1>
 
-            {
-                game && game.mode===`multiplayer`
-                ? showMultiplayerLobby()
-                : null
-            }
+                    <h3>Welcome, <u className='text-primary Lobby-username'>{user.username}</u>!</h3>
 
-            {/* {console.log('game.allReady: ', game.allReady)} */}
+                    {
+                        game && game.mode===`multiplayer`
+                        ? showMultiplayerLobby()
+                        : null
+                    }
 
-            <div>
-                {
-                    game.allReady
-                    ? < CountDownTimer />
-                    : null
-                }
+                    {/* {console.log('game.allReady: ', game.allReady)} */}
+
+                    <div>
+                        {
+                            game.allReady
+                            ? < CountDownTimer />
+                            : null
+                        }
+                    </div>
+
+                    {
+                        players[user.sessionId] && players[user.sessionId].ready
+                        ? (
+                            <div className='d-inline'>
+                                <h3 className='mt-5' >Cancel?</h3>
+                                <button className='btn btn-danger' onClick={unReady}><FontAwesomeIcon icon={faTimes}/></button>
+                            </div>
+                        )
+                        :  (
+                            <div className='d-inline'>
+                                <h3 className='mt-5' >Ready?</h3>
+                                <button className='btn Lobby-green-button' onClick={readyUp}><FontAwesomeIcon icon={faCheck}/></button>
+                            </div>
+                        )
+                    }
+                </div>
+
             </div>
-
-            {
-                players[user.sessionId] && players[user.sessionId].ready
-                ? (
-                    <div className='d-inline'>
-                        <p className='font-monospace' >Cancel?</p>
-                        <button className='btn btn-danger' onClick={unReady}><FontAwesomeIcon icon={faTimes}/></button>
-                    </div>
-                )
-                :  (
-                    <div className='d-inline'>
-                        <p className='font-monospace' >Ready?</p>
-                        <button className='btn btn-primary' onClick={readyUp}><FontAwesomeIcon icon={faCheck}/></button>
-                    </div>
-                )
-            }
         </div>
 
-    </div>
+    ) 
 
 }
 
