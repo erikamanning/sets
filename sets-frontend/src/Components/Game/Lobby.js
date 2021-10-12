@@ -44,7 +44,7 @@ const Lobby = () => {
                 <div>
                     {
                         players.get(user.sessionId) &&  players.get(user.sessionId).ready && players.size < 2
-                        ? <p className='text-success'><small>Multiplayer mode requires at least 2 players!</small></p>
+                        ? <h5 className='text-success Lobby-multiplayer-message'><small>Multiplayer mode requires at least 2 players!</small></h5>
                         : null
                     }
                 </div>
@@ -52,7 +52,7 @@ const Lobby = () => {
                 <div>
                     {
                          players.get(user.sessionId) &&  players.get(user.sessionId).ready && !game.allReady
-                        ? <p className='text-secondary fst-italic'><small>Waiting on other players...</small></p>
+                        ? <p className='text-primary fst-italic'><small>Waiting on other players...</small></p>
                         : null
                     }
                 </div>
@@ -87,19 +87,22 @@ const Lobby = () => {
                             : null
                         }
                     </div>
+                        
+                    {console.log(`$$$$$$$ player: ${user.sessionId}`, players.get(user.sessionId))}
 
                     {
-                        players[user.sessionId] && players[user.sessionId].ready
+
+                        players.get(user.sessionId) && players.get(user.sessionId).ready
                         ? (
                             <div className='d-inline'>
                                 <h3 className='mt-5' >Cancel?</h3>
-                                <button className='btn btn-danger' onClick={unReady}><FontAwesomeIcon icon={faTimes}/></button>
+                                <button className='Lobby-red-button mt-3' onClick={unReady}><FontAwesomeIcon icon={faTimes}/></button>
                             </div>
                         )
                         :  (
                             <div className='d-inline'>
                                 <h3 className='mt-5' >Ready?</h3>
-                                <button className='btn Lobby-green-button' onClick={readyUp}><FontAwesomeIcon icon={faCheck}/></button>
+                                <button className='Lobby-green-button mt-3' onClick={readyUp}><FontAwesomeIcon icon={faCheck}/></button>
                             </div>
                         )
                     }

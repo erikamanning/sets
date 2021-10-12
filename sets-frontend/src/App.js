@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useEffect, useState} from 'react'
 import Navigation from './Components/Navigation'
-import {BrowserRouter, useLocation} from "react-router-dom"
+import { useLocation} from "react-router-dom"
 import Router from './Components/Router'
 import {checkLoggedIn, getLocalStorage, clearCurrentUser, addRoomIdLocalStorage, removeRoomIdLocalStorage, getRoomIdsLocalStorage} from './localStorage/helpers'
 import SetsAPI from "./SetsAPI"
