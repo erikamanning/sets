@@ -4,7 +4,7 @@ import GameDashboard from './GameDashboard'
 import GameContext from './GameContext'
 import GameResult from './GameResult'
 import { Prompt } from 'react-router'
-
+import SinglePlayerResult from './SinglePlayerResult'
 const Game = () => {
 
     const {game,viewResult, showResult} = useContext(GameContext);
@@ -27,16 +27,19 @@ const Game = () => {
         else if(game.finished && !viewResult){
             display = (
                 <div>
-                    <h3>Game Over</h3>
-                    <button onClick={showResult} className='btn btn-secondary'>View Result?</button>
+                    <p className='text-danger Game-Over'>Game Over!</p>
+                    <button onClick={showResult} className='btn btn-primary'>View Result?</button>
                 </div>
             )
         }
         else{
             display = (
-                <div>
+
+                game.mode==='singleplayer'
+                ? 
+                    <SinglePlayerResult />
+                :
                     <GameResult/>
-                </div>
             )
         }
 

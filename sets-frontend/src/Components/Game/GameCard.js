@@ -80,7 +80,7 @@ const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
         selectCard(coord);
     }
     const addHighlight = () =>{
-        setHighlightClass(hc=>'border border-3 border-info');
+        setHighlightClass(hc=>'border border-3 border-success');
     }
     const removeHighlight = () =>{
         setHighlightClass(hc=>'');
@@ -89,7 +89,7 @@ const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
     const capitalizedColor = card.color.charAt(0).toUpperCase() + card.color.slice(1);
     const capitalizedFillLevel = card.fillLevel.charAt(0).toUpperCase() + card.fillLevel.slice(1);
     const imgSrc = imgSrcs[card.shape+capitalizedColor+capitalizedFillLevel];
-    const isSelected = cardIsSelected ? 'border border-3 border-info' : '';
+    const isSelected = cardIsSelected ? 'border border-3 border-success' : '';
 
 return  <div onMouseLeave={removeHighlight} onMouseEnter={addHighlight}  className='m-1 m-sm-3'>
             <div onClick={handleClick} className={'card rounded GameCard shadow '+isSelected +" "+highlightClass}>
