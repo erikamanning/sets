@@ -6,6 +6,7 @@ import GameRoom from './GameRoom'
 import RoomIdForm from './RoomIdForm'
 import RoomContext from "./RoomContext";
 import UserContext from "./UserContext";
+import './Multiplayer.css'
 
 const Multiplayer = ({username}) => {
 
@@ -85,20 +86,22 @@ const Multiplayer = ({username}) => {
     }
 
     return (
-        <div>
+        <div className='container'>
             {
                 room
                 ? <GameRoom room={room} username={username}/>
                 : (
-                    <div>
-                        <div>
-                            <h5 className='mt-5'>Create a New Game or Join Existing Game?</h5>
-                            <button onClick={ ()=>{setCreate(true)} } className='btn btn-lg btn-primary m-1'>Create New Game</button>
-                        </div>
+                    <div className='row mt-5'>
+                        <div className='col border border-5 border-primary rounded p-5'>
+                            <div>
+                                <h1>Create a New Game:</h1>
+                                <button onClick={ ()=>{setCreate(true)} } className='btn btn-lg btn-primary m-1'>Create</button>
+                            </div>
 
-                        <div>
-                            <h3>Join (enter code):</h3>
-                            <RoomIdForm handleJoin={handleJoin}/>                        
+                            <div className='mt-5'>
+                                <h1>Join Existing Game:</h1>
+                                <RoomIdForm handleJoin={handleJoin}/>                        
+                            </div>
                         </div>
                     </div>
                 )

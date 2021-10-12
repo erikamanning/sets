@@ -29,11 +29,11 @@ const CountDownTimer = () => {
     },[]);
 
     return (
-        <div>
+        <div className='mt-5'>
             {
                 count>0
-                ? <h1>{count}</h1>
-                : <h1>Start!</h1>
+                ? <h1 className='display-1'>{count}</h1>
+                : <h1 className='display-1'>Start!</h1>
             }
         </div>
     )

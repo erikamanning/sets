@@ -26,14 +26,14 @@ const RoomIdForm = ({handleJoin}) => {
     }
 
     return (
-        <div className="row justify-content-center mt-5">
+        <div className="row justify-content-center">
         <div className="col-12 col-lg-3">
             <form onSubmit={handleSubmit} action='/lobby'>
-                <div className="mb-3">
-                    <label htmlFor="roomCode" className="form-label">Enter the room code here:</label>
+                <div className="my-3">
+                    <label htmlFor="roomCode" className="form-label fst-italic text-primary fw-bold">Enter room code here:</label>
                     <input name='roomCode' type="text" value={formData.roomCode} onChange={handleChange} className="form-control text-center" id="roomCode" aria-describedby="roomCode" required/>
                 </div>
-                <button type="submit" className="btn btn-primary text-light">Submit!</button>
+                <button type="submit" className="btn btn-lg btn-primary text-light">Join</button>
             </form>
         </div>
     </div>

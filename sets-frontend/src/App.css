@@ -66,3 +66,8 @@ h5{
   color: #3f37c9
 
 }
+
+.no-underline{
+  text-decoration: none;
+  color: #282c34;
+}
