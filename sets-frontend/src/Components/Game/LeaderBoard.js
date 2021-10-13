@@ -25,7 +25,7 @@ const LeaderBoard = () => {
             <h1 className='display-1'> Leaderboard</h1>
 
             <div className="row justify-content-center mt-5">
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-8 col-lg-6 col-xl-4">
                 {
                     leaderboardData
                     ? <LeaderBoardTable players={leaderboardData}/>
