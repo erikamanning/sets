@@ -5,29 +5,40 @@ import GameScoreTable from './GameScoreTable'
 
 const GameDashboard = () => {
 
-    const {addRow, endGame,deck, game, players} = useContext(GameContext);
+    const {addRow, endGame,deck, game, players, scoreboard} = useContext(GameContext);
 
     return (
-        <div className='row justify-content-center'>
-            <div className="col-12 col-sm-10 col-lg-8">
-                <div className='border border-light rounded'>
+            <div className='row justify-content-center my-3'>
+                <div className="col-12 col-sm-10 col-lg-8">
+                    <div className='border border-5 border-primary rounded p-3'>
 
-                    <GameScoreTable />
-                    <p><b>Cards Remaining: </b> <i>{deck.cards.size}</i></p>
-                    {deck.cards.size 
-                    
-                        ? <button onClick={addRow} className='btn btn-info'>Add Row</button>
-                        : <p className='text-danger'><i>No cards left to draw!</i></p>
-                    }
+                        <div className='text-end'>
+                            <button onClick={endGame} className='btn btn-danger text-white'>Quit?</button>
+                        </div>
 
-                    {game.mode==='multiplayer' &&  game.turn!== 'any'
-                     ? <p>Whose Turn: {players.get(game.turn).username}</p>
-                     :<p>Whose Turn: {game.turn}</p>
-                    }
-                    <button onClick={endGame} className='btn btn-secondary'>Quit?</button>
+                        {
+                            game.mode==='singleplayer'
+                            ? <h1 className='display-1'>Score: <span className='text-danger'>{scoreboard.entries().next().value[1].score}</span></h1>
+                            : <GameScoreTable />
+                        }
+
+                        <div className='d-flex justify-content-between'>
+                            <h5 className='display-5'>Deck: <span className='text-danger'>{deck.cards.size}</span></h5>
+
+                            {deck.cards.size 
+                            
+                            ? <button onClick={addRow} className='btn btn-primary mx-1'>Add Row</button>
+                            : <p className='text-danger'><i>No cards left to draw!</i></p>
+                            }
+                        </div>
+
+                        {game.mode==='multiplayer'
+                            ? <p>Whose Turn: {players.get(game.turn).username}</p>
+                            : null
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
     )
 }
 

@@ -32,8 +32,8 @@ const CountDownTimer = () => {
         <div className='mt-5'>
             {
                 count>0
-                ? <h1 className='display-1 d-inline bg-primary text-white py-2 px-5 rounded'>{count}</h1>
-                : <h1 className='display-1 d-inline bg-primary text-white py-2 px-5 rounded'>Start!</h1>
+                ? <h1 className='display-1 d-inline  text-danger'>{count}</h1>
+                : <h1 className='display-1 d-inline text-danger '>Start!</h1>
             }
         </div>
     )

@@ -5,6 +5,7 @@ import GameContext from './GameContext'
 import GameResult from './GameResult'
 import { Prompt } from 'react-router'
 import SinglePlayerResult from './SinglePlayerResult'
+import { Container } from "reactstrap"
 const Game = () => {
 
     const {game,viewResult, showResult} = useContext(GameContext);
