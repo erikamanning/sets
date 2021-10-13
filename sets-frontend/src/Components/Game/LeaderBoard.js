@@ -17,12 +17,12 @@ const LeaderBoard = () => {
     },[]);
 
 
-    if(leaderboardData)
+    // if(leaderboardData)
         // console.log('leaderboardData: ',leaderboardData);
 
     return (
         <div className='mt-5'>
-            <h1>Leaderboard</h1>
+            <h1 className='display-1'> Leaderboard</h1>
 
             <div className="row justify-content-center mt-5">
                 <div className="col-12 col-md-8 col-lg-6">
