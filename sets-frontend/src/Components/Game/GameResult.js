@@ -1,6 +1,7 @@
 import React, {useContext} from "react"
 import GameContext from './GameContext'
 import GameScoreTable from "./GameScoreTable"
+import './GameResult.css'
 
 const GameResult = () => {
 
@@ -17,11 +18,18 @@ const GameResult = () => {
         }
         else{
                 results=(
-                    <div>
+                    <div className='mb-5'>
                         <GameScoreTable />
                         
-                        <p> <b>Result:</b> {game.gameResult}</p> 
-                        <p> <b>Winner:</b> {game.winner.username}</p> 
+                        {
+                            game.gameResult==='win'
+                            ? <div>
+                                <h5 className='text-danger GameResult-result'><span className='GameResult-winner'>{game.winner.username}</span></h5> 
+                                <h5 className='text-danger GameResult-result'> wins!</h5>
+                            </div>
+                            : <h5 className='text-danger GameResult-result'>{game.gameResult}!</h5> 
+                        }
+                        
                     </div>
                 );
             
@@ -34,10 +42,10 @@ const GameResult = () => {
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className='col-12 col-lg-6 border border-5 border-primary rounded p-5'>
-                    <h1 className='display-1 text-danger'> Results</h1>
+                    <h1 className='display-1 text-danger mb-5'> Results</h1>
                     {showResults()}
-                    <div class="d-grid gap-2">                        
-                        <a className='btn btn-lg btn-primary me-1' href={`/${playAgainLink}`}>Play Again?</a>
+                    <div class="d-grid gap-2 d-md-block">
+                    <a className='btn btn-lg btn-primary me-1' href={`/${playAgainLink}`}>Play Again?</a>
                         <button className='btn btn-lg btn-outline-primary border-3' onClick={leave}>Leave</button>
                     </div>
                 </div>

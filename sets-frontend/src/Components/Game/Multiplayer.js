@@ -91,15 +91,15 @@ const Multiplayer = ({username}) => {
                 room
                 ? <GameRoom room={room} username={username}/>
                 : (
-                    <div className='row mt-5'>
-                        <div className='col border border-5 border-primary rounded p-5'>
+                    <div className='row justify-content-center mt-5'>
+                        <div className='col-12 col-md-8 border border-5 border-primary rounded p-5 mx-1'>
                             <div>
-                                <h1>Create a New Game:</h1>
+                                <h1 className='text-danger mb-3'>Create a New Game</h1>
                                 <button onClick={ ()=>{setCreate(true)} } className='btn btn-lg btn-primary m-1'>Create</button>
                             </div>
 
                             <div className='mt-5'>
-                                <h1>Join Existing Game:</h1>
+                                <h1 className='text-danger'>Join Existing Game</h1>
                                 <RoomIdForm handleJoin={handleJoin}/>                        
                             </div>
                         </div>

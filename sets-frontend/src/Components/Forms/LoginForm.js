@@ -46,19 +46,19 @@ const LoginForm = (props) => {
 
     return (
                 <div>
-                    <h1>Login</h1>
+                    <h1 className='my-5 display-1'>Login</h1>
                     <div className="row justify-content-center">
                         <div className="col-12 col-sm-3">
                             <form onSubmit={handleSubmit}>
-                                <div className="mb-3">
+                                <div className="mb-3 text-start">
                                     <label htmlFor="username" className="form-label">Username</label>
                                     <input name='username' type="text" onChange={handleChange} value={formData.username} className="form-control" id="username" aria-describedby="username"/>
                                 </div>
-                                <div className="mb-3">
+                                <div className="mb-3 text-start">
                                     <label htmlFor="password" className="form-label">Password</label>
                                     <input name='password' type="password" onChange={handleChange} value={formData.password} className="form-control" id="password"/>
                                 </div>
-                                <button type="submit" className="btn btn-primary">Submit</button>
+                                <button type="submit" className="btn btn-lg btn-primary mt-2">Submit</button>
                             </form>
                         </div>
                     </div>

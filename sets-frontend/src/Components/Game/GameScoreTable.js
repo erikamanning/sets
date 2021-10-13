@@ -51,7 +51,7 @@ const GameScoreTable = () => {
     }
 
     return (
-            <table className="table">
+            <table className="table mb-5">
                 <thead>
                     <tr>
                         <th className='text-primary' scope="col">Rank #</th>

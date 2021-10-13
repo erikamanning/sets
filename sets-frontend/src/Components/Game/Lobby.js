@@ -20,7 +20,7 @@ const Lobby = () => {
                     room.id 
                     ?   <div className='row justify-content-center mt-5'>
                             <div className='col-10 col-lg-8 col-xl-6'>
-                                <h5 className='text-start'>Room Id:</h5>
+                                <h5 className='text-start t'>Room Id:</h5>
                                 <input className='form-control text-center' type="text" value={room.id} />
 
                                 <h5 className='text-start mt-4'>Shareable Link:</h5>
@@ -44,7 +44,7 @@ const Lobby = () => {
                 <div>
                     {
                         players.get(user.sessionId) &&  players.get(user.sessionId).ready && players.size < 2
-                        ? <h5 className='text-success Lobby-multiplayer-message'><small>Multiplayer mode requires at least 2 players!</small></h5>
+                        ? <h5 className='text-danger Lobby-multiplayer-message'><small>Multiplayer mode requires at least 2 players!</small></h5>
                         : null
                     }
                 </div>
@@ -70,7 +70,7 @@ const Lobby = () => {
                 <div className="col-12 col-md-8 border border-primary border-5 rounded p-5 shadow-lg">
                     <h1 className='my-5 display-1'>Lobby</h1>
 
-                    <h3>Welcome, <u className='text-primary Lobby-username'>{user.username}</u>!</h3>
+                    <h3>Welcome <span className='text-primary Lobby-username'>{user.username}</span>!</h3>
 
                     {
                         game && game.mode===`multiplayer`
