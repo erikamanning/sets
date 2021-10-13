@@ -39,12 +39,12 @@ const Navigation = ({logout}) => {
 
                     </a>
                   </li>
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <a className="nav-link active fw-bold Navigation-nav-link" href="/donate">
                       Donate
 
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
                 {user && user.username
                   ? 
