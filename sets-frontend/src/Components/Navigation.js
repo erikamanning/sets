@@ -8,11 +8,9 @@ const Navigation = ({logout}) => {
 
   const {user} = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
-  // console.log('isOpen: ', isOpen);  
 
   const toggle = () => {
     
-  // console.log('toggle button clicked')  
     setIsOpen(io=>!io);
   };
 
@@ -59,7 +57,6 @@ const Navigation = ({logout}) => {
                       <NavLink className="nav-link active fw-bold Navigation-nav-link" to="/home" onClick={logout}>
                         Logout
                       </NavLink>  
-                      {/* <a href="/home" className="nav-link" onClick={logout}>Logout</a> */}
                     </li>                                
                   </ul>
 
