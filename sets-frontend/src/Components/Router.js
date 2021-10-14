@@ -46,7 +46,7 @@ const Router = () => {
                     <GameRoom mode='sets_multiplayer'/>
                 </Route>
 
-                <Redirect to="/" />
+                {/* <Redirect to="/" /> */}
 
             </Switch>
 
