@@ -78,11 +78,17 @@ exports.GameRoom = class extends colyseus.Room {
     });
 
     this.onMessage("quit", (client, message) => {  
-
       console.log("MESSAGE:  'quit' recieved! Getting game result!");
       this.broadcast('player_quit', {playerId:client.sessionId});
-      this.state.getGameResults();
-      // this.state.players.delete(client.sessionId);
+      if(this.state.players.size>=2){
+        console.log(client.sessionId, "left!");
+        this.state.playerAbandoned(client.sessionId);
+        this.state.players.delete(client.sessionId);
+      }
+      else{
+        console.log('==================== Game over, player quit, and only one remaining');
+        this.state.getGameResults();
+      }  
     });
 
     this.onMessage("ready", (client, message) => {  
