@@ -89,7 +89,7 @@ const Multiplayer = ({username}) => {
         <div className='container'>
             {
                 room
-                ? <GameRoom room={room} username={username}/>
+                ? <GameRoom room={room} username={username} mode='multiplayer'/>
                 : (
                     <div className='row justify-content-center mt-5'>
                         <div className='col-12 col-md-8 border border-5 border-primary rounded p-5 mx-1'>

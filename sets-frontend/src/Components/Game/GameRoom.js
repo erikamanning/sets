@@ -5,10 +5,10 @@ import Lobby from './Lobby'
 import GameContext from './GameContext'
 import UserContext from './UserContext'
 
-const GameRoom = ({room, username}) => {
+const GameRoom = ({room, username,mode}) => {
 
     const history = useHistory();
-    const [game, setGame] = useState(false);
+    const [game, setGame] = useState(mode);
     const [deck, setDeck] = useState(false);
     const [players, setPlayers] = useState(new Map());
     const [startGame, setStartGame] = useState(false);
@@ -77,7 +77,9 @@ const GameRoom = ({room, username}) => {
             const {playerId} = message;
             // console.log("message received from server");
             // console.log(`${players.get(playerId).username} left!`);
-            alert(`${players.get(playerId).username} quit!`);
+            alert(`Game mode: ${mode}`);
+            if(mode!=='singleplayer')
+                alert(`${players.get(playerId).username} quit!`);
 
             setGameFinished(true);
         });

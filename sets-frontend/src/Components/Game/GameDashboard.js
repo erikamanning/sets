@@ -32,10 +32,10 @@ const GameDashboard = () => {
                             }
                         </div>
 
-                        {game.mode==='multiplayer'
+                        {/* {game.mode==='multiplayer'
                             ? <p>Whose Turn: {players.get(game.turn).username}</p>
                             : null
-                        }
+                        } */}
                     </div>
                 </div>
             </div>

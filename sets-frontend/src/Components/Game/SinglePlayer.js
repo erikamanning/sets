@@ -38,7 +38,7 @@ const SinglePlayer = ({username}) => {
         <div>
             {
                 room
-                ? <GameRoom room={room} username={username}/>
+                ? <GameRoom room={room} username={username} mode='singleplayer'/>
                 : <p>...Creating Room </p>
             }
         </div>

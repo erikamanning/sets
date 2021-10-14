@@ -24,15 +24,6 @@ const Game = () => {
                 </div>
             )
         }
-
-        else if(game.finished && !viewResult){
-            display = (
-                <div>
-                    <p className='text-danger Game-Over'>Game Over!</p>
-                    <button onClick={showResult} className='btn btn-primary'>View Result?</button>
-                </div>
-            )
-        }
         else{
             display = (
 
