@@ -1,11 +1,11 @@
 import React from "react"
-import SignupForm from "../Forms/SignupForm"
+import ProfileForm from "../Forms/ProfileForm"
 
 const UserProfile = () => {
 
 
     return <div>
-                <SignupForm title='Profile'/>
+                <ProfileForm />
     </div>
 
 }
