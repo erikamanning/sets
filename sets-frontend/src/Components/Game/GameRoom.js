@@ -36,20 +36,12 @@ const GameRoom = ({room, username,mode}) => {
             });
         }
         room.state.players.onRemove = (player, key) => {
-            // console.log(player, "has been removed at", key);
             setPlayers((p)=>{
                 let newMap = p;
                 newMap.delete(key);
                 return newMap;
             });
         };
-        room.state.scoreboard.onAdd = ((player,key)=>{
-            player.onChange = (()=>{
-                // console.log('SCOREBOARD CHAAAAAAAAAAAAAAAAAAAANGED!!')
-
-            });
-            // setScoreboard(state.scoreboard);
-        })
 
         room.onStateChange((state) => {
 
@@ -67,32 +59,23 @@ const GameRoom = ({room, username,mode}) => {
         room.onMessage("player_left", (message) => {
             const {playerId} = message;
             console.log("message received from server");
-            // console.log(`${players.get(playerId).username} left!`);
             alert(`${players.get(playerId).username} left!`);
-            // console.log('***************************************');
-            // console.log(`${players.get(playerId).username} left!`);
             setGameFinished(true);
         });
         room.onMessage("player_quit", (message) => {
             const {playerId} = message;
-            // console.log("message received from server");
-            // console.log(`${players.get(playerId).username} left!`);
-            alert(`Game mode: ${mode}`);
             if(mode!=='singleplayer')
                 alert(`${players.get(playerId).username} quit!`);
 
             setGameFinished(true);
         });
         room.onMessage("noSets_noCards", (message) => {
-            const {playerId} = message;
             console.log("message received from server");
-            // console.log(`${players.get(playerId).username} left!`);
             alert(`No more sets and no more cards to draw! Game over.`);
             setGameFinished(true);
         });
 
         room.onLeave((code) => {
-            // console.log("BOIIIIIIIIIIIIIING!!!!!!! client left the room: ", room.id);
             removeRoomId(room.id);
           });
 
@@ -107,12 +90,10 @@ const GameRoom = ({room, username,mode}) => {
         room.send('start_game');
     }
     function selectCard(coord) {
-
         room.send('select_card', coord);
     }
 
     function addRow(){
-
         room.send('add_row');
     }
 
@@ -170,35 +151,3 @@ const GameRoom = ({room, username,mode}) => {
 
 
 export default GameRoom;
-
-/*
-
-
-   --- Single Player
-
-        --- Create & Join -> Get Room
-        --- Pass Game to Game Class
-
-   --- Multiplayer
-        --- CreateJoin/Join -> Get Room
-        --- Pass Game to Game Class
-
-
-
-    Process -- 
-
-        -- Enter room
-            -- create or join
-            -- variables are saved- which ones?
-                -- room callbacks established, which means states must be updated
-                -- players & board
-
-            game-> passed to game variable
-
-        
-
-
-
-
-
-*/
