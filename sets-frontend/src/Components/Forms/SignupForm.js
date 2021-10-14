@@ -37,7 +37,7 @@ const SignupForm = ({title='Sign Up'}) => {
 
     }
     if(user.username){
-        return <Redirect to='/home' />
+        return <Redirect to='/' />
     }
     return (
                 <div>

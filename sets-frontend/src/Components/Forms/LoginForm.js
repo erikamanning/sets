@@ -41,7 +41,7 @@ const LoginForm = (props) => {
     }
 
     if(user && user.username){
-        return <Redirect to='/home' />
+        return <Redirect to='/' />
     }
 
     return (
