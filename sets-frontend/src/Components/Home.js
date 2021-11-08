@@ -1,6 +1,9 @@
 import React from "react"
 import {Link} from "react-router-dom"
 import './Home.css'
+import threeSquares from './1.png'
+import twoTriangles from './2.png'
+import oneCircle from './3.png'
 
 const Home = () => {
 
@@ -12,7 +15,7 @@ const Home = () => {
                     <Link className='no-underline' to='/singleplayer'>
                         <div class="col d-flex justify-content-center text-center mb-3">
                             <div className='Home-menu-item' style={{width:'75%'}} >
-                                <img src="https://sanderevers.github.io/assets/img/62r.png"  class="shadow-lg rounded Home-image" style={{width:'100%'}} alt="..."/>
+                                <img src={oneCircle}  class="shadow-lg rounded Home-image" style={{width:'100%'}} alt="..."/>
                                 <h5 className='mt-3 Home-menu-item-title text-primary'>Single Player</h5>
                                 <p>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -24,7 +27,7 @@ const Home = () => {
                     <Link className='no-underline' to='/multiplayer'>
                         <div class="col d-flex justify-content-center text-center mb-3">
                             <div className='Home-menu-item' style={{width:'75%'}} >
-                                <img src="https://sanderevers.github.io/assets/img/62r.png"  class="mx-auto shadow-lg rounded Home-image" style={{width:'100%'}} alt="..."/>
+                                <img src={threeSquares}  class="mx-auto shadow-lg rounded Home-image" style={{width:'100%'}} alt="..."/>
                                 <h5 className='mt-3 Home-menu-item-title text-primary'>Multiplayer</h5>
                                 <p>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -36,7 +39,7 @@ const Home = () => {
                     <Link className='no-underline' to='/lobby'>
                         <div class="col d-flex justify-content-center text-center mb-3">
                             <div className='Home-menu-item' style={{width:'75%'}} >
-                                <img src="https://sanderevers.github.io/assets/img/62r.png"  class="mx-auto shadow-lg rounded Home-image" style={{width:'100%'}} alt="..."/>
+                                <img src={twoTriangles} class="mx-auto shadow-lg rounded Home-image" style={{width:'100%'}} alt="..."/>
                                 <h5 className='mt-3 Home-menu-item-title text-primary'>Leaderboard</h5>
                                 <p>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. 

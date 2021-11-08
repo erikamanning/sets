@@ -25,11 +25,11 @@ class GameState extends Schema {
         this.playerLeft = false;
         
         if(!testState){
-            this.deck = new DeckState(["red","green","purple"], ["square","circle", "triangle"]);
+            this.deck = new DeckState(["pink","green","purple"], ["square","circle", "triangle"]);
             this.board = new BoardState(this.deck.drawCards(12));
         }
         else{
-            this.deck = new DeckState(["red"], ["square", "circle"]);
+            this.deck = new DeckState(["pink"], ["square", "circle"]);
             this.board = new BoardState(this.deck.drawFromTopOfDeck(12));
         }
 
