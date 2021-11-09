@@ -11,7 +11,7 @@ const Home = () => {
     return (<div className='container mt-5'>
                 <h1 className='Home-title text-primary'>Sets</h1>
 
-                <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center mt-3">
+                <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 justify-content-center mt-3">
                     <Link className='no-underline' to='/singleplayer'>
                         <div class="col d-flex justify-content-center text-center mb-3">
                             <div className='Home-menu-item' style={{width:'75%'}} >
