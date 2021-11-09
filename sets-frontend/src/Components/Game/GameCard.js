@@ -36,11 +36,7 @@ import trianglePurpleStriped from '../../Assets/triangle_purple_striped.png'
 
 const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
 
-    // const [selected, setSelected] = useState(cardIsSelected);
     const printedShapes = new Array(card.numShapes).fill(0);
-    const [highlightClass, setHighlightClass] = useState('border-light');
-    // console.log('CARD: ', card);
-    // console.log('SELECTED: ', cardIsSelected);
 
     const imgSrcs = {
 
@@ -79,20 +75,14 @@ const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
 
         selectCard(coord);
     }
-    const addHighlight = () =>{
-        setHighlightClass(hc=>'border-success');
-    }
-    const removeHighlight = () =>{
-        setHighlightClass(hc=>'border-light');
-    }
 
     const capitalizedColor = card.color.charAt(0).toUpperCase() + card.color.slice(1);
     const capitalizedFillLevel = card.fillLevel.charAt(0).toUpperCase() + card.fillLevel.slice(1);
     const imgSrc = imgSrcs[card.shape+capitalizedColor+capitalizedFillLevel];
-    const isSelected = cardIsSelected ? 'border-success' : '';
+    const isSelected = cardIsSelected ? 'border border-5 border-success' : '';
 
 return(
-        <div onMouseLeave={removeHighlight} onMouseEnter={addHighlight} onClick={handleClick} className={'GameCard rounded shadow-lg border border-5 py-2 py-md-3 px-3 px-md-4 bg-light'+isSelected +" "+highlightClass}>
+        <div onClick={handleClick} className={'GameCard rounded shadow-lg py-2 py-md-3 px-3 px-md-4 bg-light '+isSelected}>
             <div className="row justify-content-center">
                 {printedShapes.map((shape,idx)=> (<div key={idx} className="col-4 p-1"><img alt='shape' src={imgSrc} className='GameCard-shape'/></div>))}                
             </div>
