@@ -62,7 +62,7 @@ Sets is an application that allows you to play the classic puzzle game Set! You 
 ---
 
 ### User Flow: Leaderboard
-![Leaderboard](/readme_images/leaderboard.png)
+<!-- ![Leaderboard](/readme_images/leaderboard.png) -->
 
 
 ## Multiplayer Server
