@@ -9,12 +9,20 @@ const GameDashboard = () => {
 
     return (
             <div className='row justify-content-center my-3'>
-                <div className="col-12 col-sm-10 col-lg-8">
+                <div className="col-12 col-md-10 col-lg-8">
                     <div className='border border-5 border-primary rounded p-3'>
 
-                        <div className='text-end'>
-                            <button onClick={endGame} className='btn btn-danger text-white'>Quit?</button>
+                        <div className='d-flex justify-content-between'>
+                            <div className='text-start'>
+                                <span className='text-danger fw-bold'>Mode: </span>
+                                <span className='badge rounded-pill bg-primary'>{game.mode.charAt(0).toUpperCase() + game.mode.slice(1)}</span>
+                            </div>
+
+                            <div className='text-end'>
+                                <button onClick={endGame} className='btn btn-danger text-white'>Quit?</button>
+                            </div>
                         </div>
+
 
                         {
                             game.mode==='singleplayer'

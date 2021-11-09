@@ -18,7 +18,7 @@ const Game = () => {
         if(!game.finished){
 
             display = (
-                <div>
+                <div className='container'>
                     <GameDashboard />
                     <GameBoard />
                 </div>
