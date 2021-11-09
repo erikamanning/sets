@@ -82,9 +82,9 @@ const GameCard = ({coord, card, cardIsSelected,selectCard}) => {
     const isSelected = cardIsSelected ? 'border border-5 border-success' : '';
 
 return(
-        <div onClick={handleClick} className={'GameCard rounded shadow-lg py-2 py-md-3 px-3 px-md-4 bg-light '+isSelected}>
+        <div onClick={handleClick} className={'GameCard rounded shadow-lg py-sm-1 py-sm-2 py-md-3 px-2 px-sm-3 px-md-4 bg-light '+isSelected}>
             <div className="row justify-content-center">
-                {printedShapes.map((shape,idx)=> (<div key={idx} className="col-4 p-1"><img alt='shape' src={imgSrc} className='GameCard-shape'/></div>))}                
+                {printedShapes.map((shape,idx)=> (<div key={idx} className="col-4 p-0 p-sm-1"><img alt='shape' src={imgSrc} className='GameCard-shape'/></div>))}                
             </div>
         </div>
 )
