@@ -42,7 +42,7 @@ const GameResult = () => {
                 <div className='col-12 col-lg-6 border border-5 border-primary rounded p-5'>
                     <h1 className='display-1 text-danger mb-5'> Game Over</h1>
                     {showResults()}
-                    <div class="d-grid gap-2 d-md-block">
+                    <div className="d-grid gap-2 d-md-block">
                     <a className='btn btn-lg btn-primary me-1' href={`/${playAgainLink}`}>Play Again?</a>
                         <button className='btn btn-lg btn-outline-primary border-3' onClick={leave}>Leave</button>
                     </div>

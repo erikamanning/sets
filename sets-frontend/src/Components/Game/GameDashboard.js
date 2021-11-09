@@ -5,7 +5,7 @@ import GameScoreTable from './GameScoreTable'
 
 const GameDashboard = () => {
 
-    const {addRow, endGame,deck, game, players, scoreboard} = useContext(GameContext);
+    const {addRow, endGame,deck, game, scoreboard} = useContext(GameContext);
 
     return (
             <div className='row justify-content-center my-3'>
@@ -40,10 +40,7 @@ const GameDashboard = () => {
                             }
                         </div>
 
-                        {/* {game.mode==='multiplayer'
-                            ? <p>Whose Turn: {players.get(game.turn).username}</p>
-                            : null
-                        } */}
+
                     </div>
                 </div>
             </div>

@@ -6,17 +6,17 @@ const DonateForm = () => {
         <div>
             <form action="" className='text-start'>
 
-                <label for='donate-amount' class="form-label text-primary">Amount:</label>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">$</span>
-                    <input type="text" id='donate-amount' class="form-control" aria-label="Amount (to the nearest dollar)"/>
-                    <span class="input-group-text">.00</span>
+                <label for='donate-amount' className="form-label text-primary">Amount:</label>
+                <div className="input-group mb-3">
+                    <span className="input-group-text">$</span>
+                    <input type="text" id='donate-amount' className="form-control" aria-label="Amount (to the nearest dollar)"/>
+                    <span className="input-group-text">.00</span>
                 </div>
 
 
-                <div class="input-group">
-                    <span class="input-group-text">Message</span>
-                    <textarea class="form-control" aria-label="With textarea"></textarea>
+                <div className="input-group">
+                    <span className="input-group-text">Message</span>
+                    <textarea className="form-control" aria-label="With textarea"></textarea>
                 </div>
             </form>
             

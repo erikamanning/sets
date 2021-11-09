@@ -1,5 +1,4 @@
 import React from "react"
-import { useEffect } from "react";
 const { v4: uuidv4 } = require('uuid');
 
 const LeaderBoardTable = ({players}) => {

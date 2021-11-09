@@ -60,8 +60,6 @@ const Lobby = () => {
         )
     }
 
-    // console.log('game mode: ', game.mode);
-
     return (
 
         <div className="container">
@@ -78,8 +76,6 @@ const Lobby = () => {
                         : null
                     }
 
-                    {/* {console.log('game.allReady: ', game.allReady)} */}
-
                     <div>
                         {
                             game.allReady
@@ -88,8 +84,6 @@ const Lobby = () => {
                         }
                     </div>
                         
-                    {console.log(`$$$$$$$ player: ${user.sessionId}`, players.get(user.sessionId))}
-
                     {
 
                         players.get(user.sessionId) && players.get(user.sessionId).ready

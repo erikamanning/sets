@@ -26,7 +26,7 @@ const CountDownTimer = () => {
 
         return ()=>{clearInterval(clearInt);}
 
-    },[]);
+    },[startMatch]);
 
     return (
         <div className='mt-5'>
