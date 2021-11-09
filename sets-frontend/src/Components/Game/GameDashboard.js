@@ -9,7 +9,7 @@ const GameDashboard = () => {
 
     return (
             <div className='row justify-content-center my-3'>
-                <div className="col-12 col-md-10 col-lg-8">
+                <div className="col-12 col-md-10 col-lg-8 col-xl-7">
                     <div className='border border-5 border-primary rounded p-3'>
 
                         <div className='d-flex justify-content-between'>

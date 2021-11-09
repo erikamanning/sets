@@ -18,7 +18,7 @@ const Lobby = () => {
             <div>
                 {
                     room.id 
-                    ?   <div className='row justify-content-center mt-5'>
+                    ?   <div className='row justify-content-center mt-4'>
                             <div className='col-10 col-lg-8 col-xl-6'>
                                 <h5 className='text-start t'>Room Id:</h5>
                                 <input className='form-control text-center' type="text" value={room.id} />
