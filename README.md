@@ -50,13 +50,13 @@ Sets is an application that allows you to play the classic puzzle game Set! You 
 
 ### User Flow: Single Player
 ![Singleplayer Lobby](/readme_images/singleplayer_lobby.png)
-![Singleplayer Gameplay](/readme_images/singleplayer_gameplay.png)
+![Singleplayer Gameplay](/readme_images/singleplayer_game.png)
 
 ---
 
 ### User Flow: Multiplayer 
 ![Multiplayer Lobby](/readme_images/multiplayer_lobby.png)
-![Multiplayer Lobby](/readme_images/multiplayer_gameplay.png)
+![Multiplayer Lobby](/readme_images/multiplayer_game.png)
 ![Multiplayer Result](/readme_images/multiplayer_result.png)
 
 ---
