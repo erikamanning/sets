@@ -10,8 +10,7 @@ const SinglePlayerSetup = () => {
     const guest = !username ? `guest${getRandomIntInclusive(1000,9999)}` : false;
 
     return (
-        <div>
-                <h1 className='mt-5 display-5'>Single Player Mode</h1>
+        <div className='mt-5'>
                 <SinglePlayer username={username || guest }/>
         </div>
     )
